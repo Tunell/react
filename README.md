@@ -1,5 +1,6 @@
 # react
 Testing the bare minimum react app with watchify (browserify with watch-functionality)
+Helloworld.js is written in JSX (which is available as a sublime plugin)
 
 cd to the correct folder.
 
