@@ -1,6 +1,10 @@
 # react
 Testing the bare minimum react app with watchify (browserify with watch-functionality)
+
 Helloworld.js is written in JSX (which is available as a sublime plugin)
+
+This is esentially the "Get Started" guide from the react page:
+https://facebook.github.io/react/docs/getting-started.html
 
 cd to the correct folder.
 
