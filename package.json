@@ -4,6 +4,8 @@
   "description": "Test of react",
   "main": "main.js",
   "scripts": {
+    "build": "watchify -t [ babelify --presets [ react ] ]  src/helloworld.js -o target/bundle.js",
+    "start": "http-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

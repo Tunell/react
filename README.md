@@ -15,9 +15,10 @@ npm install
 mkdir target
 
 ##To run:
-watchify -t [ babelify --presets [ react ] ]  src/helloworld.js -o target/bundle.js
+Open two terminal tabs:
 
-http-server
+npm run build
 
+npm start
 
 Http-server is just hosting the static files, any webserver works fine.
