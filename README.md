@@ -1,10 +1,9 @@
 # react
-Testing the bare minimum react app with watchify (browserify with watch-functionality)
+This is now a react comment field with a json backend able to read and write to file.
 
-Helloworld.js is written in JSX (which is available as a sublime plugin)
+tutorial.js is written in JSX based on:
 
-This is esentially the "Get Started" guide from the react page:
-https://facebook.github.io/react/docs/getting-started.html
+https://facebook.github.io/react/docs/tutorial.html
 
 cd to the correct folder.
 
@@ -20,5 +19,3 @@ Open two terminal tabs:
 npm run build
 
 npm start
-
-Http-server is just hosting the static files, any webserver works fine.

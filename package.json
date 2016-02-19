@@ -4,8 +4,8 @@
   "description": "Test of react",
   "main": "main.js",
   "scripts": {
-    "build": "watchify -t [ babelify --presets [ react ] ]  src/helloworld.js -o target/bundle.js",
-    "start": "http-server",
+    "build": "watchify -t [ babelify --presets [ react ] ]  src/tutorial.js -o target/bundle.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -13,6 +13,12 @@
   "dependencies": {
     "babel-preset-react": "^6.5.0",
     "babelify": "^7.2.0",
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "fs": "0.0.2",
+    "jquery": "^2.2.0",
+    "marked": "^0.3.5",
+    "path": "^0.12.7",
     "react": "^0.14.7",
     "react-dom": "^0.14.7"
   },
