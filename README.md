@@ -3,12 +3,15 @@ Testing the bare minimum react app with watchify (browserify with watch-function
 
 cd to the correct folder.
 
-to install:
+##to install:
+
 npm install
+
 mkdir target
 
-To run:
+##To run:
 watchify -t [ babelify --presets [ react ] ]  src/helloworld.js -o target/bundle.js
+
 http-server
 
 
