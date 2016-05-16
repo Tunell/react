@@ -1,8 +1,11 @@
 //CommentList.jsx
-var React = require('react');
-var Comment = require("./Comment.jsx");
+//var React = require('react');
+//var Comment = require("./Comment.jsx");
 
-module.exports = React.createClass({
+import React from 'react';
+import Comment from './Comment.jsx';
+
+const CommentForm = React.createClass({
   render: function() {
     var commentNodes = this.props.data.map(function(comment) {
       return (
@@ -18,3 +21,5 @@ module.exports = React.createClass({
       );
   }
 });
+
+export default CommentForm;

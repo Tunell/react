@@ -1,7 +1,7 @@
 //CommentBox.jsx
-var React = require('react');
+import React from 'react';
 
-module.exports = React.createClass({
+const CommentForm = React.createClass({
   getInitialState: function() {
     return {
       author: '',
@@ -20,8 +20,8 @@ module.exports = React.createClass({
   },
   handleSubmit: function(e) {
     e.preventDefault();
-    var author = this.state.author.trim();
-    var text = this.state.text.trim();
+    let author = this.state.author.trim();
+    let text = this.state.text.trim();
     if (!text || !author) {
       return;
     }
@@ -54,3 +54,5 @@ module.exports = React.createClass({
       );
   }
 });
+
+export default CommentForm;

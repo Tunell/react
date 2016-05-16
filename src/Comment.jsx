@@ -1,8 +1,11 @@
 //Comment.jsx
-var React = require('react');
-var marked = require('marked');
+//var React = require('react');
+//var marked = require('marked');
 
-module.exports = React.createClass({
+import React from 'react';
+import marked from 'marked';
+
+const Comment = React.createClass({
   rawMarkup: function() {
     var rawMarkup = marked(this.props.children.toString(), {
       sanitize: true
@@ -22,3 +25,5 @@ module.exports = React.createClass({
       );
   }
 });
+
+export default Comment;

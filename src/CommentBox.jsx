@@ -1,10 +1,15 @@
 //CommentBox.jsx
-var React = require('react');
-var $ = require('jquery');
-var CommentList = require("./CommentList.jsx");
-var CommentForm = require("./CommentForm.jsx");
+//var React = require('react');
+//var $ = require('jquery');
+//var CommentList = require("./CommentList.jsx");
+//var CommentForm = require("./CommentForm.jsx");
 
-module.exports = React.createClass({
+import $ from 'jquery';
+import React from 'react';
+import CommentList from './CommentList.jsx';
+import CommentForm from './CommentForm.jsx';
+
+const CommentBox =  React.createClass({
   loadCommentsFromServer: function() {
     $.ajax({
       url: this.props.url,
@@ -67,3 +72,5 @@ module.exports = React.createClass({
       );
   }
 });
+
+export default CommentBox;
