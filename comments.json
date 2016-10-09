@@ -1,37 +1,12 @@
 [
     {
         "id": 1388534400000,
-        "author": "Pete Hunt",
-        "text": "Hey there!"
+        "name": "Bettong",
+        "unit": "m^3"
     },
     {
-        "id": 1420070400000,
-        "author": "Paul O’Shannessy",
-        "text": "React is *great*!"
-    },
-    {
-        "id": 1455923363748,
-        "author": "Pelle",
-        "text": "This is super coool!"
-    },
-    {
-        "id": 1461266537507,
-        "author": "Tunell",
-        "text": "this is indeed working"
-    },
-    {
-        "id": 1461267462573,
-        "author": "Marielle",
-        "text": "jaja men"
-    },
-    {
-        "id": 1461267525251,
-        "author": "Marre",
-        "text": "test"
-    },
-    {
-        "id": 1462309682147,
-        "author": "Pelle Tunell",
-        "text": "Yeah buddy!"
+        "id": 1476044646613,
+        "name": "virke",
+        "unit": "löpmeter"
     }
 ]

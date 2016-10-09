@@ -1,0 +1,42 @@
+Materials:[
+	{
+		"id": 1388534400000,
+		"name": "Betong",
+		"unit": "m^3",
+		"materialType" "0"/*;"Matterial", "Sammansatt Matterial", "Konstruktion"*/
+		("ProductClassTreePosition":1388534300000)
+		(("pricePerUnit": "3000")), 
+		(("materialComposition": [
+			{1388534400001:3},
+			{1388534400001:2}
+		])),
+		(("lastEdited": 20161009140234))
+		(("editedBy": 3388534400000))
+	},...
+],
+ProductClassTree:[
+	{
+		"id":1388534200000,
+		"name": "Sten Matterial",
+		"children":[
+			{
+				"id":1388534300000
+			},
+			{
+				"id":1388534300002,
+				"name": "Sten Skivor",
+				"children":[...]
+			},...
+		]
+
+	},...
+]
+
+
+
+
+/*
+"Sammansatt Matterial", "Matterial": Måste ha en PCTP,
+"Sammansatt Matterial", "Konstruktion": Innehåller materialComposition,
+"Konstruktion": Går inte att återanvända
+*/
