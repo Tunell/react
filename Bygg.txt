@@ -7,8 +7,14 @@ Materials:[
 		("ProductClassTreePosition":1388534300000)
 		(("pricePerUnit": "3000")), 
 		(("materialComposition": [
-			{1388534400001:3},
-			{1388534400001:2}
+			{
+				material:1388534400001,
+				ammount:3
+			},
+			{
+				material:1388534400003,
+				ammount:2
+			}
 		])),
 		(("lastEdited": 20161009140234))
 		(("editedBy": 3388534400000))

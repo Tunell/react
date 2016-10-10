@@ -60,6 +60,7 @@ app.post('/api/comments', function(req, res) {
       id: Date.now(),
       name: req.body.name,
       unit: req.body.unit,
+      materialComposition: req.body.materialComposition,
     };
     comments.push(newComment);
     fs.writeFile(COMMENTS_FILE, JSON.stringify(comments, null, 4), function(err) {

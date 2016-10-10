@@ -36,21 +36,19 @@ const MaterialForm = React.createClass({
   },
   render: function() {
     return (
-      <form className="material-form" onSubmit={this.handleSubmit}>
-            <input
-      type="text"
-      placeholder="Materialets namn"
-      value={this.state.name}
-      onChange={this.handleNameChange}
-      />
-            <input
-      type="text"
-      placeholder="Materialets Enhet"
-      value={this.state.unit}
-      onChange={this.handleUnitChange}
-      />
-            <input type="submit" value="Spara" />
-            </form>
+        <form className="material-form" onSubmit={this.handleSubmit}>
+          <input
+            type="text"
+            placeholder="Materialets namn"
+            value={this.state.name}
+            onChange={this.handleNameChange}/>
+          <input
+            type="text"
+            placeholder="Materialets Enhet"
+            value={this.state.unit}
+            onChange={this.handleUnitChange}/>
+          <input type="submit" value="Spara" />
+        </form>
       );
   }
 });

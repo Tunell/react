@@ -2,6 +2,33 @@ import React from 'react';
 import Material from './Material.jsx';
 
 const MaterialSelection = React.createClass({
+  getInitialState: function() {
+    return {
+      material: '',
+      amount: ''
+    };
+  },
+
+  handleMaterialChange: function(e) {
+    this.props.onMaterialChange({
+      material: e.target.value,
+      amount: this.state.amount
+    });
+    
+    this.setState({
+      material: e.target.value
+    });
+  },
+  handleAmountChange: function(e) {
+    this.props.onMaterialChange({
+      material: this.state.material,
+      amount: e.target.value
+    });
+    this.setState({
+      amount: e.target.value
+    });
+  },
+
   render: function() {
     var materialNodes = this.props.data.map(function(comment) {
       return (
@@ -11,10 +38,21 @@ const MaterialSelection = React.createClass({
       );
     });
     return (
-      <select>
-        <option>Välj Material</option>
-        {materialNodes}
-      </select>
+      <div>
+        <select
+            onChange={this.handleMaterialChange}
+            value={this.state.material}>
+          <option>Välj Material</option>
+          {materialNodes}
+        </select>
+
+        <input
+          type="text"
+          placeholder="Mängd"
+          value={this.state.amount}
+          onChange={this.handleAmountChange}
+          />
+      </div>
     );
   }
 });

@@ -7,7 +7,9 @@ const ConstructionForm = React.createClass({
   getInitialState: function() {
     return {
       name: '',
-      unit: ''
+      unit: '',
+      materialComposition: []
+
     };
   },
   handleNameChange: function(e) {
@@ -18,6 +20,11 @@ const ConstructionForm = React.createClass({
   handleUnitChange: function(e) {
     this.setState({
       unit: e.target.value
+    });
+  },
+  handleMaterialChange: function(material) {
+    this.setState({
+      materialComposition:[material]
     });
   },
   handleSubmit: function(e) {
@@ -39,13 +46,18 @@ const ConstructionForm = React.createClass({
   render: function() {
     return (
       <form className="material-form" onSubmit={this.handleSubmit}>
-        <MaterialSelection data={this.props.materials} />
         <input
           type="text"
-          placeholder="Mängd"
+          placeholder="Konstruktionens namn"
+          value={this.state.name}
+          onChange={this.handleNameChange}/>
+        <input
+          type="text"
+          placeholder="Konstruktionens Enhet"
           value={this.state.unit}
-          onChange={this.handleUnitChange}
-          />
+          onChange={this.handleUnitChange}/>
+        <h3>Bestående av:</h3>
+        <MaterialSelection data={this.props.materials} onMaterialChange={this.handleMaterialChange}/>
         <input type="submit" value="Spara" />
       </form>
     );
