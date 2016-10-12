@@ -12,11 +12,12 @@ const Material = React.createClass({
   },
   render: function() {
     return (
-      <div className="material">
+      <div className={this.props.composite && "composite " + "material"}>
             <span className="name">
             {this.props.name}
             </span> -
-            <span className="unit" dangerouslySetInnerHTML={this.rawMarkup()} />
+            {this.props.composite ? <div className="constructionPart">{this.props.children}</div>
+            : <span className="unit">{this.props.children}</span>}
       </div>
       );
   }

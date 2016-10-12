@@ -1,7 +1,6 @@
 import $ from 'jquery';
 import React from 'react';
 import MaterialList from './MaterialList.jsx';
-import MaterialForm from './MaterialForm.jsx';
 import ConstructionForm from './ConstructionForm.jsx';
 
 
@@ -61,13 +60,12 @@ const MaterialBox =  React.createClass({
   render: function() {
     return (
       <div className="material-box">
-        <h1>Material-lista</h1>
+        <h1>Skapa nytt material eller konstruktioner:</h1>
+        <ConstructionForm materials={this.state.data} onMaterialSubmit={this.handleMaterialSubmit}/>
+        <h1>Råmaterial</h1>
         <MaterialList data={this.state.data} />
-        <h1>Skapa Nya Material:</h1>
-        <MaterialForm onMaterialSubmit={this.handleMaterialSubmit} />
-        <h1>Skapa/Mängda konstruktioner:</h1>
-        <ConstructionForm materials={this.state.data} />
-        
+        <h1>Sammansatta Material</h1>
+        <MaterialList data={this.state.data} allowComposite={true}/>
       </div>
     );
   }

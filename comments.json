@@ -8,5 +8,52 @@
         "id": 1476044646613,
         "name": "virke",
         "unit": "löpmeter"
+    },
+    {
+        "id": 1476297352396,
+        "name": "Test",
+        "unit": "antal",
+        "materialComposition": [
+            {
+                "material": "1476044646613",
+                "amount": "5"
+            }
+        ]
+    },
+    {
+        "id": 1476298121426,
+        "name": "I-Balk",
+        "unit": "st"
+    },
+    {
+        "id": 1476298430372,
+        "name": "U-Balk",
+        "unit": "st"
+    },
+    {
+        "id": 1476298459328,
+        "name": "Mellanbjälklag",
+        "unit": "kvm",
+        "materialComposition": [
+            {
+                "material": "1476298121426",
+                "amount": "3"
+            },
+            {
+                "material": "1476298430372",
+                "amount": "3"
+            }
+        ]
+    },
+    {
+        "id": 1476300077644,
+        "name": "Fackverk",
+        "unit": "meter",
+        "materialComposition": [
+            {
+                "material": "1476044646613",
+                "amount": "1"
+            }
+        ]
     }
 ]

@@ -30,10 +30,10 @@ const MaterialSelection = React.createClass({
   },
 
   render: function() {
-    var materialNodes = this.props.data.map(function(comment) {
+    var materialNodes = this.props.data.map(function(material) {
       return (
-        <option key={comment.id}>
-          {comment.name}-{comment.unit}
+        <option key={material.id} value={material.id}>
+          {material.name}-{material.unit}
         </option>
       );
     });

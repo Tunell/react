@@ -1,6 +1,9 @@
 .material{
 	display: flex;
 }
+.composite{
+	display: block;
+}
 .material p{
 	margin: 0;
 }
