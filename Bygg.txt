@@ -3,9 +3,7 @@ Materials:[
 		"id": 1388534400000,
 		"name": "Betong",
 		"unit": "m^3",
-		"materialType" "0"/*;"Matterial", "Sammansatt Matterial", "Konstruktion"*/
-		("ProductClassTreePosition":1388534300000)
-		(("pricePerUnit": "3000")), 
+		"complexMaterial" "0";
 		(("materialComposition": [
 			{
 				material:1388534400001,
@@ -38,11 +36,20 @@ ProductClassTree:[
 	},...
 ]
 
-
+sika
 
 
 /*
-"Sammansatt Matterial", "Matterial": Måste ha en PCTP,
-"Sammansatt Matterial", "Konstruktion": Innehåller materialComposition,
-"Konstruktion": Går inte att återanvända
+
+"Matterial", "Prefab", "Komplex byggdel", "hus"(kan bara ställas in av super-admin)
+Komplex byggdel sätter en flagga "complexMaterial"=true, och är alltid styck i enhet
+Prefab Får fram listan: bestående av
+
+
+Vad har vi för indata? ( vad vet vi om de produkter som används?)
+Vad behöver Vasakronan veta? ( på vilken nivå vill)
+
+Fixa Matterial, Prefab, Komplexx Byggdel så att de knapparna funkar
+Stylea så att den är demo färdig
+Tills den 24 Oktober
 */

@@ -55,5 +55,47 @@
                 "amount": "1"
             }
         ]
+    },
+    {
+        "id": 1476439979871,
+        "name": "Betong",
+        "unit": "m^3"
+    },
+    {
+        "id": 1476440011048,
+        "name": "Platta på mark",
+        "unit": "st",
+        "materialComposition": [
+            {
+                "material": "1476439979871",
+                "amount": "400"
+            }
+        ]
+    },
+    {
+        "id": 1476440039376,
+        "name": "Villaområde",
+        "unit": "st",
+        "materialComposition": [
+            {
+                "material": "1476440011048",
+                "amount": "10"
+            }
+        ]
+    },
+    {
+        "id": 1476440148726,
+        "name": "Aremerad bettong",
+        "unit": "m^3",
+        "materialComposition": [
+            {
+                "material": "1388534400000",
+                "amount": "4"
+            },
+            {
+                "material": "1476044646613",
+                "amount": "10"
+            }
+        ]
     }
 ]

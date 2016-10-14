@@ -62,7 +62,7 @@ const MaterialBox =  React.createClass({
       <div className="material-box">
         <h1>Skapa nytt material eller konstruktioner:</h1>
         <ConstructionForm materials={this.state.data} onMaterialSubmit={this.handleMaterialSubmit}/>
-        <h1>Råmaterial</h1>
+        <h1>Material / Produkter</h1>
         <MaterialList data={this.state.data} />
         <h1>Sammansatta Material</h1>
         <MaterialList data={this.state.data} allowComposite={true}/>
