@@ -5,7 +5,7 @@ import ConstructionForm from './ConstructionForm.jsx';
 
 
 const MaterialBox =  React.createClass({
-  loadCommentsFromServer: function() {
+  loadMaterialListFromServer: function() {
     $.ajax({
       url: this.props.url,
       dataType: 'json',
@@ -54,17 +54,16 @@ const MaterialBox =  React.createClass({
     };
   },
   componentDidMount: function() {
-    this.loadCommentsFromServer();
-    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+    this.loadMaterialListFromServer();
+    setInterval(this.loadMaterialListFromServer, this.props.pollInterval);
   },
   render: function() {
     return (
       <div className="material-box">
-        <h1>Skapa nytt material eller konstruktioner:</h1>
         <ConstructionForm materials={this.state.data} onMaterialSubmit={this.handleMaterialSubmit}/>
         <h1>Material / Produkter</h1>
         <MaterialList data={this.state.data} />
-        <h1>Sammansatta Material</h1>
+        <h1>Prefab-material</h1>
         <MaterialList data={this.state.data} allowComposite={true}/>
       </div>
     );

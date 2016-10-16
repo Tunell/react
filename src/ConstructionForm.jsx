@@ -2,40 +2,74 @@ import React from 'react';
 
 import MaterialSelection from './MaterialSelection.jsx';
 
-const ConstructionForm = React.createClass({
-  getInitialState: function() {
-    return {
+
+export default class ConstructionForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       name: '',
       unit: '',
       materialComposition: [],
-      constructionParts: 0
-
+      constructionParts: 0,
+      constructionCreation: false
     };
-  },
-  handleNameChange: function(e) {
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleUnitChange = this.handleUnitChange.bind(this);
+    this.createConstructionPart = this.createConstructionPart.bind(this);
+    this.createConstructionPartClicked = this.createConstructionPartClicked.bind(this);
+    this.addConstructionPart = this.addConstructionPart.bind(this);
+    this.removeConstructionPart = this.removeConstructionPart.bind(this);
+    this.handleMaterialChange = this.handleMaterialChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleNameChange(e) {
     this.setState({
       name: e.target.value
     });
-  },
-  handleUnitChange: function(e) {
+  }
+
+  handleUnitChange(e) {
     this.setState({
       unit: e.target.value
     });
-  },
-  addConstructionPart: function(e){
+  }
+
+  createConstructionPartClicked(e){
+    e.preventDefault();
+    this.createConstructionPart();
+  }
+
+  createConstructionPart(){
+    this.setState({
+      name: '',
+      unit: '',
+      materialComposition: [],
+      constructionParts: 0,
+      constructionCreation: true
+    });
+  }
+
+  addConstructionPart(e){
     e.preventDefault();
     this.setState({
       constructionParts: this.state.constructionParts + 1
     });
-  },
-  removeConstructionPart: function(e){
+  }
+
+  removeConstructionPart(e){
     e.preventDefault();
     this.setState({
       constructionParts: this.state.constructionParts - 1
     });
     //FIXME: This also needs to go through the state and remove the unwanted material
-  },
-  handleMaterialChange: function(material) {
+  }
+
+  handleMaterialChange(material) {
+    if( material.material == 'createNew'){
+      this.createConstructionPart();
+      return;
+    }
     let materialArray = this.state.materialComposition;
     let indexNum = 0;
     let arrIndex = {};
@@ -51,12 +85,13 @@ const ConstructionForm = React.createClass({
     this.setState({
       materialComposition: materialArray
     });
-  },
-  handleSubmit: function(e) {
+  }
+
+  handleSubmit(e) {
     e.preventDefault();
     let name = this.state.name.trim();
     let unit = this.state.unit.trim();
-    if (!unit || !name) {
+    if (!unit && !name && this.state.materialComposition.length == 0) {
       return;
     }
     this.props.onMaterialSubmit({
@@ -68,35 +103,50 @@ const ConstructionForm = React.createClass({
       name: '',
       unit: '',
       materialComposition: [],
-      constructionParts: 0
+      constructionParts: 0,
+      constructionCreation: false
     });
-  },
-  render: function() {
+  }
+
+  render() {
     let subMaterials = [];
+    const { unit, constructionParts, constructionCreation, name, materialComposition } = this.state
     for (var i = 0; i < this.state.constructionParts; i++) {
         subMaterials.push(<MaterialSelection key={i} data={this.props.materials} onMaterialChange={this.handleMaterialChange}/>)
     }
     return (
       <form className="material-form" onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          placeholder="Konstruktionens namn"
-          value={this.state.name}
-          onChange={this.handleNameChange}/>
-        <input
-          type="text"
-          placeholder="Konstruktionens Enhet"
-          value={this.state.unit}
-          onChange={this.handleUnitChange}/>
-        <h3>Bestående av:</h3>
-        {subMaterials}
-        <button onClick={this.addConstructionPart}>Lägg till ett material</button>
-        {this.state.constructionParts > 0 && <button onClick={this.removeConstructionPart}>Ta bort ett material</button>}
+        
+        { constructionCreation ?
+          <div>
+            <h1>Skapa nytt material eller konstruktioner:</h1>
+            <input
+              type="text"
+              placeholder="Konstruktionens namn"
+              value={ name }
+              onChange={this.handleNameChange}/>
+            <input
+              type="text"
+              placeholder="Konstruktionens Enhet"
+              value={ unit }
+              onChange={this.handleUnitChange}/>
+            <h3>Bestående av:</h3>
+          </div>
+        :
+          <div>
+            <h1>Rapportera in Material</h1>
+          </div>
+        }
+        { subMaterials }
+        <button onClick={ this.addConstructionPart }>Lägg till material</button>
+        { constructionParts > 0 && <button onClick={this.removeConstructionPart}>Ta bort material</button>}
         <br/>
-        <input type="submit" value="Spara" />
+        { unit || name || materialComposition.length != 0 && <input type="submit" value="Spara" />}
+        <br/>
+        <br/>
+        <br/>
+        <button onClick={ this.createConstructionPartClicked }>Skapa nytt Material</button>
       </form>
     );
   }
-});
-
-export default ConstructionForm;
+};
