@@ -72,28 +72,6 @@
         ]
     },
     {
-        "id": 1476640828668,
-        "name": "",
-        "unit": "",
-        "materialComposition": [
-            {
-                "material": "Fackverk",
-                "amount": "15"
-            }
-        ]
-    },
-    {
-        "id": 1476640845346,
-        "name": "",
-        "unit": "",
-        "materialComposition": [
-            {
-                "material": "Platta på mark",
-                "amount": "3"
-            }
-        ]
-    },
-    {
         "id": 1476643997175,
         "name": "",
         "unit": "",
@@ -115,6 +93,17 @@
         "materialComposition": [
             {
                 "material": "1476440148726",
+                "amount": "15"
+            }
+        ]
+    },
+    {
+        "id": 1476648991819,
+        "name": "",
+        "unit": "",
+        "materialComposition": [
+            {
+                "material": "1388534400000",
                 "amount": "15"
             }
         ]

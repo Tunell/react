@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///webpack:///src/ConstructionForm.less"],"names":[],"mappings":"AAAA;EACE,gBAAgB;CACjB","file":"target/app.css","sourcesContent":[".headline {\n  background: red;\n}\n\n\n\n/** WEBPACK FOOTER **\n ** webpack:///src/ConstructionForm.less\n **/"],"sourceRoot":""}

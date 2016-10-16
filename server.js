@@ -17,6 +17,26 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 
+var webpack = require('webpack');
+var config = require("./webpack.config.js");
+var WebpackDevServer = require('webpack-dev-server');
+var compiler = webpack(config);
+var server = new WebpackDevServer(compiler,{
+    hot: true,
+    inline: true,
+    quiet: true,
+    stats: { colors: true },
+    progress: true,
+    secure: false,
+    proxy: {
+       '/api': {
+        target: 'http://localhost:3000',
+        secure: false
+      }
+    }
+  });
+server.listen(8080);
+
 var COMMENTS_FILE = path.join(__dirname, 'comments.json');
 
 app.set('port', (process.env.PORT || 3000));

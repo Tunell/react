@@ -1,9 +1,11 @@
 import React from 'react';
+import CSSModules from 'react-css-modules';
 
 import MaterialSelection from './MaterialSelection.jsx';
 
+import styles from './ConstructionForm.less';
 
-export default class ConstructionForm extends React.Component {
+class ConstructionForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -134,7 +136,7 @@ export default class ConstructionForm extends React.Component {
           </div>
         :
           <div>
-            <h1>Rapportera in Material</h1>
+            <h1 styleName="headline">Rapportera in Material</h1>
           </div>
         }
         { subMaterials }
@@ -150,3 +152,5 @@ export default class ConstructionForm extends React.Component {
     );
   }
 };
+
+export default CSSModules(ConstructionForm, styles)
