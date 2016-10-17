@@ -17,7 +17,7 @@ if (module.hot) {
     const NextApp = require('./MaterialBox').default;
     ReactDOM.render(
       <AppContainer>
-         <NextApp />
+         <NextApp url="/api/comments" pollInterval={2000}/>
       </AppContainer>,
     document.getElementById('content')
     );

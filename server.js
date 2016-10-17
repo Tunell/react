@@ -29,10 +29,7 @@ var server = new WebpackDevServer(compiler,{
     progress: true,
     secure: false,
     proxy: {
-       '/api': {
-        target: 'http://localhost:3000',
-        secure: false
-      }
+      '/api': 'http://localhost:3000'
     }
   });
 server.listen(8080);
@@ -95,5 +92,5 @@ app.post('/api/comments', function(req, res) {
 
 
 app.listen(app.get('port'), function() {
-  console.log('Server started: http://localhost:' + app.get('port') + '/');
+  console.log('Server started: http://localhost:8080');
 });

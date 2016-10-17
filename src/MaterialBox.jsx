@@ -3,7 +3,7 @@ import React from 'react';
 import MaterialList from './MaterialList.jsx';
 import ConstructionForm from './ConstructionForm.jsx';
 
-
+ 
 const MaterialBox =  React.createClass({
   loadMaterialListFromServer: function() {
     $.ajax({
@@ -16,7 +16,7 @@ const MaterialBox =  React.createClass({
         });
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
+        console.error("loadMaterialError: ",this.props.url, status, err.toString());
       }.bind(this)
     });
   },
