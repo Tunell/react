@@ -1,25 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MaterialBox from './MaterialBox.jsx';
 import { AppContainer } from 'react-hot-loader';
+import { Router, Route, browserHistory } from 'react-router';
 
-ReactDOM.render(
-	<AppContainer>
-		<MaterialBox url="/api/comments" pollInterval={2000} />
-	</AppContainer>,
-    document.getElementById('content')
-);
+
+
+const renderApp = () => {
+    const Routes = require('./routes.js').default;
+    ReactDOM.render(
+      <AppContainer>
+        <Router history={browserHistory}>
+          {Routes}
+        </Router>
+      </AppContainer>,
+      document.getElementById('content')
+    );
+}
+renderApp();
 
 if (module.hot) {
   module.hot.accept('./MaterialBox', () => {
     // If you use Webpack 2 in ES modules mode, you can
     // use <App /> here rather than require() a <NextApp />.
-    const NextApp = require('./MaterialBox').default;
-    ReactDOM.render(
-      <AppContainer>
-         <NextApp url="/api/comments" pollInterval={2000}/>
-      </AppContainer>,
-    document.getElementById('content')
-    );
+    renderApp();
   });
 }
