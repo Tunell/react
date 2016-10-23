@@ -17,6 +17,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 
+if (process.env.NODE_ENV != 'production'){
 var webpack = require('webpack');
 var config = require("./webpack.config.js");
 var WebpackDevServer = require('webpack-dev-server');
@@ -32,6 +33,7 @@ var server = new WebpackDevServer(compiler,{
     }
   });
 server.listen(8080);
+}
 
 var COMMENTS_FILE = path.join(__dirname, 'comments.json');
 
