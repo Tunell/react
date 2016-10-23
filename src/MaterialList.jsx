@@ -1,10 +1,54 @@
 import React from 'react';
 import Material from './Material.jsx';
 
-const MaterialList = React.createClass({
-  render: function() {
-    const compositeList = this.props.allowComposite || ( this.props.route && this.props.route.allowComposite);
-    const materialUsageList = this.props.materialUsageList || ( this.props.route && this.props.route.materialUsageList);
+
+
+class MaterialList extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      compositeList: this.props.allowComposite || ( this.props.route && this.props.route.allowComposite),
+      materialUsageList: this.props.materialUsageList || ( this.props.route && this.props.route.materialUsageList),
+      complex: false
+    };
+    this.handleListChange = this.handleListChange.bind(this);
+  };
+  handleListChange(listType){
+    switch(listType){
+      case 'building':
+        this.setState({
+          materialUsageList: true,
+          compositeList: false,
+          complex: false
+        });
+        break;
+      case 'prefab':
+        this.setState({
+          materialUsageList: false,
+          compositeList: true,
+          complex: false
+        });
+        break;
+      case 'material':
+        this.setState({
+          materialUsageList: false,
+          compositeList: false,
+          complex: false
+        });
+        break;
+      case 'complex':
+        this.setState({
+          materialUsageList: false,
+          compositeList: false,
+          complex: true
+        });
+        break;
+    }
+
+  }
+  render(){
+    const {materialUsageList, compositeList} = this.state;
     let materialUsage = {};
     const materialNodes = this.props.materials.map((material)=> {
       if(compositeList  && material.name != 'byggnad01'){
@@ -74,15 +118,20 @@ const MaterialList = React.createClass({
     }
     return (
       <div className="materialList">
+        <h1>Listning av material</h1>
+        <button onClick={(e)=>this.handleListChange('material')}>Material</button>
+        {/*<button onClick={(e)=>this.handleListChange('complex')}>Komplex</button>*/}
+        <button onClick={(e)=>this.handleListChange('prefab')}>Prefab</button>
+        <button onClick={(e)=>this.handleListChange('building')}>Använt material</button>
         {compositeList ?
-          <h1>Prefab Material:</h1>:
-          <h1>Material och Produkt Lista</h1>
+          <h1>Prefabmaterial:</h1>:
+          <h1>Material och Produkter</h1>
         }
         {materialNodes}
         {materialUsageNodes}
       </div>
     );
   }
-});
+};
 
 export default MaterialList;

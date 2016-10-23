@@ -13,7 +13,7 @@ class MaterialSelection extends React.Component {
       material: '',
       amount: '',
       searchOpen: false,
-      createNewText: 'Hittar du inte Produkten? Skapa en ny här!'
+      createNewText: 'Hittar du inte Produkten? Skapa en ny här! (funkar inte ännu, använd menyn..)'
     };
 
     this.handleMaterialChange = this.handleMaterialChange.bind(this);

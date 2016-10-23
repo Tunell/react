@@ -11,7 +11,7 @@ export default class MaterialBox extends React.Component {
   render() {
     return (
       <div className="material-box">
-        <ConstructionForm url={this.props.url} materials={this.props.materials} onMaterialSubmit={this.handleMaterialSubmit} constructionCreation={true}/>
+        <ConstructionForm url={this.props.url} materials={this.props.materials} constructionCreation={true}/>
         <MaterialList materials={this.props.materials} />
         <MaterialList materials={this.props.materials} allowComposite={true}/>
       </div>

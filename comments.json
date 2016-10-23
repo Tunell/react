@@ -51,7 +51,7 @@
         "unit": "st",
         "materialComposition": [
             {
-                "material": "1476439979871",
+                "material": "1388534400000",
                 "amount": "400"
             }
         ]
@@ -68,22 +68,6 @@
             {
                 "material": "1476044646613",
                 "amount": "10"
-            }
-        ]
-    },
-    {
-        "id": 1477218477127,
-        "name": "test",
-        "unit": "st"
-    },
-    {
-        "id": 1477238881510,
-        "name": "byggnad01",
-        "unit": "",
-        "materialComposition": [
-            {
-                "material": "1477218477127",
-                "amount": "15"
             }
         ]
     },
@@ -121,8 +105,25 @@
         ]
     },
     {
-        "id": 1477240904218,
-        "name": "test",
-        "unit": "apor"
+        "id": 1477247649013,
+        "name": "byggnad01",
+        "unit": "",
+        "materialComposition": [
+            {
+                "material": "1388534400000",
+                "amount": "10"
+            }
+        ]
+    },
+    {
+        "id": 1477252597654,
+        "name": "byggnad01",
+        "unit": "",
+        "materialComposition": [
+            {
+                "material": "1476298459328",
+                "amount": "100"
+            }
+        ]
     }
 ]

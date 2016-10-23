@@ -37,18 +37,19 @@ class ConstructionForm extends React.Component {
     });
   }
 
-  createConstructionPartClicked(e){
+  createConstructionPartClicked(e, constructionType){
     e.preventDefault();
-    this.createConstructionPart();
+    this.createConstructionPart(constructionType);
   }
 
-  createConstructionPart(){
+  createConstructionPart(constructionType){
+    const constructionParts = constructionType == 'prefab' ? 1 : 0;
     this.setState({
       name: '',
       unit: '',
       materialComposition: [],
-      constructionParts: 0,
-      constructionCreation: true
+      constructionParts,
+      constructionCreation: constructionType
     });
   }
 
@@ -69,7 +70,7 @@ class ConstructionForm extends React.Component {
 
   handleMaterialChange(material) {
     if( material.material == 'createNew'){
-      this.createConstructionPart();
+      this.createConstructionPart('standard');
       return;
     }
     let materialArray = this.state.materialComposition;
@@ -138,37 +139,40 @@ class ConstructionForm extends React.Component {
     for (var i = 0; i < this.state.constructionParts; i++) {
         subMaterials.push(<MaterialSelection key={i} data={this.props.materials} onMaterialChange={this.handleMaterialChange}/>)
     }
+    const constructionSpecified = (constructionCreation == 'standard' ||
+          constructionCreation == 'prefab' ||
+          constructionCreation == 'complex');
     return (
       <form className="material-form" onSubmit={this.handleSubmit}>
-        
-        { constructionCreation ?
+        { (constructionCreation /*&& !constructionSpecified*/) && <div>
+          <button onClick={ (e)=>this.createConstructionPartClicked(e,'standard') }>Skapa produkt/material</button>
+          <button onClick={ (e)=>this.createConstructionPartClicked(e,'prefab') }>Skapa prefabelement</button>
+          <button onClick={ (e)=>this.createConstructionPartClicked(e,'complex') }>Skapa komplex-byggdel</button>
+        </div>}
+        {
+          constructionSpecified &&
           <div>
-            <h1>Skapa nytt material, prefabelement eller komplex-bygg-del:</h1>
             <input
               type="text"
-              placeholder="Konstruktionens namn"
+              placeholder="Produktens namn"
               value={ name }
               onChange={this.handleNameChange}/>
             <input
               type="text"
-              placeholder="Konstruktionens Enhet"
+              placeholder="Produktens enhet"
               value={ unit }
               onChange={this.handleUnitChange}/>
           </div>
-        :
-          <div>
-            <h1 styleName="headline">Rapportera använt material</h1>
-          </div>
         }
-        { constructionParts > 0 ? 
+        { constructionParts > 0 &&
           <div>
-            <h3>Bestående av:</h3>
+            {constructionSpecified && <h3>Bestående av:</h3>}
             { subMaterials }
-            <button onClick={ this.addConstructionPart }>Lägg till material</button>
-            { constructionParts > 0 && <button onClick={this.removeConstructionPart}>Ta bort material</button>}
+            {name != 'byggnad01' && <div>
+              <button onClick={ this.addConstructionPart }>Lägg till material</button>
+              { constructionParts > 0 && <button onClick={this.removeConstructionPart}>Ta bort material</button>}
+            </div>}
           </div>
-          :
-          <button onClick={ this.addConstructionPart }>Skapa prefab element</button>
         }
         <br/>
         { (unit || name) /*|| materialComposition.length != 0*/ && <input type="submit" value="Spara" />}

@@ -17,9 +17,9 @@ class TopMenu extends React.Component {
 		    		<Link to="/" activeClassName="active">Rapportera använt material</Link>
 		    		<Link to="/skapa-material" activeClassName="active">Skapa nytt material</Link>
 		        	<Link to="/material-list" activeClassName="active">Materiallista</Link>
-		        	<Link to="/prefab-material-list" activeClassName="active">Prefablista</Link>
+		        	{/*<Link to="/prefab-material-list" activeClassName="active">Prefablista</Link>
 		        	<Link to="/anvant-material" activeClassName="active">Använt material</Link>
-		        	{/*<Link to="/combo-vy" activeClassName="active">Kombinerad (test) vy </Link>*/}
+		        	<Link to="/combo-vy" activeClassName="active">Kombinerad (test) vy </Link>*/}
 				</div>
 			</div>
         	<div id="main-content">

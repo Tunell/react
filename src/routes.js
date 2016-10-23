@@ -17,8 +17,8 @@ const routes = (
         <Route path="/skapa-material" component={MaterialCreationPage}/>
         <Route path="/combo-vy" component={MaterialBox}/>
         <Route path="/material-list" component={MaterialList}/>
-        <Route path="/prefab-material-list" component={MaterialList} allowComposite={true}/>
-        <Route path="/anvant-material" component={MaterialList} materialUsageList={true}/>
+        {/*<Route path="/prefab-material-list" component={MaterialList} allowComposite={true}/>
+        <Route path="/anvant-material" component={MaterialList} materialUsageList={true}/>*/}
       </Route>
     </Route>
 )
