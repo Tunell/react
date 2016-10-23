@@ -1,11 +1,14 @@
 import React from 'react';
 import $ from 'jquery';
+import CSSModules from 'react-css-modules';
 
-export default class LoadMaterials extends React.Component {
+import styles from './MainStyles.less';
+
+class LoadMaterials extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      Materials: []
+      materials: []
     }
     this.loadMaterialListFromServer = this.loadMaterialListFromServer.bind(this);
   }
@@ -28,7 +31,7 @@ export default class LoadMaterials extends React.Component {
       return response.json();
     }).then((data)=>{
       this.setState({
-        Materials: data
+        materials: data
       });
     });
   }
@@ -42,11 +45,13 @@ export default class LoadMaterials extends React.Component {
   }
 
   render(){
-    const { Materials } = this.state;
+    const { materials } = this.state;
     return (
       <div>
-        {React.cloneElement(this.props.children, { Materials })}
+        {React.cloneElement(this.props.children, { materials })}
       </div>
     )
   }
 }
+
+export default CSSModules(LoadMaterials, styles)

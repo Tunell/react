@@ -14,8 +14,5 @@ npm install
 mkdir target
 
 ##To run:
-Open two terminal tabs:
-
-npm run build
 
 npm start

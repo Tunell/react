@@ -1,16 +1,19 @@
 import React from 'react';
 import Material from './Material.jsx';
 import FuzzySearch from 'react-fuzzy';
+import CSSModules from 'react-css-modules';
 
-export default class MaterialSelection extends React.Component {
+import styles from './MaterialSelection.less';
+
+class MaterialSelection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       
       material: '',
       amount: '',
-      searchOpen: true,
-      createNewText: 'Hittade du inte Produkten du letar efter? Skapa en ny här!'
+      searchOpen: false,
+      createNewText: 'Hittar du inte Produkten? Skapa en ny här!'
     };
 
     this.handleMaterialChange = this.handleMaterialChange.bind(this);
@@ -49,6 +52,17 @@ export default class MaterialSelection extends React.Component {
 
   render() {
     const { createNewText, searchOpen, material, amount } = this.state
+    let materialUnit;
+    let materialNameText = this.props.data.filter(
+                (filterMatierial)=> filterMatierial.id == material 
+              ).map(
+                (filterMatierial)=> {
+                  materialUnit = filterMatierial.unit;
+                  return filterMatierial.name
+                }
+              );
+    materialNameText = materialNameText == '' ? 'Materialets namn' : materialNameText;
+
     return (
       <div>
         { searchOpen ?
@@ -56,7 +70,7 @@ export default class MaterialSelection extends React.Component {
             list={ this.props.data }
             keys={['name']}
             onSelect={this.handleMaterialChange}
-            width={230}
+            styleName="fuzzy"
             resultsTemplate={
               (props, state, styles)=>{
                 if(state.results[state.results.length-1].name != createNewText){
@@ -79,21 +93,26 @@ export default class MaterialSelection extends React.Component {
             }
             placeholder="Materialets namn"/>
           :
-            <span onClick={()=>this.setState({searchOpen: true})}>
-            {this.props.data.filter(
-              (filterMatierial)=> filterMatierial.id == material 
-            ).map(
-              (filterMatierial)=> filterMatierial.name
-            )} </span>
+            <div styleName="material" onClick={()=>this.setState({searchOpen: true})}>
+              {materialNameText}
+            </div>
           }
-
-        <input
-          type="text"
-          placeholder="Mängd"
-          value={ amount }
-          onChange={this.handleAmountChange}
-          />
+        <div styleName="amount-unit">
+          <input
+            type="text"
+            placeholder="Mängd"
+            value={ amount }
+            onChange={this.handleAmountChange}
+            styleName="amount"
+            />
+          <span styleName="unit">
+            { materialUnit }
+          </span>
+        </div>
       </div>
     );
   }
 };
+
+
+export default CSSModules(MaterialSelection, styles)

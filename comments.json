@@ -72,40 +72,57 @@
         ]
     },
     {
-        "id": 1476643997175,
-        "name": "",
+        "id": 1477218477127,
+        "name": "test",
+        "unit": "st"
+    },
+    {
+        "id": 1477238881510,
+        "name": "byggnad01",
         "unit": "",
         "materialComposition": [
             {
-                "material": "1476440011048",
-                "amount": ""
-            },
-            {
-                "material": "Platta på mark",
-                "amount": "10"
+                "material": "1477218477127",
+                "amount": "15"
             }
         ]
     },
     {
-        "id": 1476644400112,
-        "name": "",
+        "id": 1477240747045,
+        "name": "byggnad01",
         "unit": "",
         "materialComposition": [
             {
                 "material": "1476440148726",
-                "amount": "15"
+                "amount": "150"
             }
         ]
     },
     {
-        "id": 1476648991819,
-        "name": "",
+        "id": 1477240763667,
+        "name": "byggnad01",
         "unit": "",
         "materialComposition": [
             {
                 "material": "1388534400000",
-                "amount": "15"
+                "amount": "20"
             }
         ]
+    },
+    {
+        "id": 1477240772088,
+        "name": "byggnad01",
+        "unit": "",
+        "materialComposition": [
+            {
+                "material": "1388534400000",
+                "amount": "25"
+            }
+        ]
+    },
+    {
+        "id": 1477240904218,
+        "name": "test",
+        "unit": "apor"
     }
 ]
