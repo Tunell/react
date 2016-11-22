@@ -50,8 +50,6 @@ module.exports = [{
 {
     /** PROD CONFIG **/
     entry: [
-        'promise-polyfill',
-        'whatwg-fetch',
         './src/app.js',
     ],
     output: {
