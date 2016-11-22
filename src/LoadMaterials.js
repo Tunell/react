@@ -2,6 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 import CSSModules from 'react-css-modules';
 import 'whatwg-fetch';
+import 'promise-polyfill';
 
 import styles from './MainStyles.less';
 
