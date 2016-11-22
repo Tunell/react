@@ -1,9 +1,6 @@
 # react
-This is now a react comment field with a json backend able to read and write to file.
 
-tutorial.js is written in JSX based on:
-
-https://facebook.github.io/react/docs/tutorial.html
+https://waffle.io/Tunell/react
 
 cd to the correct folder.
 
