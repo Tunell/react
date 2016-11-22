@@ -15,15 +15,7 @@ class LoadMaterials extends React.Component {
   }
 
   loadMaterialListFromServer(url) {
-    const myRequest = new Request(url,myInit);
-    const myInit = {
-      method: 'GET',
-      'Content-Type': 'text/plain',
-      cache: 'default',
-      credentials: 'include'
-    };
-
-    return fetch(myRequest,myInit)
+    return fetch(url)
     .then((response) => {
       if (!response.ok) {
         console.error('The Fetch request of ' + myRequest.url + ' failed.' , myRequest, response);
