@@ -16,3 +16,7 @@ mkdir target
 ##To run:
 
 npm start
+
+##To Build:
+
+webpack
