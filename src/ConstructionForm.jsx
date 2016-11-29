@@ -137,17 +137,22 @@ class ConstructionForm extends React.Component {
     let subMaterials = [];
     const { unit, constructionParts, constructionCreation, name, materialComposition } = this.state
     for (var i = 0; i < this.state.constructionParts; i++) {
-        subMaterials.push(<MaterialSelection key={i} data={this.props.materials} onMaterialChange={this.handleMaterialChange}/>)
+        subMaterials.push(
+          <MaterialSelection
+              key={ i }
+              data={ this.props.materials }
+              onMaterialChange={ this.handleMaterialChange }
+              materialCreation={ constructionCreation }/>
+
+        )
     }
-    const constructionSpecified = (constructionCreation == 'standard' ||
-          constructionCreation == 'prefab' ||
-          constructionCreation == 'complex');
+    const constructionSpecified = ( constructionCreation == 'standard' ||
+          constructionCreation == 'prefab' );
     return (
       <form className="material-form" onSubmit={this.handleSubmit}>
         { (constructionCreation /*&& !constructionSpecified*/) && <div>
           <button onClick={ (e)=>this.createConstructionPartClicked(e,'standard') }>Skapa produkt/material</button>
           <button onClick={ (e)=>this.createConstructionPartClicked(e,'prefab') }>Skapa prefabelement</button>
-          <button onClick={ (e)=>this.createConstructionPartClicked(e,'complex') }>Skapa komplex-byggdel</button>
         </div>}
         {
           constructionSpecified &&
@@ -156,21 +161,21 @@ class ConstructionForm extends React.Component {
               type="text"
               placeholder="Produktens namn"
               value={ name }
-              onChange={this.handleNameChange}/>
+              onChange={ this.handleNameChange }/>
             <input
               type="text"
               placeholder="Produktens enhet"
               value={ unit }
-              onChange={this.handleUnitChange}/>
+              onChange={ this.handleUnitChange }/>
           </div>
         }
         { constructionParts > 0 &&
           <div>
-            {constructionSpecified && <h3>Bestående av:</h3>}
+            { constructionSpecified && <h3>Bestående av:</h3> }
             { subMaterials }
-            {name != 'byggnad01' && <div>
+            { name != 'byggnad01' && <div>
               <button onClick={ this.addConstructionPart }>Lägg till material</button>
-              { constructionParts > 0 && <button onClick={this.removeConstructionPart}>Ta bort material</button>}
+              { constructionParts > 0 && <button onClick={ this.removeConstructionPart }>Ta bort material</button>}
             </div>}
           </div>
         }

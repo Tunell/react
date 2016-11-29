@@ -17,6 +17,7 @@ export default class MaterialReportPage extends React.Component {
       <p>Här kan du rapportera villket material som har använts.<br/>
         Använd det vänstra fältet för att söka på det material du vill lägga in.
       </p>
+      <p style={{color:'red'}}>TODO: Filtrera lista beroende på entreprenad-typ</p>
         <ConstructionForm url={this.props.url}
           materials={this.props.materials}
           constructionParts={1}

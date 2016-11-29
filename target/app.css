@@ -29,7 +29,8 @@ button:hover,
 input[type="submit"]:hover {
   background: rgba(0, 0, 0, 0.04);
 }
-input {
+input,
+select {
   margin: 0 15px 15px 0;
   vertical-align: top;
   width: 230px;

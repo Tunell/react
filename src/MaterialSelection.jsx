@@ -52,8 +52,9 @@ class MaterialSelection extends React.Component {
 
   render() {
     const { createNewText, searchOpen, material, amount } = this.state
+    const { materialCreation, data } = this.props;
     let materialUnit;
-    let materialNameText = this.props.data.filter(
+    let materialNameText = data.filter(
                 (filterMatierial)=> filterMatierial.id == material 
               ).map(
                 (filterMatierial)=> {
@@ -67,7 +68,7 @@ class MaterialSelection extends React.Component {
       <div>
         { searchOpen ?
           <FuzzySearch
-            list={ this.props.data }
+            list={ data }
             keys={['name']}
             onSelect={this.handleMaterialChange}
             styleName="fuzzy"
@@ -79,6 +80,9 @@ class MaterialSelection extends React.Component {
                 return (
                   state.results.map((val, i) => {
                     const style = state.selectedIndex === i ? styles.selectedResultStyle : styles.resultsStyle;
+                    if(val.name == 'byggnad01'){
+                      return ''
+                    }
                     return (
                       <div
                         key={i}
@@ -108,6 +112,16 @@ class MaterialSelection extends React.Component {
           <span styleName="unit">
             { materialUnit }
           </span>
+          { materialCreation && 
+            
+              <select styleName="amount" style={{border:'1px solid red'}}>
+                <option>Typ av Material</option>
+                <option>Återvunnet material</option>
+                <option>Nytt material</option>
+                <option>Vet ej</option>
+              </select>
+          }
+          { materialCreation && <p style={{color:'red'}}>TODO: Typ av Material endast demo</p> }
         </div>
       </div>
     );

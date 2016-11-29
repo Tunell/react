@@ -48,9 +48,10 @@ class MaterialList extends React.Component {
 
   }
   render(){
-    const {materialUsageList, compositeList} = this.state;
+    const { materialUsageList, compositeList } = this.state;
     let materialUsage = {};
     const materialNodes = this.props.materials.map((material)=> {
+      // Lista Prefab material
       if(compositeList  && material.name != 'byggnad01'){
         if(typeof material.materialComposition == 'undefined'){
           return;
@@ -73,22 +74,20 @@ class MaterialList extends React.Component {
           </Material>
         );
       }
-      if(materialUsageList && material.name == 'byggnad01'){
-        {material.materialComposition.map((constructionPart)=>{
-            if(typeof materialUsage[constructionPart.material] == 'undefined'){
+      // Lista Använt material i byggnaden
+      if( materialUsageList && material.name == 'byggnad01' ){
+        { material.materialComposition.map((constructionPart)=>{
+            if( typeof materialUsage[constructionPart.material] == 'undefined' ){
               materialUsage[constructionPart.material] = parseInt(constructionPart.amount);
             }else{
               materialUsage[constructionPart.material] += parseInt(constructionPart.amount)
             }
           }
         )}
-
       }
 
-      if(typeof material.materialComposition != 'undefined'){
-        return
-      }
-      if(!materialUsageList){
+      // Lista grund-material
+      if(!materialUsageList && typeof material.materialComposition == 'undefined'){
         return (
           <Material name={material.name} key={material.id}>
             {material.unit}

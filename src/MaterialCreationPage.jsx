@@ -11,7 +11,7 @@ export default class MaterialCreationPage extends React.Component {
     return (
       <div className="material-box">
 
-        <h1>Lägg till ett material, prefabelement eller komplex-bygg-del:</h1>
+        <h1>Lägg till ett grund-material eller prefabelement:</h1>
         <p>Här kan du lägga till material till systemet som du sedan kan använda när du rapporterar in material</p>
         <ConstructionForm url={this.props.url} materials={this.props.materials} constructionCreation={true}/>
       </div>
