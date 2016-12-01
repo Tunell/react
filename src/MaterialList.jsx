@@ -117,13 +117,13 @@ class MaterialList extends React.Component {
     }
     return (
       <div className="materialList">
-        <h1>Listning av material</h1>
+        <br/>
         <button onClick={(e)=>this.handleListChange('material')}>Material</button>
         {/*<button onClick={(e)=>this.handleListChange('complex')}>Komplex</button>*/}
-        <button onClick={(e)=>this.handleListChange('prefab')}>Prefab</button>
-        <button onClick={(e)=>this.handleListChange('building')}>Använt material</button>
+        <button onClick={(e)=>this.handleListChange('prefab')}>Byggdelar</button>
+        <button onClick={(e)=>this.handleListChange('building')}>Inrapporterat material</button>
         {compositeList ?
-          <h1>Prefabmaterial:</h1>:
+          <h1>Byggdelar:</h1>:
           <h1>Material och Produkter</h1>
         }
         {materialNodes}

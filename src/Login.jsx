@@ -6,9 +6,7 @@ const Material = React.createClass({
   render: function() {
     return (
       <div>
-        <p style={{color:'red'}}>TODO: Inloggning endast demo, ska vi ha lösenord?</p>
-        <input placeholder="Användarnamn" type="text" style={{border:'1px solid red'}}/>
-        <input placeholder="Lösenord" type="text" style={{border:'1px solid red'}}/>
+        <p style={{color:'red'}}>TODO: Inloggning endast demo, Lägg till lösenord till hela sidan</p>
         <select style={{border:'1px solid red'}}>
             <option>Typ av entrepenad</option>
             <option>Grundläggnings-entreprenad</option>

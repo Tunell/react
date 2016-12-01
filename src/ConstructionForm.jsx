@@ -151,12 +151,13 @@ class ConstructionForm extends React.Component {
     return (
       <form className="material-form" onSubmit={this.handleSubmit}>
         { (constructionCreation /*&& !constructionSpecified*/) && <div>
-          <button onClick={ (e)=>this.createConstructionPartClicked(e,'standard') }>Skapa produkt/material</button>
-          <button onClick={ (e)=>this.createConstructionPartClicked(e,'prefab') }>Skapa prefabelement</button>
+          <button onClick={ (e)=>this.createConstructionPartClicked(e,'standard') }>Skapa material</button>
+          <button onClick={ (e)=>this.createConstructionPartClicked(e,'prefab') }>Skapa byggdel</button>
         </div>}
         {
           constructionSpecified &&
           <div>
+           { constructionParts == 0 && <p style={{color:'red'}}>TODO: Endast för admin (läs robin)</p> }
             <input
               type="text"
               placeholder="Produktens namn"
