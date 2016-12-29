@@ -78,7 +78,9 @@
         "materialComposition": [
             {
                 "material": "1476440148726",
-                "amount": "150"
+                "amount": "150",
+                "comment": "empty comment",
+                "created": "1477240747045"
             }
         ]
     },
@@ -89,7 +91,9 @@
         "materialComposition": [
             {
                 "material": "1388534400000",
-                "amount": "20"
+                "amount": "20",
+                "comment": "empty comment",
+                "created": "1477240763667"
             }
         ]
     },
@@ -100,7 +104,9 @@
         "materialComposition": [
             {
                 "material": "1388534400000",
-                "amount": "25"
+                "amount": "25",
+                "comment": "empty comment",
+                "created": "1477240772088"
             }
         ]
     },
@@ -111,7 +117,9 @@
         "materialComposition": [
             {
                 "material": "1388534400000",
-                "amount": "10"
+                "amount": "10",
+                "comment": "empty comment",
+                "created": "1477247649013"
             }
         ]
     },
@@ -122,7 +130,49 @@
         "materialComposition": [
             {
                 "material": "1476298459328",
-                "amount": "100"
+                "amount": "100",
+                "comment": "empty comment",
+                "created": "1482915049084"
+            }
+        ]
+    },
+    {
+        "id": 1482851516883,
+        "name": "Test material med recycle",
+        "unit": "m3",
+        "materialComposition": [
+            {
+                "material": "1388534400000",
+                "amount": "15",
+                "RecycleClassID": "2"
+            }
+        ]
+    },
+    {
+        "id": 1482915049084,
+        "name": "byggnad01",
+        "unit": "",
+        "materialComposition": [
+            {
+                "material": "1388534400000",
+                "amount": "15",
+                "RecycleClassID": "2",
+                "comment": "Test med återvunnen bettong",
+                "created": "1482915049084"
+            }
+        ]
+    },
+    {
+        "id": 1482918565332,
+        "name": "byggnad01",
+        "unit": "",
+        "materialComposition": [
+            {
+                "material": "1476440011048",
+                "amount": "50",
+                "RecycleClassID": "",
+                "comment": "Platta, kommentar, Timestamp",
+                "created": "1482918563990"
             }
         ]
     }
