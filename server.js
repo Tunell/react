@@ -42,7 +42,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 
-
 //TODO: ADD BASIC AUTH TO GET HOME ADDRESS
 
 // Additional middleware which will set headers that we need on each request.
@@ -57,145 +56,145 @@ app.use(function(req, res, next) {
 });
 
 
-app.get('/api/used-materials', function(req, res) {
-    // USER SPECIFIED IN URL PARAM
-    // GET COMPLETE ALL USED MATERIALS FOR SPECIFIED USER
+app.get('/api/used-materials', function (req, res) {
+	// USER SPECIFIED IN URL PARAM
+	// GET COMPLETE ALL USED MATERIALS FOR SPECIFIED USER
 
-    fs.readFile(DATABASE, function(err, data) {
-        if (err) {
-            console.error(err);
-            process.exit(1);
-        }
-        res.json(JSON.parse(data));
-    });
+	fs.readFile(DATABASE, function (err, data) {
+		if (err) {
+			console.error(err);
+			process.exit(1);
+		}
+		res.json(JSON.parse(data));
+	});
 });
 
-app.post('/api/used-materials', function(req, res) {
+app.post('/api/used-materials', function (req, res) {
 
-    // ADD A NEW USED MATERIAL
+	// ADD A NEW USED MATERIAL
 
-    fs.readFile(DATABASE, function(err, data) {
-        if (err) {
-            console.error(err);
-            process.exit(1);
-        }
-        var materials = JSON.parse(data);
-        // NOTE: In a real implementation, we would likely rely on a database or
-        // some other approach (e.g. UUIDs) to ensure a globally unique id. We'll
-        // treat Date.now() as unique-enough for our purposes.
-        var newUsedMaterial = {
-            Material_id: req.body.Material_id,
-            User_id: req.body.User_id,
-            amount: req.body.amount,
-            comment: req.body.comment
-        };
-        materials.push(newUsedMaterial);
-        fs.writeFile(DATABASE, JSON.stringify(materials, null, 4), function(err) {
-            if (err) {
-                console.error(err);
-                process.exit(1);
-            }
-            res.json(materials);
-        });
-    });
+	fs.readFile(DATABASE, function (err, data) {
+		if (err) {
+			console.error(err);
+			process.exit(1);
+		}
+		var materials = JSON.parse(data);
+		// NOTE: In a real implementation, we would likely rely on a database or
+		// some other approach (e.g. UUIDs) to ensure a globally unique id. We'll
+		// treat Date.now() as unique-enough for our purposes.
+		var newUsedMaterial = {
+			Material_id: req.body.Material_id,
+			User_id: req.body.User_id,
+			amount: req.body.amount,
+			comment: req.body.comment
+		};
+		materials.push(newUsedMaterial);
+		fs.writeFile(DATABASE, JSON.stringify(materials, null, 4), function (err) {
+			if (err) {
+				console.error(err);
+				process.exit(1);
+			}
+			res.json(materials);
+		});
+	});
 });
 
 // FOR ALL POSTS:
 //      ADD PUT (CHANGE THE USED MATERIAL) AND DELETE!!!
 
 
-app.get('/api/raw-materials', function(req, res) {
-    // USER SPECIFIED IN URL PARAM
-    // GET COMPLETE CONSTRUCTIONPART, FOR SPECIFIED USER
+app.get('/api/raw-materials', function (req, res) {
+	// USER SPECIFIED IN URL PARAM
+	// GET COMPLETE CONSTRUCTIONPART, FOR SPECIFIED USER
 
-  fs.readFile(DATABASE, function(err, data) {
-    if (err) {
-      console.error(err);
-      process.exit(1);
-    }
-    res.json(JSON.parse(data));
-  });
+	fs.readFile(DATABASE, function (err, data) {
+		if (err) {
+			console.error(err);
+			process.exit(1);
+		}
+		res.json(JSON.parse(data));
+	});
 });
 
-app.post('/api/raw-materials', function(req, res) {
+app.post('/api/raw-materials', function (req, res) {
 
-    // ADMIN ADD A NEW RAW MATERIAL
-    // ADD TO BOTH RAW MATERIAL TABLE AND MATERIALS TABLE!
+	// ADMIN ADD A NEW RAW MATERIAL
+	// ADD TO BOTH RAW MATERIAL TABLE AND MATERIALS TABLE!
 
-  fs.readFile(DATABASE, function(err, data) {
-    if (err) {
-      console.error(err);
-      process.exit(1);
-    }
-    var materials = JSON.parse(data);
-    // NOTE: In a real implementation, we would likely rely on a database or
-    // some other approach (e.g. UUIDs) to ensure a globally unique id. We'll
-    // treat Date.now() as unique-enough for our purposes.
+	fs.readFile(DATABASE, function (err, data) {
+		if (err) {
+			console.error(err);
+			process.exit(1);
+		}
+		var materials = JSON.parse(data);
+		// NOTE: In a real implementation, we would likely rely on a database or
+		// some other approach (e.g. UUIDs) to ensure a globally unique id. We'll
+		// treat Date.now() as unique-enough for our purposes.
 
 
-    var newRawMaterial = {
-        User_id: req.body.User_id,
-        name: req.body.name,
-        unit: req.body.unit
-    };
-    materials.push(newRawMaterial);
-    fs.writeFile(DATABASE, JSON.stringify(materials, null, 4), function(err) {
-      if (err) {
-        console.error(err);
-        process.exit(1);
-      }
-      res.json(materials);
-    });
-  });
+		var newRawMaterial = {
+			User_id: req.body.User_id,
+			name: req.body.name,
+			unit: req.body.unit
+		};
+		materials.push(newRawMaterial);
+		fs.writeFile(DATABASE, JSON.stringify(materials, null, 4), function (err) {
+			if (err) {
+				console.error(err);
+				process.exit(1);
+			}
+			res.json(materials);
+		});
+	});
 });
 
 
 app.get('/api/materials', function(req, res) {
-    // USER SPECIFIED IN URL PARAM
-    // GET COMPLETE CONSTRUCTIONPART, FOR SPECIFIED USER
+	// USER SPECIFIED IN URL PARAM
+	// GET COMPLETE CONSTRUCTIONPART, FOR SPECIFIED USER
 
-    fs.readFile(DATABASE, function(err, data) {
-        if (err) {
-            console.error(err);
-            process.exit(1);
-        }
-        res.json(JSON.parse(data));
-    });
+	fs.readFile(DATABASE, function (err, data) {
+		if (err) {
+			console.error(err);
+			process.exit(1);
+		}
+		res.json(JSON.parse(data));
+	});
 });
 
 app.post('/api/materials', function(req, res) {
 
-    // ADD A NEW MATERIAL/CONSTRUCTION PART
-    // ONLY MATERIALS
+	// ADD A NEW MATERIAL/CONSTRUCTION PART
+	// ONLY MATERIALS
 
-    fs.readFile(DATABASE, function(err, data) {
-        if (err) {
-            console.error(err);
-            process.exit(1);
-        }
-        var materials = JSON.parse(data);
-        // NOTE: In a real implementation, we would likely rely on a database or
-        // some other approach (e.g. UUIDs) to ensure a globally unique id. We'll
-        // treat Date.now() as unique-enough for our purposes.
+	fs.readFile(DATABASE, function (err, data) {
+		if (err) {
+			console.error(err);
+			process.exit(1);
+		}
+		var materials = JSON.parse(data);
+		// NOTE: In a real implementation, we would likely rely on a database or
+		// some other approach (e.g. UUIDs) to ensure a globally unique id. We'll
+		// treat Date.now() as unique-enough for our purposes.
 
 
-        // MATERIAL COMPOSITION ALSO HAS RECYCLE CLASS ID!!
-        var newMaterial = {
-						id: Date.now(),
-            User_id: req.body.User_id,
-            name: req.body.name,
-            unit: req.body.unit,
-            materialComposition: req.body.materialComposition,
-        };
-        materials.push(newMaterial);
-        fs.writeFile(DATABASE, JSON.stringify(materials, null, 4), function(err) {
-            if (err) {
-                console.error(err);
-                process.exit(1);
-            }
-            res.json(materials);
-        });
-    });
+		// MATERIAL COMPOSITION ALSO HAS RECYCLE CLASS ID!!
+		var newMaterial = {
+			id: Date.now(),
+			User_id: req.body.User_id,
+			name: req.body.name,
+			unit: req.body.unit,
+			materialComposition: req.body.materialComposition,
+		};
+		materials.push(newMaterial);
+		fs.writeFile(DATABASE, JSON.stringify(materials, null, 4), function (err) {
+			if (err) {
+				console.error(err);
+				process.exit(1);
+			}
+			res.json(materials);
+		});
+	});
 });
 
 
