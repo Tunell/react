@@ -24,10 +24,8 @@ var WebpackDevServer = require('webpack-dev-server');
 var compiler = webpack(config);
 var server = new WebpackDevServer(compiler,{
     hot: true,
-    inline: true,
     stats: { colors: true },
-    progress: true,
-    secure: false,
+		noInfo: true,
     proxy: {
       '/api': 'http://localhost:3000'
     }
@@ -53,6 +51,7 @@ app.use(function(req, res, next) {
     res.setHeader('Cache-Control', 'no-cache');
     next();
 });
+
 
 app.get('/api/materials', function(req, res) {
   fs.readFile(DATABASE, function(err, data) {
@@ -95,3 +94,23 @@ app.post('/api/materials', function(req, res) {
 app.listen(app.get('port'), function() {
   console.log('Server started: http://localhost:8080');
 });
+
+app.use(function (req, res, next) {
+	res.status(404);
+
+	// respond with html page
+	if (req.accepts('html')) {
+		res.sendFile(path.join(__dirname, "./index.html"));
+		return;
+	}
+
+	// respond with json
+	if (req.accepts('json')) {
+		res.send({ error: 'Not found' });
+		return;
+	}
+
+	// default to plain-text. send()
+	res.type('txt').send('Not found');
+
+})
