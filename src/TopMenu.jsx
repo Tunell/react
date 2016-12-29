@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router';
 import CSSModules from 'react-css-modules';
+import { connect } from 'react-redux';
+
+import {changeUser} from './Login/loginAction.jsx'
 
 import styles from './TopMenu.less';
 
@@ -10,6 +13,7 @@ class TopMenu extends React.Component {
   }
 
   render() {
+  	const { changeUser, user } = this.props;
     return (
       <div>
         <div styleName="menu-bar">
@@ -25,17 +29,17 @@ class TopMenu extends React.Component {
             { /*<Link to="/prefab-material-list" activeClassName="active">Prefablista</Link>
                                     <Link to="/anvant-material" activeClassName="active">Använt material</Link>
                                     <Link to="/combo-vy" activeClassName="active">Kombinerad (test) vy </Link>*/ }
-            <select style={ { border: '1px solid red' } }>
+            <select style={ { border: '1px solid red' } } onChange={(event)=>changeUser(event.target.value)}>
               <option>
                 Typ av entrepenad
               </option>
-              <option>
+              <option value="1">
                 Grundläggnings-entreprenad
               </option>
-              <option>
+              <option value="3">
                 El-entreprenad
               </option>
-              <option>
+              <option value="2">
                 VVS-entreprenad
               </option>
             </select>
@@ -48,6 +52,16 @@ class TopMenu extends React.Component {
       );
   }
 }
-;
 
-export default CSSModules(TopMenu, styles)
+
+
+const mapDispatchToProps = (dispatch) => ({
+	changeUser: user => dispatch(changeUser(user))
+});
+
+export default connect(
+	(state) => ( {
+		user: state.user
+	}),
+	mapDispatchToProps
+)(CSSModules(TopMenu, styles))
