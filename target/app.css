@@ -49,41 +49,43 @@ select {
   max-width: 991px;
   margin: 0 auto;
 }
-.ConstructionForm__headline___2S6lZ {
+.ConstructionForm__headline___wqmOe {
   background: none;
 }
-.MaterialSelection__amount-unit___1VATr {
+.MaterialSelection__amount-unit___2fH0A {
   vertical-align: top;
   display: inline-block;
 }
-.MaterialSelection__amount___3OqDX,
-.MaterialSelection__unit___2NaDH {
+.MaterialSelection__amount___Q_jiH,
+.MaterialSelection__unit___1hnNE,
+.MaterialSelection__RecycleClass___8abpJ {
   vertical-align: baseline;
 }
-.MaterialSelection__material___2aCV0,
-.MaterialSelection__fuzzy___2CaqA {
+.MaterialSelection__material___1IDK7,
+.MaterialSelection__fuzzy___3DP6w {
   width: 230px !important;
   display: inline-block;
 }
-.MaterialSelection__material___2aCV0 {
+.MaterialSelection__material___1IDK7 {
   border: 1px solid #eee;
   border-radius: 5px;
   padding: 12px 8px;
 }
-.MaterialSelection__fuzzy___2CaqA,
-.MaterialSelection__material___2aCV0,
-.MaterialSelection__amount___3OqDX {
+.MaterialSelection__fuzzy___3DP6w,
+.MaterialSelection__material___1IDK7,
+.MaterialSelection__amount___Q_jiH,
+.MaterialSelection__RecycleClass___8abpJ {
   margin: 5px 15px 5px 0;
 }
-.MaterialSelection__fuzzy___2CaqA > div {
+.MaterialSelection__fuzzy___3DP6w > div {
   padding: 0 !important;
   box-shadow: none !important;
 }
-.TopMenu__menu-bar___3H1ci {
+.TopMenu__menu-bar___1H7Ik {
   background: -webkit-linear-gradient(top, #ffffff 0%, #e4e4e4 100%);
   background: linear-gradient(to bottom, #ffffff 0%, #e4e4e4 100%);
 }
-.TopMenu__menu___38lqh {
+.TopMenu__menu___F7C0B {
   width: 90%;
   max-width: 991px;
   margin: 0 auto;
@@ -93,15 +95,15 @@ select {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
 }
-.TopMenu__menu___38lqh a.active {
+.TopMenu__menu___F7C0B a.active {
   background: -webkit-linear-gradient(top, #a9a9a9 0%, #929292 100%);
   background: linear-gradient(to bottom, #a9a9a9 0%, #929292 100%);
   color: white;
 }
-.TopMenu__menu___38lqh a.active:visited {
+.TopMenu__menu___F7C0B a.active:visited {
   color: white;
 }
-.TopMenu__menu___38lqh a {
+.TopMenu__menu___F7C0B a {
   padding: 10px 20px;
   border-right: 2px solid white;
   text-decoration: none;
@@ -109,10 +111,10 @@ select {
   font-size: 14px;
   font-weight: bold;
 }
-.TopMenu__menu___38lqh a:nth-last-child(1) {
+.TopMenu__menu___F7C0B a:nth-last-child(1) {
   border-right: none;
 }
-.TopMenu__menu___38lqh a:visited {
+.TopMenu__menu___F7C0B a:visited {
   color: #555;
 }
 

@@ -1,132 +1,164 @@
 import React from 'react';
-import Material from './Material.jsx';
 import FuzzySearch from 'react-fuzzy';
 import CSSModules from 'react-css-modules';
-
 import styles from './MaterialSelection.less';
 
 class MaterialSelection extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      
-      material: '',
-      amount: '',
-      searchOpen: false,
-      createNewText: 'Hittar du inte det du söker? Skapa en ny byggdel här! (funkar inte ännu, använd menyn..)'
-    };
+	constructor(props) {
+		super(props);
+		this.state = {
 
-    this.handleMaterialChange = this.handleMaterialChange.bind(this);
-    this.fuzzyClick = this.fuzzyClick.bind(this);
-    this.handleAmountChange = this.handleAmountChange.bind(this);
-  };
+			material: '',
+			amount: '',
+			RecycleClassID: '',
+			comment: '',
+			searchOpen: false,
+			createNewText: 'Hittar du inte det du söker? Skapa en ny byggdel här! (funkar inte ännu, använd menyn..)'
+		};
+	};
 
-  fuzzyClick(e){
-    this.handleMaterialChange({name:e.target.innerHTML, id:e.target.attributes['value'].value})
-  }
+	fuzzyClick(e) {
+		this.handleMaterialChange({name: e.target.innerHTML, id: e.target.attributes['value'].value})
+	}
 
-  handleMaterialChange(selected) {
-    if(selected.name == this.state.createNewText){
-      selected.name = "createNew";
-    }
-    this.props.onMaterialChange({
-      material: selected.id,
-      amount: this.state.amount
-    });
-    
-    this.setState({
-      material: selected.id,
-      searchOpen: false
-    });
-  }
+	handleMaterialChange(selected) {
+		const {data} = this.props;
+		if (selected.name == this.state.createNewText) {
+			selected.id = "createNew";
+		}
+		const subMaterials = data
+			.filter(loopMaterial => (loopMaterial.materialComposition && loopMaterial.id == selected.id))
+			.map(loopMaterial => loopMaterial.materialComposition)
+		this.props.onMaterialChange({
+			material: selected.id,
+			amount: this.state.amount,
+			RecycleClassID: this.state.RecycleClassID
+		});
 
-  handleAmountChange(e) {
-    this.props.onMaterialChange({
-      material: this.state.material,
-      amount: e.target.value
-    });
-    this.setState({
-      amount: e.target.value
-    });
-  }
+		this.setState({
+			material: selected.id,
+			searchOpen: false,
+			subMaterials
+		});
+	}
 
-  render() {
-    const { createNewText, searchOpen, material, amount } = this.state
-    const { materialCreation, data } = this.props;
-    let materialUnit;
-    let materialNameText = data.filter(
-                (filterMatierial)=> filterMatierial.id == material 
-              ).map(
-                (filterMatierial)=> {
-                  materialUnit = filterMatierial.unit;
-                  return filterMatierial.name
-                }
-              );
-    materialNameText = materialNameText == '' ? 'Materialets namn' : materialNameText;
+	handleAmountChange(e) {
+		this.props.onMaterialChange({
+			material: this.state.material,
+			amount: e.target.value,
+			RecycleClassID: this.state.RecycleClassID
+		});
+		this.setState({
+			amount: e.target.value
+		});
+	}
 
-    return (
-      <div>
-        { searchOpen ?
-          <FuzzySearch
-            list={ data }
-            keys={['name']}
-            onSelect={this.handleMaterialChange}
-            styleName="fuzzy"
-            resultsTemplate={
-              (props, state, styles)=>{
-                if(state.results[state.results.length-1].name != createNewText){
-                  state.results.push({name:createNewText});
-                }
-                return (
-                  state.results.map((val, i) => {
-                    const style = state.selectedIndex === i ? styles.selectedResultStyle : styles.resultsStyle;
-                    if(val.name == 'byggnad01'){
-                      return ''
-                    }
-                    return (
-                      <div
-                        key={i}
-                        style={style}
-                        onClick={this.fuzzyClick} value={val.id}>
-                        {val.name}
-                      </div>
-                    );
-                  })
-              )}
-              
-            }
-            placeholder="Materialets namn"/>
-          :
-            <div styleName="material" onClick={()=>this.setState({searchOpen: true})}>
-              {materialNameText}
-            </div>
-          }
-        <div styleName="amount-unit">
-          <input
-            type="text"
-            placeholder="Mängd"
-            value={ amount }
-            onChange={this.handleAmountChange}
-            styleName="amount"
-            />
-          <span styleName="unit">
+	handleRecycleClassChange(e) {
+		this.props.onMaterialChange({
+			material: this.state.material,
+			amount: this.state.amount,
+			RecycleClassID: e.target.value
+		});
+		this.setState({
+			RecycleClassID: e.target.value
+		});
+	}
+
+
+	handleCommentChange(e) {
+		this.props.onMaterialChange({
+			material: this.state.material,
+			amount: this.state.amount,
+			RecycleClassID: this.state.RecycleClassID,
+			comment: e.target.value
+		});
+		this.setState({
+			comment: e.target.value
+		});
+	}
+
+	render() {
+		const {createNewText, searchOpen, material, amount, comment, subMaterials} = this.state
+		const {materialCreation, data} = this.props;
+		let materialUnit;
+		let materialNameText = data.filter(
+			filterMatierial => filterMatierial.id == material
+		).map(
+			filterMatierial => {
+				materialUnit = filterMatierial.unit;
+				return filterMatierial.name
+			}
+		);
+		materialNameText = materialNameText == '' ? 'Materialets namn' : materialNameText;
+
+		return (
+			<div>
+				{ searchOpen ?
+					<FuzzySearch
+						list={ data }
+						keys={['name']}
+						onSelect={ selected => this.handleMaterialChange(selected)}
+						styleName="fuzzy"
+						resultsTemplate={
+							(props, state, styles) => {
+								if (state.results[state.results.length - 1].name != createNewText) {
+									state.results.push({name: createNewText});
+								}
+								return (
+									state.results.map((val, i) => {
+										const style = state.selectedIndex === i ? styles.selectedResultStyle : styles.resultsStyle;
+										if (val.name == 'byggnad01') {
+											return ''
+										}
+										return (
+											<div
+												key={i}
+												style={style}
+												onClick={event => this.fuzzyClick(event)} value={val.id}>
+												{val.name}
+											</div>
+										);
+									})
+								)
+							}
+
+						}
+						placeholder="Materialets namn"/>
+					:
+					<div styleName="material" onClick={() => this.setState({searchOpen: true})}>
+						{materialNameText}
+					</div>
+				}
+				<div styleName="amount-unit">
+					<input
+						type="text"
+						placeholder="Mängd"
+						value={ amount }
+						onChange={ event => this.handleAmountChange(event)}
+						styleName="amount"
+					/>
+					<span styleName="unit">
             { materialUnit }
           </span>
-          { materialCreation && 
-            
-              <select styleName="amount" style={{border:'1px solid red'}}>
-                <option>Typ av Material</option>
-                <option>Återvunnet material</option>
-                <option>Nytt material</option>
-                <option>Vet ej</option>
-              </select>
-          }
-          { materialCreation && <p style={{color:'red'}}>TODO: Typ av Material endast demo</p> }
-        </div>
-      </div>
-    );
-  }
-};
+					{ (materialCreation || (subMaterials && subMaterials.length === 0) ) &&
+					<select styleName="RecycleClass" onChange={ (event) => this.handleRecycleClassChange(event)}>
+						<option value="1">Typ av Material</option>
+						<option value="2">Återvunnet material</option>
+						<option value="3">Nytt material</option>
+						<option value="4">Vet ej</option>
+					</select>
+					}
+					<input
+						type="text"
+						placeholder="Kommentar"
+						value={ comment }
+						onChange={ event => this.handleCommentChange(event) }/>
+				</div>
+			</div>
+		);
+	}
+}
+;
 
 
 export default CSSModules(MaterialSelection, styles)

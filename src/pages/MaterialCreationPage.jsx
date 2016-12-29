@@ -1,6 +1,5 @@
 import React from 'react';
-import ConstructionForm from './ConstructionForm.jsx';
-import { Link } from 'react-router'
+import ConstructionForm from '../ConstructionForm.jsx';
 
 export default class MaterialCreationPage extends React.Component {
   constructor(props) {

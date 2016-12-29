@@ -1,5 +1,5 @@
 import React from 'react';
-import ConstructionForm from './ConstructionForm.jsx';
+import ConstructionForm from '../ConstructionForm.jsx';
 import { Link } from 'react-router'
 
 export default class MaterialReportPage extends React.Component {
@@ -20,7 +20,7 @@ export default class MaterialReportPage extends React.Component {
         Består det du vill rapportera in av flera material? Klicka då på <Link to="/skapa-material" activeClassName="active">Skapa byggdel</Link>.
 
       </p>
-      <p style={{color:'red'}}>TODO: Filtrera lista beroende på entreprenad-typ, Lägg till kommentars fält per material, Lägg in "Typ av material" när man väljer grund-material, Fltrera ner listan(man ser allt från start).</p>
+      <p style={{color:'red'}}>TODO: Filtrera lista beroende på entreprenad-typ, Fltrera ner listan(man ser allt från start).</p>
         <ConstructionForm url={this.props.url}
           materials={this.props.materials}
           constructionParts={1}
