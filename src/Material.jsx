@@ -1,26 +1,41 @@
 import React from 'react';
 import marked from 'marked';
 
-const Material = React.createClass({
-  rawMarkup: function() {
-    var rawMarkup = marked(this.props.children.toString(), {
+class Material extends React.Component {
+
+  rawMarkup() {
+    const rawMarkup = marked(this.props.children.toString(), {
       sanitize: true
     });
     return {
       __html: rawMarkup
     };
-  },
-  render: function() {
-    return (
-      <div className={this.props.composite && "composite " + "material"}>
-            <span className="name">
-            {this.props.name}
-            </span> -
-            {this.props.composite ? <div className="constructionPart">{this.props.children}</div>
-            : <span className="unit">{this.props.children}</span>}
-      </div>
-      );
   }
-});
+
+  render() {
+    const { composite, name, materialComposition, materialObjects, unit } = this.props;
+    return (
+      <div className={ composite && "composite " + "material" }>
+            <span className="name">
+            { name }
+            </span> - <span className="unit">{ unit }</span>
+            { composite &&
+                  <ul>
+                    { materialComposition && materialComposition.map(rawMaterial => (
+                      <li key={ rawMaterial.material }>
+                          <span>
+                            <span>{ materialObjects[rawMaterial.material].name }</span> :
+                            <span>&nbsp;{ rawMaterial.amount }</span>
+                            <span>&nbsp;{ materialObjects[rawMaterial.material].unit }
+                            { rawMaterial.RecycleClassID && " RecycleClass: " + rawMaterial.RecycleClassID }</span>
+                          </span>
+                      </li>)
+                    )}
+                  </ul>
+            }
+      </div>
+    );
+  }
+}
 
 export default Material;

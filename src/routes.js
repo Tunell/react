@@ -2,12 +2,11 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
 import LoadMaterials from './LoadMaterials.js';
-import MaterialBox from './MaterialBox.jsx';
-import MaterialList from './MaterialList.jsx';
+import MaterialList from './pages/MaterialListPage.jsx';
 import TopMenu from './TopMenu.jsx';
-import MaterialCreationPage from './MaterialCreationPage.jsx';
-import MaterialReportPage from './MaterialReportPage.jsx';
-import Login from './Login.jsx';
+import MaterialCreationPage from './pages/MaterialCreationPage.jsx';
+import MaterialReportPage from './pages/MaterialReportPage.jsx';
+import Login from './pages/LoginPage.jsx';
 
 const routes = (
 
@@ -17,7 +16,6 @@ const routes = (
         <Route path="logga-in" component={Login}/>
         <Route path="rapportera" component={MaterialReportPage}/>
         <Route path="skapa-material" component={MaterialCreationPage}/>
-        <Route path="combo-vy" component={MaterialBox}/>
         <Route path="material-list" component={MaterialList}/>
         {/*<Route path="/prefab-material-list" component={MaterialList} allowComposite={true}/>
         <Route path="/anvant-material" component={MaterialList} materialUsageList={true}/>*/}

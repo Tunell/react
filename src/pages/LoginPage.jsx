@@ -1,7 +1,7 @@
 import React from 'react';
 import marked from 'marked';
 
-const Material = React.createClass({
+const LoginPage = React.createClass({
  
   render: function() {
     return (
@@ -15,4 +15,4 @@ const Material = React.createClass({
   }
 });
 
-export default Material;
+export default LoginPage;

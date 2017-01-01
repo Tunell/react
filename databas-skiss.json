@@ -1,4 +1,4 @@
-MetaDataMaterial:[
+metadatamaterial:[
     {
         "id":1,
         "name":"Co2",
@@ -7,23 +7,23 @@ MetaDataMaterial:[
 ]
 
 
-RecycleClass:[
+recycleclass:[
     {
         "id": 1,
         "name": "Nytt material",
-        "User_id": 2131231,
+        "user_id": 2131231,
         "created":2016122710520000,
         "changed":2016122710520000
     },
 ]
 
-Material:[
+rawmaterial:[
     {
         "id": 138853440005,
         "name": "Betong",
         "unit": "m3",
         "creatorUserId": 2131231,
-        "User_id": 2131231,
+        "user_id": 2131231,
         "created":2016122710520000,
         "changed":2016122710520000
     },
@@ -31,41 +31,41 @@ Material:[
         "id": 1388534400002,
         "name": "Armering",
         "unit": "m",
-        "User_id": 2131231,
+        "user_id": 2131231,
         "created":2016122710520000,
         "changed":2016122710520000
     },
 ]
 
-Material_Link:[
+material_link:[
     {
         "Meta_id":1,
-        "Material_id":138853440005,
+        "rawmaterial_id":138853440005,
         "RecycleClass_id":1,
         "amount":4,
-        "User_id": 2131231,
+        "user_id": 2131231,
         "created":2016122710520000,
         "changed":2016122710520000
     }
 ]
 
-Material_Construction:[
+material_meta:[
     {
-        "materialId": 138853440005,
-        "ConstructionPartId": 1388534400001,
+        "rawmaterial_id": 138853440005,
+        "material_id": 1388534400001,
         "RecycleClass_id":1,
         "amount":4
 
     },
     {
-        "materialId": 1388534400002,
-        "ConstructionPartId": 1388534400001,
+        "rawmaterial_id": 1388534400002,
+        "material_id": 1388534400001,
         "RecycleClass_id":1,
         "amount":2
     }
     {
-        "materialId": 138853440005,
-        "ConstructionPartId": 1388534400000,
+        "rawmaterial_id": 138853440005,
+        "material_id": 1388534400000,
         "RecycleClass_id":1,
         "amount":1
     }
@@ -73,12 +73,12 @@ Material_Construction:[
 
 ]
 
-ConstructionPart:[
+material:[
     {
         "id": 1388534400000,
         "name": "Betong",
         "unit": "m3",
-        "User_id": 2131231,
+        "user_id": 2131231,
         "created":2016122710520000,
         "changed":2016122710520000
     },
@@ -86,7 +86,7 @@ ConstructionPart:[
         "id": 1388534400002,
         "name": "Armering",
         "unit": "m",
-        "User_id": 2131231,
+        "user_id": 2131231,
         "created":2016122710520000,
         "changed":2016122710520000
     },
@@ -94,36 +94,36 @@ ConstructionPart:[
         "id": 1388534400001,
         "name": "armerad-Betong",
         "unit": "m3",
-        "User_id": 2131231,
+        "user_id": 2131231,
         "created":2016122710520000,
         "changed":2016122710520000
     }
 ]
 
 
-UsedMaterials:[
+usedmaterials:[
     {
         "id":4117,
-        "ConstructionPart_id":1388534400001,
+        "material_id":1388534400001,
         "amount":2,
         "comment":"Första våningsplanet",
-        "User_id": 1,
+        "user_id": 1,
         "created":2016122710520000,
         "changed":2016122710520000
     },
     {
         "id":4112,
-        "ConstructionPart_id":1388534400000,
+        "material_id":1388534400000,
         "amount":2,
         "comment":"Platta på mark",
-        "User_id": 1,
+        "user_id": 1,
         "created":2016122710520000,
         "changed":2016122710520000
     }
 ]
 
 
-User:[
+user:[
     {
         "id":1,
         "name": "El-entrepenad"
