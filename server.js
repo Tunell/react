@@ -16,6 +16,10 @@ var path = require('path');
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
+const mysql = require('mysql');
+const serverConfig = require('./config/config.json');
+const pool = mysql.createPool(serverConfig.dbConfig);
+
 
 if (process.env.NODE_ENV != 'production'){
 var webpack = require('webpack');
@@ -43,6 +47,16 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 
 //TODO: ADD BASIC AUTH TO GET HOME ADDRESS
+
+
+// Database test
+
+pool.getConnection((err, connection) => {
+    connection.query('SELECT * FROM user', (err, rows) => {
+        console.log(rows);
+    });
+});
+
 
 // Additional middleware which will set headers that we need on each request.
 app.use(function(req, res, next) {
@@ -106,6 +120,8 @@ app.post('/api/used-materials', function (req, res) {
 app.get('/api/raw-materials', function (req, res) {
 	// USER SPECIFIED IN URL PARAM
 	// GET COMPLETE CONSTRUCTIONPART, FOR SPECIFIED USER
+
+
 
 	fs.readFile(DATABASE, function (err, data) {
 		if (err) {
