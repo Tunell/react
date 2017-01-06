@@ -1,6 +1,7 @@
 import $ from "jquery";
 import React from "react";
 import CSSModules from "react-css-modules";
+import { connect } from 'react-redux';
 import styles from "./ConstructionForm.less";
 import MaterialSelection from "./MaterialSelection.jsx";
 
@@ -85,6 +86,7 @@ class ConstructionForm extends React.Component {
 	}
 
 	handleSubmit(e) {
+		const { user } = this.props;
 		e.preventDefault();
 		let name = this.state.name.trim();
 		let unit = this.state.unit.trim();
@@ -94,7 +96,8 @@ class ConstructionForm extends React.Component {
 		this.handleMaterialSubmit({
 			name: name,
 			unit: unit,
-			materialComposition: this.state.materialComposition
+			materialComposition: this.state.materialComposition,
+			User_id:user
 		});
 		this.setState({
 			name: '',
@@ -142,7 +145,7 @@ class ConstructionForm extends React.Component {
 		const constructionSpecified = ( constructionCreation == 'standard' ||
 		constructionCreation == 'prefab' );
 		return (
-			<form className="material-form" onSubmit={ () => this.handleSubmit()}>
+			<form className="material-form" onSubmit={ event => this.handleSubmit(event)}>
 				{ (constructionCreation /*&& !constructionSpecified*/) && <div>
 					<button onClick={ e => this.createConstructionPartClicked(e, 'standard') }>Skapa material</button>
 					<button onClick={ e => this.createConstructionPartClicked(e, 'prefab') }>Skapa byggdel</button>
@@ -181,6 +184,9 @@ class ConstructionForm extends React.Component {
 		);
 	}
 }
-;
 
-export default CSSModules(ConstructionForm, styles)
+export default connect(
+	(state) => ( {
+		user: state.user
+	})
+)(CSSModules(ConstructionForm, styles))

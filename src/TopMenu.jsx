@@ -29,7 +29,7 @@ class TopMenu extends React.Component {
             { /*<Link to="/prefab-material-list" activeClassName="active">Prefablista</Link>
                                     <Link to="/anvant-material" activeClassName="active">Använt material</Link>
                                     <Link to="/combo-vy" activeClassName="active">Kombinerad (test) vy </Link>*/ }
-            <select style={ { border: '1px solid red' } } onChange={(event)=>changeUser(event.target.value)}>
+            <select value={user} onChange={(event)=>changeUser(event.target.value)}>
               <option>
                 Typ av entrepenad
               </option>

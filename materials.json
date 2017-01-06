@@ -175,5 +175,35 @@
                 "created": "1482918563990"
             }
         ]
+    },
+    {
+        "id": 1483093100380,
+        "User_id": "1",
+        "name": "byggnad01",
+        "unit": "",
+        "materialComposition": [
+            {
+                "material": "1476298430372",
+                "amount": "15",
+                "RecycleClassID": "2",
+                "comment": "borde ej välja mat.typ på u-balk",
+                "created": "1483093094948"
+            }
+        ]
+    },
+    {
+        "id": 1483093993685,
+        "User_id": "1",
+        "name": "byggnad01",
+        "unit": "",
+        "materialComposition": [
+            {
+                "material": "1476300077644",
+                "amount": "15",
+                "RecycleClassID": "",
+                "comment": "testar med fackverk",
+                "created": "1483093987587"
+            }
+        ]
     }
 ]

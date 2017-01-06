@@ -1,13 +1,21 @@
 import React from 'react';
 import ConstructionForm from '../ConstructionForm.jsx';
+import UsedMaterialsLog from '../UsedMaterialsLog.jsx';
 import { Link } from 'react-router'
 
+type Props = {
+	materials: object,
+	url: string
+};
+
 export default class MaterialReportPage extends React.Component {
+	props: Props;
   constructor(props) {
     super(props);
   }
 
   render() {
+    const {materials, url} = this.props;
     return (
       <div className="material-box">
 
@@ -21,11 +29,11 @@ export default class MaterialReportPage extends React.Component {
 
       </p>
       <p style={{color:'red'}}>TODO: Filtrera lista beroende på entreprenad-typ, Fltrera ner listan(man ser allt från start).</p>
-        <ConstructionForm url={this.props.url}
-          materials={this.props.materials}
+        <ConstructionForm url={url}
+          materials={materials}
           constructionParts={1}
           constructionName="byggnad01"/>
-        <p style={{color:'red'}}>TODO: <a href="https://waffle.io/Tunell/react/cards/583ef2dd11fd054901cba277" target="_blank">Mina inrapporterade material (logg)</a>:</p>
+        <UsedMaterialsLog materials={materials}/>
       </div>
 
     );
