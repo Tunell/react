@@ -4,15 +4,15 @@ const insert = {
             .then( connection => connection.query('INSERT INTO used_material (user_id, composite_material_id, amount, comment) VALUES (?, ?, ?, ?)',
                 [usedMaterial.user_id, usedMaterial.composite_material_id, usedMaterial.amount, usedMaterial.comment])
             .then( insertInfo => insertInfo.insertId.toString()))
-            .catch( err => console.log("ERRROR!"));
+            .catch( err => console.log(err));
     },
 
     material: (pool, material) => {
         return pool.getConnection()
-            .then( connection => connection.query('INSERT INTO material (user_id, name) VALUES (?, ?, ?)',
+            .then( connection => connection.query('INSERT INTO material (user_id, name) VALUES (?, ?)',
                 [material.user_id, material.name])
             .then( insertInfo => insertInfo.insertId.toString()))
-            .catch( err => console.log("ERRROR!"));
+            .catch( err => console.log(err));
     },
 
     compositeMaterial: (pool, compositeMaterial) => {
@@ -29,8 +29,8 @@ const insert = {
                 return newCompositeMaterialId;
             })
             .then(() => newCompositeMaterialId.toString()))
-            .catch( err => console.log("ERRROR!"));
+            .catch( err => console.log(err));
         }
 }
 
-exports.insert = insert;
+module.exports = insert;

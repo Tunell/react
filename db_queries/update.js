@@ -1,4 +1,3 @@
-
 const update = {
     usedMaterial: (pool, usedMaterial) => {
         return pool.getConnection()
@@ -40,5 +39,5 @@ const update = {
     }
 }
 
-exports.update = update;
+module.exports = update;
 

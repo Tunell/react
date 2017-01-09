@@ -2,9 +2,10 @@
 const mysql = require('promise-mysql');
 const serverConfig = require('../config/config.json');
 const pool = mysql.createPool(serverConfig.dbConfig);
-const select = require('../db_queries/select').select;
-const insert = require('../db_queries/insert').insert;
-const update = require('../db_queries/update').update;
+const select = require('../db_queries/select');
+const insert = require('../db_queries/insert');
+const update = require('../db_queries/update');
+const remove = require('../db_queries/remove');
 
 const express = require('express');
 const router = express.Router();
@@ -41,7 +42,9 @@ router.route('/used-materials/:user_id')
     })
 
     .delete((req, res) => {
-        //:TODO
+        remove.usedMaterial(pool, req.body.ids)
+            .then(num_changed_rows => res.send(num_changed_rows))
+            .catch(err => res.send(err))
     })
 
 
@@ -73,7 +76,9 @@ router.route('/materials')
     })
 
     .delete((req, res) => {
-        //:TODO
+        remove.material(pool, req.body.ids)
+            .then(num_changed_rows => res.send(num_changed_rows))
+            .catch(err => res.send(err))
     })
 
 
@@ -110,7 +115,9 @@ router.route('/composite-materials/:user_id')
     })
 
     .delete((req, res) => {
-        //:TODO
+        remove.compositeMaterial(pool, req.body.ids)
+            .then(num_changed_rows => res.send(num_changed_rows))
+            .catch(err => res.send(err))
     })
 
 module.exports = router;
