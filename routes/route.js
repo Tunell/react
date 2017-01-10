@@ -1,6 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const routeHandler = require('./routeHandlers');
+const mysql = require('promise-mysql');
+const serverConfig = require('../config/config.json');
+const pool = mysql.createPool(serverConfig.dbConfig);
+const select = require('../db_queries/select');
+const insert = require('../db_queries/insert');
+const update = require('../db_queries/update');
+const remove = require('../db_queries/remove');
 
 router.route('/used-materials/')
     .get((req, res) => routeHandler.get(req, res))
@@ -9,20 +16,7 @@ router.route('/used-materials/')
 router.route('/used-materials/:id')
 
     .get((req, res) => routeHandler.get(req, res))
-
-    .put((req, res) => {
-        let updateUsedMaterial = {
-            id: req.params.id,
-            composite_material_id: req.body.composite_material_id,
-            amount: req.body.amount,
-            comment: req.body.comment
-        };
-
-        update.usedMaterial(pool, updateUsedMaterial)
-            .then(num_changed_rows => res.send(num_changed_rows))
-            .catch(err => res.send(err))
-    })
-
+    .put((req, res) => routeHandler.put(req, res))
     .delete((req, res) => routeHandler.delete(req, res))
 
 router.route('/materials')
@@ -33,43 +27,18 @@ router.route('/materials')
 router.route('/materials/:id')
 
     .get((req, res) => routeHandler.get(req, res))
-
-    .put((req, res) => {
-        let updateMaterial = {
-            id: req.body.id,
-            name: req.body.name
-        };
-        update.material(pool, updateMaterial)
-            .then(num_changed_rows => res.send(num_changed_rows))
-            .catch(err => res.send(err))
-    })
-
+    .put((req, res) => routeHandler.put(req, res))
     .delete((req, res) => routeHandler.delete(req, res))
 
 router.route('/composite-materials/')
 
     .get((req, res) => routeHandler.get(req, res))
-
     .post((req, res) => routeHandler.post(req, res))
-
 
 router.route('/composite-materials/:id')
 
     .get((req, res) => routeHandler.get(req, res))
-
-
-    .put((req, res) => {
-        let updateCompositeMaterial = {
-            id: req.params.id,
-            name: req.body.name,
-            unit_id: req.body.unit_id,
-            materialComposition: req.body.materialComposition
-        };
-        update.compositeMaterial(pool, updateCompositeMaterial)
-            .then(num_changed_rows => res.send(num_changed_rows))
-            .catch(err => res.send(err))
-    })
-
+    .put((req, res) => routeHandler.put(req, res))
     .delete((req, res) => routeHandler.delete(req, res))
 
 module.exports = router;

@@ -24,8 +24,8 @@ const insert = {
                         let newCompositeMaterialId = insertInfo.insertId;
                         return Promise.all(compositeMaterial.materialComposition.map(material => {
                             let query = 'INSERT INTO composite_has_material (composite_material_id, material_id, recycle_class_id, unit_id, amount) VALUES (?, ?, ?, ?, ?)';
-                            let inputs = [newCompositeMaterialId, material.material_id, material.recycle_class_id, material.unit_id, material.amount];
-                            return conn.query(query, inputs)
+                            let input = [newCompositeMaterialId, material.material_id, material.recycle_class_id, material.unit_id, material.amount];
+                            return conn.query(query, input)
                         }))
                     })
             })

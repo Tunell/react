@@ -32,7 +32,10 @@ const routeHandler = {
     },
 
     put: (req, res) => {
-
+        const putFunc = parseUrlToTable(req.url) === 'composite_material' ? 'updateMultRows' : 'updateRow';
+        update[putFunc](pool, parseUrlToTable(req.url), req.params.id, req.body)
+            .then(result => res.send(result))
+            .catch(err => res.send(err))
     }
 }
 
