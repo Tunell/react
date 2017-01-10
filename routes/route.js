@@ -1,69 +1,38 @@
-// Database
-const mysql = require('promise-mysql');
-const serverConfig = require('../config/config.json');
-const pool = mysql.createPool(serverConfig.dbConfig);
-const select = require('../db_queries/select');
-const insert = require('../db_queries/insert');
-const update = require('../db_queries/update');
-const remove = require('../db_queries/remove');
-
 const express = require('express');
 const router = express.Router();
+const routeHandler = require('./routeHandlers');
 
-router.route('/used-materials/:user_id')
-    .get((req, res) => {
-        select.usedMaterial(pool, req.params.user_id)
-            .then(rows => res.send(rows))
-            .catch(err => res.send(err))
-    })
+router.route('/used-materials/')
+    .get((req, res) => routeHandler.get(req, res))
+    .post((req, res) => routeHandler.post(req, res))
 
-    .post((req, res) => {
-        let newUsedMaterial = {
-            composite_material_id: req.body.composite_material_id,
-            user_id: req.body.user_id,
-            amount: req.body.amount,
-            comment: req.body.comment
-        };
-        insert.usedMaterial(pool, newUsedMaterial)
-            .then(id => res.send(id))
-            .catch(err => res.send(err))
-    })
+router.route('/used-materials/:id')
+
+    .get((req, res) => routeHandler.get(req, res))
 
     .put((req, res) => {
         let updateUsedMaterial = {
-            id: req.body.id,
+            id: req.params.id,
             composite_material_id: req.body.composite_material_id,
             amount: req.body.amount,
             comment: req.body.comment
         };
+
         update.usedMaterial(pool, updateUsedMaterial)
             .then(num_changed_rows => res.send(num_changed_rows))
             .catch(err => res.send(err))
     })
 
-    .delete((req, res) => {
-        remove.usedMaterial(pool, req.body.ids)
-            .then(num_changed_rows => res.send(num_changed_rows))
-            .catch(err => res.send(err))
-    })
-
+    .delete((req, res) => routeHandler.delete(req, res))
 
 router.route('/materials')
-    .get((req, res) => {
-        select.material(pool)
-            .then(rows => res.send(rows))
-            .catch(err => res.send(err))
-    })
 
-    .post((req, res) => {
-        let newMaterial = {
-            user_id: req.body.user_id,
-            name: req.body.name
-        };
-        insert.material(pool, newMaterial)
-            .then(id => res.send(id))
-            .catch(err => res.send(err))
-    })
+    .get((req, res) => routeHandler.get(req, res))
+    .post((req, res) => routeHandler.post(req, res))
+
+router.route('/materials/:id')
+
+    .get((req, res) => routeHandler.get(req, res))
 
     .put((req, res) => {
         let updateMaterial = {
@@ -75,36 +44,23 @@ router.route('/materials')
             .catch(err => res.send(err))
     })
 
-    .delete((req, res) => {
-        remove.material(pool, req.body.ids)
-            .then(num_changed_rows => res.send(num_changed_rows))
-            .catch(err => res.send(err))
-    })
+    .delete((req, res) => routeHandler.delete(req, res))
+
+router.route('/composite-materials/')
+
+    .get((req, res) => routeHandler.get(req, res))
+
+    .post((req, res) => routeHandler.post(req, res))
 
 
-router.route('/composite-materials/:user_id')
-    .get((req, res) => {
-        console.log('got request')
-        select.compositeMaterial(pool, req.params.user_id)
-            .then(rows => res.send(rows))
-            .catch(err => res.send(err))
-    })
+router.route('/composite-materials/:id')
 
-    .post((req, res) => {
-        let newCompositeMaterial = {
-            user_id: req.body.user_id,
-            name: req.body.name,
-            unit_id: req.body.unit_id,
-            materialComposition: req.body.materialComposition
-        };
-        insert.compositeMaterial(pool, newCompositeMaterial)
-            .then(id => res.send(id))
-            .catch(err => res.send(err))
-    })
+    .get((req, res) => routeHandler.get(req, res))
+
 
     .put((req, res) => {
         let updateCompositeMaterial = {
-            id: req.body.id,
+            id: req.params.id,
             name: req.body.name,
             unit_id: req.body.unit_id,
             materialComposition: req.body.materialComposition
@@ -114,10 +70,6 @@ router.route('/composite-materials/:user_id')
             .catch(err => res.send(err))
     })
 
-    .delete((req, res) => {
-        remove.compositeMaterial(pool, req.body.ids)
-            .then(num_changed_rows => res.send(num_changed_rows))
-            .catch(err => res.send(err))
-    })
+    .delete((req, res) => routeHandler.delete(req, res))
 
 module.exports = router;
