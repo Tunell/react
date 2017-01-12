@@ -4,7 +4,7 @@
     "version": "1.0.",
     "title": "API Byggstyrning"
   },
-  "host": "localhost:10010",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": [
     "http",
@@ -15,6 +15,18 @@
   ],
   "produces": [
     "application/json"
+  ],
+  "securityDefinitions": {
+    "UserSecurity": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "key"
+    }
+  },
+  "security": [
+    {
+      "UserSecurity": []
+    }
   ],
   "paths": {
     "/used-materials": {
@@ -662,9 +674,6 @@
         "amount"
       ],
       "properties": {
-        "id": {
-          "type": "integer"
-        },
         "user_id": {
           "type": "integer"
         },
@@ -672,6 +681,9 @@
           "type": "integer"
         },
         "amount": {
+          "type": "integer"
+        },
+        "id": {
           "type": "integer"
         },
         "comment": {
@@ -697,14 +709,14 @@
         "name"
       ],
       "properties": {
-        "id": {
-          "type": "integer"
-        },
         "user_id": {
           "type": "integer"
         },
         "name": {
           "type": "string"
+        },
+        "id": {
+          "type": "integer"
         },
         "created": {
           "type": "string"
@@ -728,20 +740,26 @@
         "composite_has_materials"
       ],
       "properties": {
-        "id": {
-          "type": "integer"
-        },
         "user_id": {
           "type": "integer"
-        },
-        "username": {
-          "type": "string"
         },
         "name": {
           "type": "string"
         },
         "unit_id": {
           "type": "integer"
+        },
+        "composite_has_materials": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/composite-has-material"
+          }
+        },
+        "id": {
+          "type": "integer"
+        },
+        "username": {
+          "type": "string"
         },
         "unit_name": {
           "type": "string"
@@ -751,12 +769,6 @@
         },
         "changed": {
           "type": "string"
-        },
-        "composite_has_materials": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/composite-has-material"
-          }
         }
       }
     },
@@ -768,29 +780,29 @@
         "amount"
       ],
       "properties": {
-        "composite_material_id": {
+        "material_id": {
           "type": "integer"
         },
-        "material_id": {
+        "recycle_type_id": {
+          "type": "integer"
+        },
+        "unit_id": {
+          "type": "integer"
+        },
+        "amount": {
+          "type": "integer"
+        },
+        "composite_material_id": {
           "type": "integer"
         },
         "material_name": {
           "type": "string"
         },
-        "recycle_type_id": {
-          "type": "integer"
-        },
         "recycle_type_name": {
           "type": "string"
         },
-        "unit_id": {
-          "type": "integer"
-        },
         "unit_name": {
           "type": "string"
-        },
-        "amount": {
-          "type": "integer"
         }
       }
     },
@@ -807,6 +819,18 @@
         "composite_has_materials"
       ],
       "properties": {
+        "name": {
+          "type": "string"
+        },
+        "unit_id": {
+          "type": "integer"
+        },
+        "composite_has_materials": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/composite-has-material-update-object"
+          }
+        },
         "id": {
           "type": "integer"
         },
@@ -816,12 +840,6 @@
         "username": {
           "type": "string"
         },
-        "name": {
-          "type": "string"
-        },
-        "unit_id": {
-          "type": "integer"
-        },
         "unit_name": {
           "type": "string"
         },
@@ -830,19 +848,12 @@
         },
         "changed": {
           "type": "string"
-        },
-        "composite_has_materials": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/composite-has-material-update-object"
-          }
         }
       }
     },
     "composite-has-material-update-object": {
       "required": [
-        "new",
-        "old"
+        "new"
       ],
       "properties": {
         "new": {
@@ -859,14 +870,14 @@
         "name"
       ],
       "properties": {
-        "id": {
-          "type": "integer"
-        },
         "user_id": {
           "type": "integer"
         },
         "name": {
           "type": "string"
+        },
+        "id": {
+          "type": "integer"
         },
         "created": {
           "type": "string"
@@ -887,11 +898,11 @@
         "name"
       ],
       "properties": {
-        "id": {
-          "type": "integer"
-        },
         "name": {
           "type": "string"
+        },
+        "id": {
+          "type": "integer"
         }
       }
     },

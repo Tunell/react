@@ -1,4 +1,5 @@
 const remove = {
+    // Delete a entry in db
     deleteId: (pool, table, id) => {
         return pool.getConnection()
             .then( connection => {

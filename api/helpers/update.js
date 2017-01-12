@@ -1,4 +1,6 @@
+const _ = require('lodash');
 const update = {
+    // Update a entry in db
     updateRow: (pool, table, id, data) => {
         return pool.getConnection()
             .then( connection => connection.query('UPDATE ?? SET ? WHERE id = ?',
@@ -6,9 +8,10 @@ const update = {
                 .then( updateInfo => updateInfo.changedRows.toString()))
     },
 
-    updateMultRows: (pool, table, id, compositeMaterial) => {
+    // Update a composite material, spans serveral tables
+    // table not used!
+    updateCompositeMaterial: (pool, table, id, compositeMaterial) => {
         let conn;
-        let changedRows = 0;
         return pool.getConnection()
             .then(connection => {
                 conn = connection;
@@ -20,8 +23,15 @@ const update = {
                 return conn.query(query, input)
                     .then( () => {
                         return Promise.all(compositeMaterial.composite_has_materials.map(material => {
-                            let query =  'UPDATE composite_has_material SET material_id = ?, recycle_type_id = ?, unit_id = ?, amount = ? WHERE (composite_material_id = ? AND material_id = ? AND recycle_type_id = ? AND unit_id = ?)';
-                            let input = [material.new.material_id, material.new.recycle_type_id, material.new.unit_id, material.new.amount, id, material.old.material_id, material.old.recycle_type_id, material.old.unit_id];
+                            let query;
+                            let input
+                            if(_.has(material, 'old')) {
+                                query =  'UPDATE composite_has_material SET material_id = ?, recycle_type_id = ?, unit_id = ?, amount = ? WHERE (composite_material_id = ? AND material_id = ? AND recycle_type_id = ? AND unit_id = ?)';
+                                input = [material.new.material_id, material.new.recycle_type_id, material.new.unit_id, material.new.amount, id, material.old.material_id, material.old.recycle_type_id, material.old.unit_id];
+                            } else {
+                                query = 'INSERT INTO composite_has_material (composite_material_id, material_id, recycle_type_id, unit_id, amount) VALUES (?, ?, ?, ?, ?)';
+                                input = [id, material.new.material_id, material.new.recycle_type_id, material.new.unit_id, material.new.amount];
+                            }
                             return conn.query(query, input)
                         }))
                     })

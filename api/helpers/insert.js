@@ -1,11 +1,14 @@
 const insert = {
+    // Insert a entry into a table in db
     insertRow: (pool, table, data) => {
         return pool.getConnection()
             .then( connection => connection.query('INSERT INTO ?? SET ?', [table, data])
                 .then( insertInfo => insertInfo.insertId.toString()))
     },
 
-    insertMultRows: (pool, table, compositeMaterial) => {
+    // Insert a composite-material, spans several tables
+    // table parameter not used!
+    insertCompositeMaterial: (pool, table, compositeMaterial) => {
         let conn;
         return pool.getConnection()
         // Start transaction
@@ -21,9 +24,9 @@ const insert = {
                     .then( insertInfo => {
                         // Query 2
                         let newCompositeMaterialId = insertInfo.insertId;
-                        return Promise.all(compositeMaterial.materialComposition.map(material => {
-                            let query = 'INSERT INTO composite_has_material (composite_material_id, material_id, recycle_class_id, unit_id, amount) VALUES (?, ?, ?, ?, ?)';
-                            let input = [newCompositeMaterialId, material.material_id, material.recycle_class_id, material.unit_id, material.amount];
+                        return Promise.all(compositeMaterial.composite_has_materials.map(material => {
+                            let query = 'INSERT INTO composite_has_material (composite_material_id, material_id, recycle_type_id, unit_id, amount) VALUES (?, ?, ?, ?, ?)';
+                            let input = [newCompositeMaterialId, material.material_id, material.recycle_type_id, material.unit_id, material.amount];
                             return conn.query(query, input)
                         }))
                     })

@@ -1,14 +1,20 @@
 const select = {
+
+    // Standard select query, uses query parameter like id
     selectQuery: (pool, table, query) => {
         return pool.getConnection()
             .then( connection => connection.query('SELECT * FROM ?? WHERE ?', [table, query])
                 .then( rows => rows))
     },
-    selectAll: (pool, table, unUsedQuery) => {
+
+    // Standard select query, selects all entries in table
+    selectAll: (pool, table) => {
         return pool.getConnection()
             .then( connection => connection.query('SELECT * FROM ??', [table])
                 .then( rows => rows))
     },
+
+    // Select query for a single composite material, span several tables
     selectCompositeMaterialId: (pool, id) => {
         return pool.getConnection()
             .then( connection => {
@@ -18,6 +24,7 @@ const select = {
             })
     },
 
+    // Select query for all composite material, span several tables
     selectCompositeMaterialAll: (pool) => {
         return pool.getConnection()
             .then( connection => {
@@ -28,10 +35,12 @@ const select = {
     }
 }
 
+// Given a composite-material row, returns if it matches another row.
 function findIndexId(compositeMaterial) {
     return compositeMaterial.id === this.id;
 }
 
+// Given a db output, creates a composite-material that can be sent to client.
 function createCompMaterials(rows){
     let compositeMaterials = []
     rows.forEach( row => {
@@ -52,6 +61,7 @@ function createCompMaterials(rows){
     return compositeMaterials;
 }
 
+// Given a row, extracts data to construct a single compositeHasMaterial object
 function createCompHasMaterial(row) {
     let compositeHasMaterial = {
         composite_material_id: row.id,
@@ -66,6 +76,7 @@ function createCompHasMaterial(row) {
     return compositeHasMaterial;
 }
 
+// Given a row and a compositeHasMaterial, creates a compositeMaterial with one compositeHasMaterial
 function createCompMaterial(row, compositeHasMaterial) {
     let compositeMaterial = {
         id: row.id,

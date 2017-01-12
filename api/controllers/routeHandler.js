@@ -10,58 +10,62 @@ const update = require('../helpers/update');
 const remove = require('../helpers/remove');
 const helpers = require('../helpers/routeHandlerHelpers');
 
-
+// Get all the entries associated with endpoint
 function getAll(req, res) {
+    // Extract query parameters
     const queryObject = helpers.getQueryParams(req.swagger.params);
+    // Composite material has a specific query
     if(helpers.parseUrlToTable(req.url) === 'composite_material') {
         select.selectCompositeMaterialAll(pool)
-            .then(rows => res.json(rows))
+            .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
     } else {
         select.selectAll(pool, helpers.parseUrlToTable(req.url), queryObject)
-            .then(rows => res.json(rows))
+            .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
     }
 }
 
+// Get entries associated with a single id
 function getId(req, res) {
     const queryObject = helpers.getQueryParams(req.swagger.params);
     if(helpers.parseUrlToTable(req.url) === 'composite_material') {
         select.selectCompositeMaterialId(pool, queryObject.id)
-            .then(rows => res.json(rows))
+            .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
     } else {
         select.selectQuery(pool, helpers.parseUrlToTable(req.url), queryObject)
-            .then(rows => res.json(rows))
+            .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
     }
 }
 
+// Create a new entry
 function post (req, res) {
+    // Extract the data that is to be inserted
     let data = req.swagger.params[Object.keys(req.swagger.params)[0]].value;
-    const insertFunc = helpers.parseUrlToTable(req.url) === 'composite_material' ? 'insertMultRows' : 'insertRow';
+    // Determine which function to use
+    const insertFunc = helpers.parseUrlToTable(req.url) === 'composite_material' ? 'insertCompositeMaterial' : 'insertRow';
     insert[insertFunc](pool, helpers.parseUrlToTable(req.url), data)
         .then(id => res.json(id))
         .catch(err => res.status(500).json(err.message))
 }
 
+// Change a entry
+// Handles both entries that has a single row and multiple rows
 function put (req, res) {
     let data = req.swagger.params[Object.keys(req.swagger.params)[0]].value;
-    const putFunc = helpers.parseUrlToTable(req.url) === 'composite_material' ? 'updateMultRows' : 'updateRow';
+    const putFunc = helpers.parseUrlToTable(req.url) === 'composite_material' ? 'updateCompositeMaterial' : 'updateRow';
     update[putFunc](pool, helpers.parseUrlToTable(req.url), req.swagger.params.id.value, data)
         .then(result => res.json(result))
         .catch(err => res.status(500).json(err.message))
 }
 
-
+// Delete a entry
 function deleteRow (req, res) {
     remove.deleteId(pool, helpers.parseUrlToTable(req.url), req.swagger.params.id.value)
-        .then(num_changed_rows => res.json(num_changed_rows))
+        .then(result => res.json(result))
         .catch(err => res.status(500).json(err.message))
-}
-
-function getApi (req, res) {
-    res.send('../../dist/index.html')
 }
 
 module.exports = {

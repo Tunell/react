@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   version: "1.0."
   title: API Byggstyrning
-host: localhost:10010
+host: localhost:3000
 basePath: /
 schemes:
   - http
@@ -11,6 +11,16 @@ consumes:
   - application/json
 produces:
   - application/json
+  
+securityDefinitions:
+  api_key:
+    type: apiKey
+    in: header
+    name: api_key
+
+security:
+ - api_key: []
+
 paths:
   /used-materials:
     x-swagger-router-controller: routeHandler
@@ -460,13 +470,13 @@ definitions:
       - composite_material_id
       - amount
     properties:
-      id:
-        type: integer
       user_id:
         type: integer
       composite_material_id:
         type: integer
       amount:
+        type: integer
+      id:
         type: integer
       comment:
         type: string
@@ -484,12 +494,12 @@ definitions:
       - user_id
       - name
     properties:
-      id:
-        type: integer
       user_id:
         type: integer
       name:
         type: string
+      id:
+        type: integer
       created:
         type: string
       changed:
@@ -508,26 +518,27 @@ definitions:
       - unit_id
       - composite_has_materials
     properties:
-      id:
+      user_id: 
         type: integer
-      user_id:
-        type: integer
-      username:
-        type: string
       name:
         type: string
       unit_id:
         type: integer
+      composite_has_materials:
+        type: array
+        items:
+          $ref: "#/definitions/composite-has-material"
+      id:
+        type: integer
+      username:
+        type: string
       unit_name:
         type: string
       created:
         type: string
       changed:
         type: string
-      composite_has_materials:
-        type: array
-        items:
-          $ref: "#/definitions/composite-has-material"
+      
           
   composite-has-material:
     required:
@@ -536,22 +547,23 @@ definitions:
       - unit_id
       - amount
     properties:
-      composite_material_id:
-        type: integer
       material_id:
+        type: integer
+      recycle_type_id:
+        type: integer
+      unit_id:
+        type: integer
+      amount:
+        type: integer
+      composite_material_id:
         type: integer
       material_name:
         type: string
-      recycle_type_id:
-        type: integer
       recycle_type_name:
         type: string
-      unit_id:
-        type: integer
       unit_name:
         type: string
-      amount:
-        type: integer
+      
         
   composite-materials:
     type: array
@@ -564,31 +576,31 @@ definitions:
       - unit_id
       - composite_has_materials
     properties:
+      name:
+        type: string
+      unit_id:
+        type: integer
+      composite_has_materials:
+        type: array
+        items:
+          $ref: "#/definitions/composite-has-material-update-object"
       id:
         type: integer
       user_id:
         type: integer
       username:
         type: string
-      name:
-        type: string
-      unit_id:
-        type: integer
       unit_name:
         type: string
       created:
         type: string
       changed:
         type: string
-      composite_has_materials:
-        type: array
-        items:
-          $ref: "#/definitions/composite-has-material-update-object"
+   
       
   composite-has-material-update-object:
     required:
       - new
-      - old
     properties:
       new:
        $ref: "#/definitions/composite-has-material"
@@ -601,12 +613,12 @@ definitions:
       - user_id
       - name
     properties:
-      id:
-        type: integer
       user_id:
         type: integer
       name:
         type: string
+      id:
+        type: integer
       created:
         type: string
       changed:
@@ -621,10 +633,10 @@ definitions:
     required:
       - name
     properties:
-      id:
-        type: integer
       name:
         type: string
+      id:
+        type: integer
         
   recycle-types:
     type: array

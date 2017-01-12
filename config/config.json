@@ -6,5 +6,9 @@
     "user": "root",
     "password": "Wrufrafr",
     "database": "byggstyrning"
+  },
+  "security" :
+  {
+    "api_key": "pellejohn"
   }
 }
