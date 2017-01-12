@@ -1,0 +1,131 @@
+metadatamaterial:[
+    {
+        "id":1,
+        "name":"Co2",
+        "unit":"m3"
+    }
+]
+
+
+recycleclass:[
+    {
+        "id": 1,
+        "name": "Nytt material",
+        "user_id": 2131231,
+        "created":2016122710520000,
+        "changed":2016122710520000
+    },
+]
+
+rawmaterial:[
+    {
+        "id": 138853440005,
+        "name": "Betong",
+        "unit": "m3",
+        "creatorUserId": 2131231,
+        "user_id": 2131231,
+        "created":2016122710520000,
+        "changed":2016122710520000
+    },
+    {
+        "id": 1388534400002,
+        "name": "Armering",
+        "unit": "m",
+        "user_id": 2131231,
+        "created":2016122710520000,
+        "changed":2016122710520000
+    },
+]
+
+material_link:[
+    {
+        "Meta_id":1,
+        "rawmaterial_id":138853440005,
+        "RecycleClass_id":1,
+        "amount":4,
+        "user_id": 2131231,
+        "created":2016122710520000,
+        "changed":2016122710520000
+    }
+]
+
+material_meta:[
+    {
+        "rawmaterial_id": 138853440005,
+        "material_id": 1388534400001,
+        "RecycleClass_id":1,
+        "amount":4
+
+    },
+    {
+        "rawmaterial_id": 1388534400002,
+        "material_id": 1388534400001,
+        "RecycleClass_id":1,
+        "amount":2
+    }
+    {
+        "rawmaterial_id": 138853440005,
+        "material_id": 1388534400000,
+        "RecycleClass_id":1,
+        "amount":1
+    }
+
+
+]
+
+material:[
+    {
+        "id": 1388534400000,
+        "name": "Betong",
+        "unit": "m3",
+        "user_id": 2131231,
+        "created":2016122710520000,
+        "changed":2016122710520000
+    },
+    {
+        "id": 1388534400002,
+        "name": "Armering",
+        "unit": "m",
+        "user_id": 2131231,
+        "created":2016122710520000,
+        "changed":2016122710520000
+    },
+    {
+        "id": 1388534400001,
+        "name": "armerad-Betong",
+        "unit": "m3",
+        "user_id": 2131231,
+        "created":2016122710520000,
+        "changed":2016122710520000
+    }
+]
+
+
+usedmaterials:[
+    {
+        "id":4117,
+        "material_id":1388534400001,
+        "amount":2,
+        "comment":"Första våningsplanet",
+        "user_id": 1,
+        "created":2016122710520000,
+        "changed":2016122710520000
+    },
+    {
+        "id":4112,
+        "material_id":1388534400000,
+        "amount":2,
+        "comment":"Platta på mark",
+        "user_id": 1,
+        "created":2016122710520000,
+        "changed":2016122710520000
+    }
+]
+
+
+user:[
+    {
+        "id":1,
+        "name": "El-entrepenad"
+    }
+]

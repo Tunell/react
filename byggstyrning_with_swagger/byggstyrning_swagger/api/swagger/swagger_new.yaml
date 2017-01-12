@@ -1,0 +1,159 @@
+# Example YAML to get you started quickly.
+# Be aware that YAML has indentation based scoping.
+# Code completion support is available so start typing for available options.
+swagger: "2.0"
+
+info:
+  version: 1.0.0
+  title: Byggstyrning
+  description: Byggstyrnings projectets API documentation
+
+schemes:
+  - https
+  - http
+host: localhost:8080
+basePath: /api
+
+paths: 
+  /used-materials:
+    x-swagger-router-controller: hello_world
+    get:
+      summary: Gets used-materials
+      operationId: hello
+      parameters:
+      - $ref: "#/parameters/user_id"
+      responses:
+        200:
+          description: A list of used-materials
+          schema:
+            $ref: "#/definitions/used-materials"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+    post:
+        summary: Creates a used-material
+        parameters:
+          - name: used_material
+            in: body
+            description: The used_material object that will be inserted
+            schema:
+              $ref: "#/definitions/used-material-insert"
+        responses:
+          204:
+            description: Used-material sucessfully created.
+          400:
+            description: Ops, something went wrong! Used-material couldn't be created.
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+  /used-materials/{id}:
+    parameters:
+      - $ref: "#/parameters/id"
+    get:
+      summary: Gets used-materials
+      responses:
+        200:
+          description: A used-material object
+          schema:
+            $ref: "#/definitions/used-material"
+        404:
+          description: The used-material does not exist.
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+    put:
+      summary: Change a used-material
+      parameters:
+          - name: used_material
+            in: body
+            description: The used_material object that will be changed
+            schema:
+              $ref: "#/definitions/used-material-insert"
+      responses:
+        204:
+          description: Used-material sucessfully updated.
+        404:
+          $ref: "#/responses/ObjectDoesNotExistResponse"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+    delete:
+      summary: Deletes a used-material
+      responses:
+        204:
+          description: Used-material successfully deleted.
+        404:
+          $ref: "#/responses/ObjectDoesNotExistResponse"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+
+definitions:
+  used-material:
+    required:
+      - id
+      - user_id
+      - composite_material_id
+      - amount
+      - created
+      - changed
+    properties:
+      id:
+        type: integer
+      user_id:
+        type: integer
+      composite_material_id:
+        type: integer
+      amount:
+        type: integer
+      comment:
+        type: string
+      created:
+        type: string
+        format: date
+      changed:
+        type: string
+        format: date
+  used-material-insert:
+    required:
+      - user_id
+      - composite_material_id
+      - amount
+    properties:
+      user_id:
+        type: integer
+      composite_material_id:
+        type: integer
+      amount:
+        type: integer
+      comment:
+        type: string
+  used-materials:
+    type: array
+    items:
+      $ref: "#/definitions/used-material"
+  Error:
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+
+responses:
+  Standard500ErrorResponse:
+    description: An unexpected error occured.
+    schema:
+      $ref: "#/definitions/Error"
+  ObjectDoesNotExistResponse:
+    description: The object was not found in
+
+parameters:
+  id:
+    name: id
+    in: path
+    required: true
+    description: The identifier of the object
+    type: integer
+  user_id:
+    name: user_id
+    in: query
+    description: The id for the user
+    type: integer
+
+    
+  
