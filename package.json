@@ -1,18 +1,16 @@
 {
-  "name": "test2",
-  "version": "0.0.0",
-  "description": "Test of react",
-  "main": "main.js",
-  "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "name": "byggstyrning_swagger",
+  "version": "0.0.1",
+  "private": true,
+  "description": "New Swagger API Project",
+  "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "",
+  "main": "app.js",
   "dependencies": {
     "body-parser": "^1.15.0",
     "es6-promise": "^4.0.5",
-    "express": "^4.13.4",
+    "express": "^4.12.3",
     "foreachasync": "^5.0.5",
     "fs": "0.0.2",
     "jquery": "^2.2.0",
@@ -27,9 +25,13 @@
     "react-router": "^2.8.1",
     "redux-logger": "^2.7.4",
     "redux-thunk": "^2.1.0",
+    "swagger-express-mw": "^0.1.0",
+    "swagger-tools": "^0.10.1",
     "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {
+    "should": "^7.1.0",
+    "supertest": "^1.0.0",
     "autoprefixer-loader": "^3.2.0",
     "babel-core": "^6.17.0",
     "babel-loader": "^6.2.10",
@@ -49,5 +51,9 @@
     "style-loader": "^0.13.1",
     "webpack": "^2.2.0-rc.1",
     "webpack-dev-server": "^2.2.0-rc.0"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "test": "swagger project test"
   }
 }
