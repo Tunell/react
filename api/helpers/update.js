@@ -5,7 +5,7 @@ const update = {
         return pool.getConnection()
             .then( connection => connection.query('UPDATE ?? SET ? WHERE id = ?',
                 [table, data, id])
-                .then( updateInfo => updateInfo.changedRows.toString()))
+                .then( updateInfo => updateInfo.changedRows))
     },
 
     // Update a composite material, spans serveral tables
@@ -37,7 +37,6 @@ const update = {
                     })
             })
             .then( () => conn.query('COMMIT'))
-            .then( () => 'success')
             .catch( err => {
                 conn.query('ROLLBACK')
                 return err.message

@@ -47,7 +47,7 @@ function post (req, res) {
     // Determine which function to use
     const insertFunc = helpers.parseUrlToTable(req.url) === 'composite_material' ? 'insertCompositeMaterial' : 'insertRow';
     insert[insertFunc](pool, helpers.parseUrlToTable(req.url), data)
-        .then(id => res.json(id))
+        .then(result => res.status(201).json(helpers.addMeta(result, req)))
         .catch(err => res.status(500).json(err.message))
 }
 
@@ -57,14 +57,14 @@ function put (req, res) {
     let data = req.swagger.params[Object.keys(req.swagger.params)[0]].value;
     const putFunc = helpers.parseUrlToTable(req.url) === 'composite_material' ? 'updateCompositeMaterial' : 'updateRow';
     update[putFunc](pool, helpers.parseUrlToTable(req.url), req.swagger.params.id.value, data)
-        .then(result => res.json(result))
+        .then(result => res.status(204).json(result))
         .catch(err => res.status(500).json(err.message))
 }
 
 // Delete a entry
 function deleteRow (req, res) {
     remove.deleteId(pool, helpers.parseUrlToTable(req.url), req.swagger.params.id.value)
-        .then(result => res.json(result))
+        .then(result => res.status(204).json(result))
         .catch(err => res.status(500).json(err.message))
 }
 

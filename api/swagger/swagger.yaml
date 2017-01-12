@@ -50,10 +50,8 @@ paths:
           schema:
             $ref: "#/definitions/used-material"
       responses:
-        204:
-          description: Used-material sucessfully created.
-        400:
-          description: Ops, something went wrong! Used-material couldn't be created.
+        201:
+          $ref: "#/responses/Standard201CreatedResponse" 
         500:
           $ref: "#/responses/Standard500ErrorResponse"  
           
@@ -90,8 +88,6 @@ paths:
       responses:
         204:
           description: Used-material sucessfully updated.
-        404:
-          $ref: "#/responses/ObjectDoesNotExistResponse"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
     delete:
@@ -137,10 +133,8 @@ paths:
           schema:
             $ref: "#/definitions/material"
       responses:
-        204:
-          description: material sucessfully created.
-        400:
-          description: Ops, something went wrong! material couldn't be created.
+        201:
+          $ref: "#/responses/Standard201CreatedResponse"
         500:
           $ref: "#/responses/Standard500ErrorResponse" 
           
@@ -222,8 +216,8 @@ paths:
             schema:
               $ref: "#/definitions/composite-material"
         responses:
-          204:
-            description: material sucessfully created.
+          201:
+            $ref: "#/responses/Standard201CreatedResponse" 
           400:
             description: Ops, something went wrong! material couldn't be created.
           500:
@@ -243,8 +237,6 @@ paths:
             description: A material object
             schema:
               $ref: "#/definitions/composite-material"
-          404:
-            description: The used-material does not exist.
           500:
             $ref: "#/responses/Standard500ErrorResponse"
             
@@ -262,8 +254,6 @@ paths:
         responses:
           204:
             description: Used-material sucessfully updated.
-          404:
-            $ref: "#/responses/ObjectDoesNotExistResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
       delete:
@@ -307,10 +297,8 @@ paths:
             schema:
               $ref: "#/definitions/unit"
         responses:
-          204:
-            description: material sucessfully created.
-          400:
-            description: Ops, something went wrong! material couldn't be created.
+          201:
+            $ref: "#/responses/Standard201CreatedResponse" 
           500:
             $ref: "#/responses/Standard500ErrorResponse" 
        
@@ -361,8 +349,6 @@ paths:
         responses:
           204:
             description: Used-material successfully deleted.
-          404:
-            $ref: "#/responses/ObjectDoesNotExistResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"  
           
@@ -395,10 +381,8 @@ paths:
             schema:
               $ref: "#/definitions/recycle-type"
         responses:
-          204:
-            description: material sucessfully created.
-          400:
-            description: Ops, something went wrong! material couldn't be created.
+          201:
+            $ref: "#/responses/Standard201CreatedResponse" 
           500:
             $ref: "#/responses/Standard500ErrorResponse" 
        
@@ -437,8 +421,6 @@ paths:
         responses:
           204:
             description: Used-material sucessfully updated.
-          404:
-            $ref: "#/responses/ObjectDoesNotExistResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
       delete:
@@ -449,15 +431,8 @@ paths:
         responses:
           204:
             description: Used-material successfully deleted.
-          404:
-            $ref: "#/responses/ObjectDoesNotExistResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"  
-          
-          
-          
-          
-          
           
           
   /swagger:
@@ -469,6 +444,7 @@ definitions:
       - user_id
       - composite_material_id
       - amount
+      - comment
     properties:
       user_id:
         type: integer
@@ -657,6 +633,43 @@ responses:
       $ref: "#/definitions/Error"
   ObjectDoesNotExistResponse:
     description: The object was not found in
+  Standard201CreatedResponse:
+    description: Created entity
+    schema:
+      required:
+        - fieldCount
+        - affectedRows
+        - insertId
+        - serverStatus
+        - warningCount
+        - message
+        - protocol41
+        - changedRows
+        - links
+      properties:
+        fieldCount:
+          type: integer
+        affectedRows:
+          type: integer
+        insertId:
+          type: integer
+        serverStatus:
+          type: integer
+        warningCount:
+          type: integer
+        message:
+          type: string
+        protocol41:
+          type: boolean
+        changedRows:
+          type: integer
+        links:
+          type: object
+          properties:
+            rel:
+              type: string
+            href:
+              type: string
 
 parameters:
   id:

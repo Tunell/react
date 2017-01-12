@@ -3,13 +3,14 @@ const insert = {
     insertRow: (pool, table, data) => {
         return pool.getConnection()
             .then( connection => connection.query('INSERT INTO ?? SET ?', [table, data])
-                .then( insertInfo => insertInfo.insertId.toString()))
+                .then( insertInfo => insertInfo))
     },
 
     // Insert a composite-material, spans several tables
     // table parameter not used!
     insertCompositeMaterial: (pool, table, compositeMaterial) => {
         let conn;
+        let compMatInsertInfo;
         return pool.getConnection()
         // Start transaction
             .then(connection => {
@@ -23,6 +24,7 @@ const insert = {
                     [compositeMaterial.user_id, compositeMaterial.name, compositeMaterial.unit_id])
                     .then( insertInfo => {
                         // Query 2
+                        compMatInsertInfo = insertInfo;
                         let newCompositeMaterialId = insertInfo.insertId;
                         return Promise.all(compositeMaterial.composite_has_materials.map(material => {
                             let query = 'INSERT INTO composite_has_material (composite_material_id, material_id, recycle_type_id, unit_id, amount) VALUES (?, ?, ?, ?, ?)';
@@ -33,6 +35,7 @@ const insert = {
             })
             // Commit queries
             .then( () => conn.query('COMMIT'))
+            .then( () => compMatInsertInfo)
             // If violations or failure, rollback
             .catch( err => {
                 conn.query('ROLLBACK')

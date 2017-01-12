@@ -12,6 +12,15 @@ const helpers = {
             }
         });
         return queryObject;
+    },
+
+    addMeta: (dbInfo, req) => {
+        let metaObject = dbInfo;
+        metaObject.links = {
+            rel: "self",
+            href: `http://${req.swagger.swaggerObject.host}${req.swagger.apiPath}/${dbInfo.insertId}`
+        }
+        return metaObject;
     }
 }
 module.exports = helpers;
