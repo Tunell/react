@@ -49,4 +49,9 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
 
     var port = process.env.PORT || 3000;
     app.listen(port);
+    console.log(`
+    Webserver running on                http://localhost:8080
+    REST API running on                 http://localhost:3000
+    API Documentation can be found at   http://localhost:3000/docs
+`)
 });
