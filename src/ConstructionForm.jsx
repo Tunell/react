@@ -17,15 +17,9 @@ class ConstructionForm extends React.Component {
 		};
 	}
 
-	handleNameChange(e) {
+	handleNameUnitChange(e) {
 		this.setState({
-			name: e.target.value
-		});
-	}
-
-	handleUnitChange(e) {
-		this.setState({
-			unit: e.target.value
+			[e.target.name]: e.target.value
 		});
 	}
 
@@ -61,24 +55,14 @@ class ConstructionForm extends React.Component {
 	}
 
 	handleMaterialChange(material) {
+		const {materialComposition} = this.state;
 		if (material.material == 'createNew') {
 			this.createConstructionPart('standard');
 			return;
 		}
-		let materialArray = this.state.materialComposition;
-		let indexNum = 0;
-		let arrIndex = {};
-		this.state.materialComposition.map((constructionPart) => {
-			arrIndex[constructionPart.material] = indexNum++;
-		});
-		//check if material is in array already, set index to end of array if not
-		let index = arrIndex[material.material];
-		if (index === undefined) {
-			index = materialArray.length;
-		}
-
-		materialArray[index] = material;
-		materialArray[index].created = Date.now();
+		let materialArray = materialComposition;
+		materialArray[material.materialIndex] = material;
+		materialArray[material.materialIndex].created = Date.now();
 
 		this.setState({
 			materialComposition: materialArray
@@ -137,6 +121,7 @@ class ConstructionForm extends React.Component {
 			subMaterials.push(
 				<MaterialSelection
 					key={ i }
+					materialIndex={i}
 					data={ this.props.materials }
 					onMaterialChange={ material => this.handleMaterialChange(material) }
 					materialCreation={ constructionCreation }/>
@@ -158,12 +143,14 @@ class ConstructionForm extends React.Component {
 							type="text"
 							placeholder="Produktens namn"
 							value={ name }
-							onChange={ event => this.handleNameChange(event) }/>
+							name="name"
+							onChange={ event => this.handleNameUnitChange(event) }/>
 						<input
 							type="text"
 							placeholder="Produktens enhet"
 							value={ unit }
-							onChange={ event => this.handleUnitChange(event) }/>
+							name="unit"
+							onChange={ event => this.handleNameUnitChange(event) }/>
 					</div>
 				}
 				{ constructionParts > 0 &&

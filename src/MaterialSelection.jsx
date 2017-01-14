@@ -1,7 +1,7 @@
-import React from 'react';
-import FuzzySearch from 'react-fuzzy';
-import CSSModules from 'react-css-modules';
-import styles from './MaterialSelection.less';
+import React from "react";
+import FuzzySearch from "react-fuzzy";
+import CSSModules from "react-css-modules";
+import styles from "./MaterialSelection.less";
 
 class MaterialSelection extends React.Component {
 	constructor(props) {
@@ -17,25 +17,27 @@ class MaterialSelection extends React.Component {
 		};
 	};
 
-	fuzzyClick(e) {
-		this.handleMaterialChange({name: e.target.innerHTML, id: e.target.attributes['value'].value})
+	fuzzyClick(e, materialIndex) {
+		this.handleMaterialChange({name: e.target.innerHTML, id: e.target.attributes['value'].value}, materialIndex)
 	}
 
-	handleMaterialChange(selected) {
+	handleMaterialChange(selected, materialIndex) {
 		const {data} = this.props;
 		if (selected.name == this.state.createNewText) {
 			selected.id = "createNew";
 		}
 		const subMaterials = data
 			.filter(loopMaterial => (loopMaterial.materialComposition && loopMaterial.id == selected.id))
-			.map(loopMaterial => loopMaterial.materialComposition)
+			.map(loopMaterial => loopMaterial.materialComposition);
 		this.props.onMaterialChange({
+			materialIndex,
 			material: selected.id,
 			amount: this.state.amount,
 			RecycleClassID: this.state.RecycleClassID
 		});
 
 		this.setState({
+			materialIndex,
 			material: selected.id,
 			searchOpen: false,
 			subMaterials
@@ -78,8 +80,8 @@ class MaterialSelection extends React.Component {
 	}
 
 	render() {
-		const {createNewText, searchOpen, material, amount, comment, subMaterials} = this.state
-		const {materialCreation, data} = this.props;
+		const {createNewText, searchOpen, material, amount, comment, subMaterials} = this.state;
+		const {materialCreation, data, materialIndex} = this.props;
 		let materialUnit;
 		let materialNameText = data.filter(
 			filterMatierial => filterMatierial.id == material
@@ -97,7 +99,7 @@ class MaterialSelection extends React.Component {
 					<FuzzySearch
 						list={ data }
 						keys={['name']}
-						onSelect={ selected => this.handleMaterialChange(selected)}
+						onSelect={ selected => this.handleMaterialChange(selected, materialIndex)}
 						styleName="fuzzy"
 						resultsTemplate={
 							(props, state, styles) => {
@@ -114,7 +116,8 @@ class MaterialSelection extends React.Component {
 											<div
 												key={i}
 												style={style}
-												onClick={event => this.fuzzyClick(event)} value={val.id}>
+												onClick={event => this.fuzzyClick(event, materialIndex)}
+												value={val.id}>
 												{val.name}
 											</div>
 										);
