@@ -1,0 +1,23 @@
+entires:[
+	{
+		"amount": 8,
+		"comment": "första...",
+		"user_id": 1,
+		"id": 1,
+		"composite_material_id": 1
+
+	}
+]
+relatedObjects:{
+	users:{
+		1:{
+			name: "Pelle Tunell"
+		}
+	}
+	composite_Materials: {
+		1:{
+			name: "betong"
+		}
+
+	}
+}
