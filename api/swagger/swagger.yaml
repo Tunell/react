@@ -3,7 +3,7 @@ info:
   version: "1.0."
   title: API Byggstyrning
 host: localhost:3000
-basePath: /
+basePath: /api
 schemes:
   - http
   - https
