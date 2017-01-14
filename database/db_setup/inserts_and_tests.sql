@@ -1,7 +1,7 @@
 INSERT INTO user (username, password,email)
 VALUES ("El-entreprenad", "test", "tunell.john@gmail.com"),
-       ("Grundläggnings-entreprenad", "test", null),
-       ("VVS-entreprenad", "test", null);
+       ("Grundläggnings-entreprenad", "test", ""),
+       ("VVS-entreprenad", "test", "");
 
 INSERT INTO unit (user_id, name)
 VALUES (1, "m"),
