@@ -19,11 +19,11 @@ USE `byggstyrning` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `byggstyrning`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `username` VARCHAR(45) NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
   `created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `changed` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `name_UNIQUE` (`username` ASC))
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC))
 ENGINE = InnoDB;
 
 
