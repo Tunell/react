@@ -1,0 +1,790 @@
+swagger: "2.0"
+info:
+  version: "1.0."
+  title: API Byggstyrning
+host: localhost:3000
+basePath: /api
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+  
+securityDefinitions:
+  api_key:
+    type: apiKey
+    in: header
+    name: api_key
+
+security:
+ - api_key: []
+
+paths:
+  /used-materials:
+    x-swagger-router-controller: routeHandler
+    get:
+      tags:
+      - "used-material"
+      summary: Return all used-materials
+      operationId: getUsedMaterialAll
+      parameters:
+       - $ref: "#/parameters/user_id"
+      responses:
+        200:
+          description: A list of used-materials
+          schema:
+            $ref: "#/definitions/used-materials"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+    post:
+      tags:
+      - "used-material"
+      summary: Create a used-material
+      operationId: postUsedMaterial
+      parameters:
+        - name: used_material
+          in: body
+          description: The used_material object that will be inserted
+          schema:
+            $ref: "#/definitions/used-material"
+      responses:
+        201:
+          $ref: "#/responses/Standard201CreatedResponse" 
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"  
+          
+  /used-materials/{id}:
+    parameters:
+      - $ref: "#/parameters/id"
+    x-swagger-router-controller: routeHandler
+    get:
+      tags:
+      - "used-material"
+      summary: Return a used-material
+      operationId: getUsedMaterialId 
+      responses:
+        200:
+          description: A used-material object
+          schema:
+            $ref: "#/definitions/used-material"
+        404:
+          description: The used-material does not exist.
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+          
+    put:
+      tags:
+      - "used-material"
+      summary: Change a used-material
+      operationId: putUsedMaterial 
+      parameters:
+          - name: used_material
+            in: body
+            description: The used_material object that will be changed
+            schema:
+              $ref: "#/definitions/used-material"
+      responses:
+        204:
+          description: Used-material sucessfully updated.
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+    delete:
+      tags:
+      - "used-material"
+      summary: Delete a used-material
+      operationId: deleteUsedMaterial 
+      responses:
+        204:
+          description: Used-material successfully deleted.
+        404:
+          $ref: "#/responses/ObjectDoesNotExistResponse"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+          
+          
+          
+  /materials:
+    x-swagger-router-controller: routeHandler
+    get:
+      tags:
+      - "material"
+      summary: Return all materials
+      operationId: getMaterialAll
+      parameters:
+       - $ref: "#/parameters/user_id"
+      responses:
+        200:
+          description: A list of materials
+          schema:
+            $ref: "#/definitions/materials"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+    post:
+      tags:
+      - "material"
+      summary: Create a material
+      operationId: postMaterial
+      parameters:
+        - name: material
+          in: body
+          description: The material object that will be inserted
+          schema:
+            $ref: "#/definitions/material"
+      responses:
+        201:
+          $ref: "#/responses/Standard201CreatedResponse"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse" 
+          
+  /materials/{id}:
+      parameters:
+        - $ref: "#/parameters/id"
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+        - "material"
+        summary: Return a material
+        operationId: getMaterialId 
+        responses:
+          200:
+            description: A material object
+            schema:
+              $ref: "#/definitions/material"
+          404:
+            description: The used-material does not exist.
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+            
+      put:
+        tags:
+        - "material"
+        summary: Change a material
+        operationId: putMaterial 
+        parameters:
+            - name: material
+              in: body
+              description: The used_material object that will be changed
+              schema:
+                $ref: "#/definitions/material"
+        responses:
+          204:
+            description: Used-material sucessfully updated.
+          404:
+            $ref: "#/responses/ObjectDoesNotExistResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      delete:
+        tags:
+        - "material"
+        summary: Delete a material
+        operationId: deleteMaterial 
+        responses:
+          204:
+            description: Used-material successfully deleted.
+          404:
+            $ref: "#/responses/ObjectDoesNotExistResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"  
+        
+  /composite-materials:
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "composite-material"
+        summary: Return all composite-materials
+        operationId: getCompositeMaterialAll
+        parameters:
+         - $ref: "#/parameters/user_id"
+        responses:
+          200:
+            description: A list of materials
+            schema:
+              $ref: "#/definitions/composite-materials"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      post:
+        tags:
+          - "composite-material"
+        summary: Create a composite-material
+        operationId: postCompositeMaterial
+        parameters:
+          - name: composite_material
+            in: body
+            description: The material object that will be inserted
+            schema:
+              $ref: "#/definitions/composite-material"
+        responses:
+          201:
+            $ref: "#/responses/Standard201CreatedResponse" 
+          400:
+            description: Ops, something went wrong! material couldn't be created.
+          500:
+            $ref: "#/responses/Standard500ErrorResponse" 
+            
+  /composite-materials/{id}:
+      parameters:
+        - $ref: "#/parameters/id"
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "composite-material"
+        summary: Return a composite-material
+        operationId: getCompositeMaterialId 
+        responses:
+          200:
+            description: A material object
+            schema:
+              $ref: "#/definitions/composite-material"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+            
+      put:
+        tags:
+          - "composite-material"
+        summary: Change a composite-material
+        operationId: putCompositeMaterial 
+        parameters:
+            - name: composite-material
+              in: body
+              description: The composite_material object that will be changed
+              schema:
+                $ref: "#/definitions/composite-material-update-object"
+        responses:
+          204:
+            description: Used-material sucessfully updated.
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      delete:
+        tags:
+          - "composite-material"
+        summary: Delete a composite-material
+        operationId: deleteCompositeMaterial 
+        responses:
+          204:
+            description: Composite-material successfully deleted.
+          404:
+            $ref: "#/responses/ObjectDoesNotExistResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+  
+  /units:
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "unit"
+        summary: Return all units
+        operationId: getUnitAll
+        parameters:
+         - $ref: "#/parameters/user_id"
+        responses:
+          200:
+            description: A list of materials
+            schema:
+              $ref: "#/definitions/units"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      post:
+        tags:
+          - "unit"
+        summary: Create a unit
+        operationId: postUnit
+        parameters:
+          - name: composite_material
+            in: body
+            description: The material object that will be inserted
+            schema:
+              $ref: "#/definitions/unit"
+        responses:
+          201:
+            $ref: "#/responses/Standard201CreatedResponse" 
+          500:
+            $ref: "#/responses/Standard500ErrorResponse" 
+       
+       
+            
+  /units/{id}:
+      parameters:
+        - $ref: "#/parameters/id"
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "unit"
+        summary: Return a unit
+        operationId: getUnitId 
+        responses:
+          200:
+            description: A material object
+            schema:
+              $ref: "#/definitions/unit"
+          404:
+            description: The used-material does not exist.
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+            
+      put:
+        tags:
+          - "unit"
+        summary: Change a unit
+        operationId: putUnit 
+        parameters:
+            - name: composite-material
+              in: body
+              description: The used_material object that will be changed
+              schema:
+                $ref: "#/definitions/unit"
+        responses:
+          204:
+            description: Used-material sucessfully updated.
+          404:
+            $ref: "#/responses/ObjectDoesNotExistResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      delete:
+        tags:
+          - "unit"
+        summary: Delete a unit
+        operationId: deleteUnit 
+        responses:
+          204:
+            description: Used-material successfully deleted.
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"  
+          
+            
+  /recycle-types:
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "recycle-type"
+        summary: Return all recycle-types
+        operationId: getRecycleTypeAll
+        parameters:
+         - $ref: "#/parameters/user_id"
+        responses:
+          200:
+            description: A list of materials
+            schema:
+              $ref: "#/definitions/recycle-types"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      post:
+        tags:
+          - "recycle-type"
+        summary: Create a recycle-type
+        operationId: postRecycleType
+        parameters:
+          - name: composite_material
+            in: body
+            description: The material object that will be inserted
+            schema:
+              $ref: "#/definitions/recycle-type"
+        responses:
+          201:
+            $ref: "#/responses/Standard201CreatedResponse" 
+          500:
+            $ref: "#/responses/Standard500ErrorResponse" 
+       
+       
+            
+  /recycle-types/{id}:
+      parameters:
+        - $ref: "#/parameters/id"
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "recycle-type"
+        summary: Return a recycle-type
+        operationId: getRecycleTypeId 
+        responses:
+          200:
+            description: A material object
+            schema:
+              $ref: "#/definitions/recycle-type"
+          404:
+            description: The used-material does not exist.
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+            
+      put:
+        tags:
+          - "recycle-type"
+        summary: Change a recycle-type
+        operationId: putRecycleType 
+        parameters:
+            - name: composite-material
+              in: body
+              description: The used_material object that will be changed
+              schema:
+                $ref: "#/definitions/recycle-type"
+        responses:
+          204:
+            description: Used-material sucessfully updated.
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      delete:
+        tags:
+          - "recycle-type"
+        summary: Delete a recycle-type
+        operationId: deleteRecycleType 
+        responses:
+          204:
+            description: Used-material successfully deleted.
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"  
+            
+
+  /users:
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "user"
+        summary: Return all users
+        operationId: getUserAll
+        responses:
+          200:
+            description: A list of users
+            schema:
+              $ref: "#/definitions/users"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      post:
+        tags:
+          - "user"
+        summary: Create a user
+        operationId: postUser
+        parameters:
+          - name: user
+            in: body
+            description: The material object that will be inserted
+            schema:
+              $ref: "#/definitions/user"
+        responses:
+          201:
+            $ref: "#/responses/Standard201CreatedResponse" 
+          500:
+            $ref: "#/responses/Standard500ErrorResponse" 
+       
+       
+            
+  /users/{id}:
+      parameters:
+        - $ref: "#/parameters/id"
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "user"
+        summary: Return a user
+        operationId: getUserId 
+        responses:
+          200:
+            description: A user object
+            schema:
+              $ref: "#/definitions/user"
+          404:
+            description: The user does not exist.
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+            
+      put:
+        tags:
+          - "user"
+        summary: Change a user
+        operationId: putUser 
+        parameters:
+            - name: user
+              in: body
+              description: The user object that will be changed
+              schema:
+                $ref: "#/definitions/user"
+        responses:
+          204:
+            description: User sucessfully updated.
+          404:
+            $ref: "#/responses/ObjectDoesNotExistResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      delete:
+        tags:
+          - "user"
+        summary: Delete a user
+        operationId: deleteUser
+        responses:
+          204:
+            description: User successfully deleted.
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"  
+          
+          
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  used-material:
+    required:
+      - user_id
+      - composite_material_id
+      - amount
+      - comment
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      user_id:
+        type: integer
+      user_name:
+        type: string
+      composite_material_id:
+        type: integer
+      composite_material_name:
+        type: string
+      comment:
+        type: string
+      amount:
+        type: integer
+      created:
+        type: string
+      changed:
+        type: string
+  used-materials:
+    type: array
+    items:
+      $ref: "#/definitions/used-material"
+      
+  material:
+    required:
+      - user_id
+      - name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      user_id:
+        type: integer
+      user_name:
+        type: integer
+      created:
+        type: string
+      changed:
+        type: string
+  materials:
+    type: array
+    items:
+      $ref: "#/definitions/material"
+      
+
+      
+  composite-material:
+    required:
+      - user_id
+      - name
+      - unit_id
+      - composite_has_materials
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      user_id: 
+        type: integer
+      user_name:
+        type: string
+      unit_id:
+        type: integer
+      unit_name:
+        type: string
+      created:
+        type: string
+      changed:
+        type: string
+      composite_has_materials:
+        type: array
+        items:
+          $ref: "#/definitions/composite-has-material"
+
+          
+  composite-has-material:
+    required:
+      - material_id
+      - recycle_type_id
+      - unit_id
+      - amount
+    properties:
+      composite_material_id:
+        type: integer
+      material_id:
+        type: integer
+      material_name:
+        type: string
+      recycle_type_id:
+        type: integer
+      recycle_type_name:
+        type: string
+      unit_id:
+        type: integer
+      unit_name:
+        type: string
+      amount:
+        type: integer
+      
+      
+        
+  composite-materials:
+    type: array
+    items:
+      $ref: "#/definitions/composite-material"
+    
+  composite-material-update-object:
+    required:
+      - name
+      - unit_id
+      - composite_has_materials
+    properties:
+      name:
+        type: string
+      unit_id:
+        type: integer
+      composite_has_materials:
+        type: array
+        items:
+          $ref: "#/definitions/composite-has-material-update-object"
+      id:
+        type: integer
+      user_id:
+        type: integer
+      username:
+        type: string
+      unit_name:
+        type: string
+      created:
+        type: string
+      changed:
+        type: string
+   
+      
+  composite-has-material-update-object:
+    required:
+      - new
+    properties:
+      new:
+       $ref: "#/definitions/composite-has-material"
+      old:
+       $ref: "#/definitions/composite-has-material"
+       
+       
+  unit:
+    required:
+      - user_id
+      - name
+    properties:
+      name:
+        type: string
+      id:
+        type: integer
+      user_id:
+        type: integer
+      user_name:
+        type: string
+      created:
+        type: string
+      changed:
+        type: string
+        
+  units:
+    type: array
+    items:
+       $ref: "#/definitions/unit"
+       
+  recycle-type:
+    required:
+      - name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+        
+  recycle-types:
+    type: array
+    items:
+       $ref: "#/definitions/recycle-type"
+       
+  user:
+    required:
+      - name
+    properties:
+      name:
+        type: string
+  
+  users:
+    type: array
+    items:
+      $ref: "#/definitions/user"
+       
+       
+  
+  Error:
+    properties:
+      message:
+        type: string
+
+responses:
+  Standard500ErrorResponse:
+    description: An unexpected error occured.
+    schema:
+      $ref: "#/definitions/Error"
+  ObjectDoesNotExistResponse:
+    description: The object was not found in
+  Standard201CreatedResponse:
+    description: Created entity
+    schema:
+      required:
+        - fieldCount
+        - affectedRows
+        - insertId
+        - serverStatus
+        - warningCount
+        - message
+        - protocol41
+        - changedRows
+        - links
+      properties:
+        fieldCount:
+          type: integer
+        affectedRows:
+          type: integer
+        insertId:
+          type: integer
+        serverStatus:
+          type: integer
+        warningCount:
+          type: integer
+        message:
+          type: string
+        protocol41:
+          type: boolean
+        changedRows:
+          type: integer
+        links:
+          type: object
+          properties:
+            rel:
+              type: string
+            href:
+              type: string
+
+parameters:
+  id:
+    name: id
+    in: path
+    required: true
+    description: The identifier of the object
+    type: integer
+  user_id:
+    name: user_id
+    in: query
+    description: The id for the user
+    type: integer
