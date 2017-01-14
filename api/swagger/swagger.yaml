@@ -530,13 +530,19 @@ definitions:
     properties:
       user_id:
         type: integer
+      user_name:
+        type: string
       composite_material_id:
         type: integer
+      composite_material_name:
+        type: string
       amount:
         type: integer
       id:
         type: integer
       comment:
+        type: string
+      name:
         type: string
       created:
         type: string

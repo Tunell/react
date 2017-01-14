@@ -19,7 +19,13 @@ function getAll(req, res) {
         select.selectCompositeMaterialAll(pool)
             .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
-    } else {
+    } else if(helpers.parseUrlToTable(req.url) === 'used_material') {
+        select.selectUsedMaterialAll(pool)
+            .then(result => res.json(result))
+            .catch(err => res.status(500).json(err.message))
+    }
+
+    else {
         select.selectAll(pool, helpers.parseUrlToTable(req.url), queryObject)
             .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
@@ -33,7 +39,11 @@ function getId(req, res) {
         select.selectCompositeMaterialId(pool, queryObject.id)
             .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
-    } else {
+    } else if(helpers.parseUrlToTable(req.url) === 'used_material') {
+        select.selectUsedMaterialId(pool, queryObject.id)
+            .then(result => res.json(result))
+            .catch(err => res.status(500).json(err.message))
+    }else {
         select.selectQuery(pool, helpers.parseUrlToTable(req.url), queryObject)
             .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))

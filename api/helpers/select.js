@@ -32,7 +32,32 @@ const select = {
                 return connection.query(query)
                     .then( rows => createCompMaterials(rows))
             })
+    },
+
+    selectUsedMaterialId: (pool, id) => {
+        return pool.getConnection()
+            .then( connection => connection.query(
+                String.raw`
+                    SELECT used_material.id, used_material.user_id, user.name AS user_name, composite_material_id, composite_material.name AS composite_material_name, amount, comment
+                    FROM used_material, composite_material, user
+                    WHERE 
+                        used_material.composite_material_id = composite_material.id AND 
+                        used_material.user_id = user.id AND
+                        used_material.id = ?`, [id])
+                .then( rows => rows))
+    },
+
+    selectUsedMaterialAll: (pool) => {
+        return pool.getConnection()
+        .then( connection => connection.query(
+        String.raw`
+            SELECT used_material.id, used_material.user_id, user.name AS user_name, composite_material_id, composite_material.name AS composite_material_name, amount, comment
+            FROM used_material, composite_material, user
+            WHERE used_material.composite_material_id = composite_material.id AND used_material.user_id = user.id`)
+            .then( rows => rows))
     }
+
+
 }
 
 // Given a composite-material row, returns if it matches another row.
