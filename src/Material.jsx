@@ -1,33 +1,21 @@
-import React from 'react';
-import marked from 'marked';
+import React from "react";
 
 class Material extends React.Component {
-
-  rawMarkup() {
-    const rawMarkup = marked(this.props.children.toString(), {
-      sanitize: true
-    });
-    return {
-      __html: rawMarkup
-    };
-  }
-
   render() {
-    const { composite, name, materialComposition, materialObjects, unit } = this.props;
+		const {material, composite} = this.props;
     return (
-      <div className={ composite && "composite " + "material" }>
+			<div key={material.material_id} className={ composite && "composite " + "material_id" }>
             <span className="name">
-            { name }
-            </span> - <span className="unit">{ unit }</span>
+            { material.name }
+            </span> - <span className="unit">{ material.unit_name }</span>
             { composite &&
                   <ul>
-                    { materialComposition && materialComposition.map(rawMaterial => (
-                      <li key={ rawMaterial.material }>
+										{ material.composite_has_materials && material.composite_has_materials.map(rawMaterial => (
+											<li key={ rawMaterial.material_id }>
                           <span>
-                            <span>{ materialObjects[rawMaterial.material].name }</span> :
+                            <span>{ rawMaterial.material_name }</span> :
                             <span>&nbsp;{ rawMaterial.amount }</span>
-                            <span>&nbsp;{ materialObjects[rawMaterial.material].unit }
-                            { rawMaterial.RecycleClassID && " RecycleClass: " + rawMaterial.RecycleClassID }</span>
+                            <span>&nbsp;{ rawMaterial.unit_name } { rawMaterial.recycle_type_name }</span>
                           </span>
                       </li>)
                     )}

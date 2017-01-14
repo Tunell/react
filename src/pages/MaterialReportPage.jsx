@@ -1,10 +1,11 @@
-import React from 'react';
-import ConstructionForm from '../ConstructionForm.jsx';
-import UsedMaterialsLog from '../UsedMaterialsLog.jsx';
-import { Link } from 'react-router'
+import React from "react";
+import ConstructionForm from "../ConstructionForm";
+import UsedMaterialsLog from "../UsedMaterialsLog";
+import {Link} from "react-router";
 
 type Props = {
 	materials: object,
+	usedMaterials: object,
 	url: string
 };
 
@@ -15,7 +16,7 @@ export default class MaterialReportPage extends React.Component {
   }
 
   render() {
-    const {materials, url} = this.props;
+		const {compositeMaterials, usedMaterials, url} = this.props;
     return (
       <div className="material-box">
 
@@ -29,11 +30,13 @@ export default class MaterialReportPage extends React.Component {
 
       </p>
       <p style={{color:'red'}}>TODO: Filtrera lista beroende på entreprenad-typ, Fltrera ner listan(man ser allt från start).</p>
-        <ConstructionForm url={url}
-          materials={materials}
+				<ConstructionForm
+					url={url}
+					compositeMaterials={compositeMaterials}
+					constructionCreation={false}
           constructionParts={1}
-          constructionName="byggnad01"/>
-        <UsedMaterialsLog materials={materials}/>
+				/>
+				<UsedMaterialsLog usedMaterials={usedMaterials}/>
       </div>
 
     );

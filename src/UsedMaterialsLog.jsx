@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router';
-
+import React from "react";
+import {Link} from "react-router";
+import LoadJson from "./functions/LoadJson";
 
 type Props = {
-	materials: object
+	usedMaterials: object
 };
 
 export default class UsedMaterialsLog extends React.Component {
@@ -13,15 +13,18 @@ export default class UsedMaterialsLog extends React.Component {
 		super(props);
 	}
 
-	static async deleteMaterial(material: number){
-		const response = await fetch('/api/materials/' + material, {
-			method: 'DELETE'
-		});
-		console.log(response);
+	static async deleteMaterial(material: number) {
+		try {
+			const response = await LoadJson('/api/used-materials/' + material, "DELETE");
+
+			console.log(response);
+		} catch (e) {
+			console.error("Error deleting material: ", e);
+		}
 	}
 
 	render() {
-		const { materials } = this.props;
+		const {usedMaterials} = this.props;
 		return (
 			<table>
 				<tbody>
@@ -34,15 +37,14 @@ export default class UsedMaterialsLog extends React.Component {
 					<th>Edit</th>
 					<th>Delete</th>
 				</tr>
-				{materials
-					.filter(material => material.name === 'byggnad01')
+				{usedMaterials
 					.map(material => (
 						<tr key={material.id}>
-							<th>{material.name}</th>
-							<th>{material.materialComposition[0].amount}</th>
-							<th>{material.materialComposition[0].comment}</th>
-							<th>{new Date(parseInt(material.materialComposition[0].created)).toString()}</th>
-							<th>{material.User_id}</th>
+							<th>{material.id}</th>
+							<th>{material.amount}</th>
+							<th>{material.comment}</th>
+							<th>{new Date(parseInt(material.created)).toString()}</th>
+							<th>{material.user_id}</th>
 							<th><Link to={'/api/materials/' + material.id}>Edit</Link></th>
 							<th onClick={() => this.deleteMaterial(material.id)}>Delete</th>
 						</tr>

@@ -1,7 +1,7 @@
-import React from 'react';
-import Material from '../Material.jsx';
-import UsedMaterialsList from '../UsedMaterialsList.jsx';
-import UsedMaterialsLog from '../UsedMaterialsLog.jsx';
+import React from "react";
+import Material from "../Material.jsx";
+import UsedMaterialsList from "../UsedMaterialsList.jsx";
+import UsedMaterialsLog from "../UsedMaterialsLog.jsx";
 
 class MaterialListPage extends React.Component {
 
@@ -35,14 +35,12 @@ class MaterialListPage extends React.Component {
 				this.setState({
 					materialUsageList: false,
 					compositeList: true,
-					showLog: false
 				});
 				break;
-			case 'material':
+			case 'material_id':
 				this.setState({
 					materialUsageList: false,
 					compositeList: false,
-					showLog: false
 				});
 				break;
 		}
@@ -51,46 +49,34 @@ class MaterialListPage extends React.Component {
 
 	render() {
 		const {materialUsageList, compositeList, showLog} = this.state;
-		const {materials} = this.props;
-		let materialObjects = {};
-		materials.map(d => (Object.assign(materialObjects, {[d.id]: d})));
-		const materialNodes = materials.map(material => {
-			// Lista Material (ConstructionPart)
-			if (compositeList && material.name != 'byggnad01') {
-				if (typeof material.materialComposition == 'undefined') {
-					return;
-				}
-				return (
-					<Material name={ material.name }
-										key={ material.id }
-										composite={ true }
-										materialComposition={ material.materialComposition }
-										materialObjects={ materialObjects }
-										unit={material.unit}/>
-				);
-			}
-
-			// Lista grund-material
-			if (!materialUsageList && typeof material.materialComposition == 'undefined') {
-				return (
-					<Material name={material.name} unit={material.unit} key={material.id}/>
-				);
-			}
-		});
+		const {compositeMaterials, usedMaterials} = this.props;
 		return (
 			<div className="materialList">
 				<br/>
-				<button onClick={ e => this.handleListChange('material')}>Material</button>
+				<button onClick={ e => this.handleListChange('material_id')}>Material och Produkter</button>
 				<button onClick={ e => this.handleListChange('prefab')}>Byggdelar</button>
-				<button onClick={ e => this.handleListChange('building')}>Inrapporterat material</button>
-				<button onClick={ e => this.handleListChange('usedMaterials')}>Använt material</button>
-				{compositeList ?
-					<h1>Byggdelar:</h1> :
-					<h1>Material och Produkter</h1>
+				<button onClick={ e => this.handleListChange('usedMaterials')}>Materialrapporterings logg</button>
+				<button onClick={ e => this.handleListChange('building')}>Använt material</button>
+				{materialUsageList ?
+					<div>
+						{ (!showLog) && <UsedMaterialsList usedMaterials={usedMaterials} compositeMaterials={compositeMaterials}/>}
+						{ (showLog) && <UsedMaterialsLog usedMaterials={usedMaterials}/>}
+					</div>
+					:
+					<div>
+						{
+							compositeList ?
+								<div>
+									<h1>Byggdelar:</h1>
+									{compositeMaterials.map(material => (<Material material={material} composite={ true }/>))}
+								</div> :
+								<div>
+									<h1>Material och Produkter</h1>
+									{compositeMaterials.map(material => (<Material material={material} composite={ false }/>))}
+								</div>
+						}
+					</div>
 				}
-				{materialNodes}
-				{ (materialUsageList && showLog) && <UsedMaterialsList materials={materials}/>}
-				{ (materialUsageList && !showLog) && <UsedMaterialsLog materials={materials}/>}
 			</div>
 		);
 	}

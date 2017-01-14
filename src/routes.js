@@ -1,17 +1,16 @@
-import React from 'react';
-import { Route, IndexRoute } from 'react-router';
-
-import LoadMaterials from './LoadMaterials.js';
-import MaterialList from './pages/MaterialListPage.jsx';
-import TopMenu from './TopMenu.jsx';
-import MaterialCreationPage from './pages/MaterialCreationPage.jsx';
-import MaterialReportPage from './pages/MaterialReportPage.jsx';
-import Login from './pages/LoginPage.jsx';
+import React from "react";
+import {Route, IndexRoute} from "react-router";
+import LoadMaterials from "./LoadMaterials.js";
+import MaterialList from "./pages/MaterialListPage.jsx";
+import TopMenu from "./TopMenu.jsx";
+import MaterialCreationPage from "./pages/MaterialCreationPage.jsx";
+import MaterialReportPage from "./pages/MaterialReportPage.jsx";
+import Login from "./pages/LoginPage.jsx";
 
 const routes = (
 
     <Route path="/" component={TopMenu}>
-      <Route component={LoadMaterials} url="api/materials" pollInterval={2000}>
+			<Route component={LoadMaterials}>
         <IndexRoute component={Login}/>
         <Route path="logga-in" component={Login}/>
         <Route path="rapportera" component={MaterialReportPage}/>
@@ -21,5 +20,5 @@ const routes = (
         <Route path="/anvant-material" component={MaterialList} materialUsageList={true}/>*/}
       </Route>
     </Route>
-)
+);
 export default routes;

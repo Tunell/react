@@ -1,41 +1,42 @@
-import React from 'react';
+import React from "react";
+
+type Props = {
+	usedMaterials: object,
+	compositeMaterials: object
+};
 
 class UsedMaterialsList extends React.Component {
+	props: Props;
 
 	constructor(props) {
 		super(props);
 	}
 
 	render() {
-		const {materials} = this.props;
-		let materialUsage = {};
-		materials.map(material => {
-			if (material.name == 'byggnad01') {
-				material.materialComposition && material.materialComposition.map((rawMaterial) => {
-					if (typeof materialUsage[rawMaterial.material] == 'undefined') {
-						materialUsage[rawMaterial.material] = parseInt(rawMaterial.amount);
-					} else {
-						materialUsage[rawMaterial.material] += parseInt(rawMaterial.amount)
-					}
-				});
-			}
-		});
+		const {usedMaterials, compositeMaterials} = this.props;
+		const materialUsage = usedMaterials.reduce((allCompositeMaterials, compositeMaterial) => {
+
+			compositeMaterials[compositeMaterial.composite_material_id].composite_has_materials.map(rawMaterial => {
+				if (rawMaterial.material_name in allCompositeMaterials) {
+					allCompositeMaterials[rawMaterial.material_name] += compositeMaterial.amount;
+				}
+				else {
+					allCompositeMaterials[rawMaterial.material_name] = compositeMaterial.amount;
+				}
+			});
+			return allCompositeMaterials;
+		}, {});
+
 		let i = 0;
 		let materialUsageArr = [];
 		Object.keys(materialUsage).map((k) => {
-			materialUsageArr[i++] = {id: k, amount: materialUsage[k]}
+			materialUsageArr[i++] = {name: k, amount: materialUsage[k]}
 		});
 		return (
 			<div>
 				{materialUsageArr.map(material => (
 					<div key={material.id}>
-						{materials.filter(
-							filterMatierial => filterMatierial.id == material.id
-						).map(
-							filterMatierial => {
-								return filterMatierial.name
-							}
-						)} : {material.amount}
+						{material.name} : {material.amount}
 					</div>
 				))}
 			</div>

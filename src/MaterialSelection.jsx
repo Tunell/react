@@ -8,9 +8,11 @@ class MaterialSelection extends React.Component {
 		super(props);
 		this.state = {
 
-			material: '',
-			amount: '',
-			RecycleClassID: '',
+			material_id: 0,
+			//FIXME: unit_id shouldn't be in here but is curently needed.
+			unit_id: 1,
+			amount: 0,
+			recycle_type_id: 0,
 			comment: '',
 			searchOpen: false,
 			createNewText: 'Hittar du inte det du söker? Skapa en ny byggdel här! (funkar inte ännu, använd menyn..)'
@@ -21,70 +23,58 @@ class MaterialSelection extends React.Component {
 		this.handleMaterialChange({name: e.target.innerHTML, id: e.target.attributes['value'].value}, materialIndex)
 	}
 
+	materialChange() {
+		this.props.onMaterialChange({
+			materialIndex: this.state.materialIndex,
+			material_id: parseInt(this.state.material_id),
+			unit_id: parseInt(this.state.unit_id),
+			amount: parseInt(this.state.amount),
+			recycle_type_id: parseInt(this.state.recycle_type_id),
+			comment: this.state.comment,
+		});
+	}
+
 	handleMaterialChange(selected, materialIndex) {
-		const {data} = this.props;
+		const {compositeMaterials} = this.props;
 		if (selected.name == this.state.createNewText) {
 			selected.id = "createNew";
 		}
-		const subMaterials = data
+		const subMaterials = compositeMaterials
 			.filter(loopMaterial => (loopMaterial.materialComposition && loopMaterial.id == selected.id))
 			.map(loopMaterial => loopMaterial.materialComposition);
-		this.props.onMaterialChange({
-			materialIndex,
-			material: selected.id,
-			amount: this.state.amount,
-			RecycleClassID: this.state.RecycleClassID
-		});
 
 		this.setState({
 			materialIndex,
-			material: selected.id,
+			material_id: selected.id,
 			searchOpen: false,
 			subMaterials
-		});
+		}, this.materialChange());
 	}
 
 	handleAmountChange(e) {
-		this.props.onMaterialChange({
-			material: this.state.material,
-			amount: e.target.value,
-			RecycleClassID: this.state.RecycleClassID
-		});
 		this.setState({
 			amount: e.target.value
-		});
+		}, this.materialChange());
 	}
 
 	handleRecycleClassChange(e) {
-		this.props.onMaterialChange({
-			material: this.state.material,
-			amount: this.state.amount,
-			RecycleClassID: e.target.value
-		});
 		this.setState({
-			RecycleClassID: e.target.value
-		});
+			recycle_type_id: e.target.value
+		}, this.materialChange());
 	}
 
-
 	handleCommentChange(e) {
-		this.props.onMaterialChange({
-			material: this.state.material,
-			amount: this.state.amount,
-			RecycleClassID: this.state.RecycleClassID,
-			comment: e.target.value
-		});
 		this.setState({
 			comment: e.target.value
-		});
+		}, this.materialChange());
 	}
 
 	render() {
-		const {createNewText, searchOpen, material, amount, comment, subMaterials} = this.state;
-		const {materialCreation, data, materialIndex} = this.props;
+		const {createNewText, searchOpen, material_id, amount, comment, subMaterials} = this.state;
+		const {materialCreation, compositeMaterials, materialIndex} = this.props;
 		let materialUnit;
-		let materialNameText = data.filter(
-			filterMatierial => filterMatierial.id == material
+		let materialNameText = compositeMaterials.filter(
+			filterMatierial => filterMatierial.id == material_id
 		).map(
 			filterMatierial => {
 				materialUnit = filterMatierial.unit;
@@ -97,7 +87,7 @@ class MaterialSelection extends React.Component {
 			<div>
 				{ searchOpen ?
 					<FuzzySearch
-						list={ data }
+						list={ compositeMaterials }
 						keys={['name']}
 						onSelect={ selected => this.handleMaterialChange(selected, materialIndex)}
 						styleName="fuzzy"
@@ -161,7 +151,6 @@ class MaterialSelection extends React.Component {
 		);
 	}
 }
-;
 
 
 export default CSSModules(MaterialSelection, styles)
