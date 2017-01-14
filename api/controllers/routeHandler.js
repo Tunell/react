@@ -97,5 +97,11 @@ module.exports = {
     getRecycleTypeId: getId,
     postRecycleType: post,
     putRecycleType: put,
-    deleteRecycleType: deleteRow
+    deleteRecycleType: deleteRow,
+
+    getUserAll: getAll,
+    getUserId: getId,
+    postUser: post,
+    putUser: put,
+    deleteUser: deleteRow
 };

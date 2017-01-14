@@ -1,7 +1,7 @@
-INSERT INTO user (username, password,email)
-VALUES ("El-entreprenad", "test", "tunell.john@gmail.com"),
-       ("Grundläggnings-entreprenad", "test", ""),
-       ("VVS-entreprenad", "test", "");
+INSERT INTO user (name)
+VALUES ("El-entreprenad"),
+       ("Grundläggnings-entreprenad"),
+       ("VVS-entreprenad");
 
 INSERT INTO unit (user_id, name)
 VALUES (1, "m"),
@@ -40,27 +40,5 @@ VALUES (1, 1, 8, "Första våningsplanet");
 
 SELECT *
 FROM user;
-
--- SOME TEST CASES
-
--- PARAGRAPH BELOW SHOULD FAIL
-
-DELETE FROM user WHERE id = 1;
-DELETE FROM composite_material WHERE id = 1;
-DELETE FROM unit WHERE id = 1;
-DELETE FROM material WHERE id = 1;
-DELETE FROM recycle_type WHERE id = 1;
-DELETE FROM meta_material WHERE id = 1;
-
--- PARAGRAPH BELOW SHOULD SUCCEED
-
-DELETE FROM used_material WHERE id = 1;
-DELETE FROM composite_has_material WHERE composite_material_id = 1;
-DELETE FROM composite_material WHERE id = 1;
-DELETE FROM material_has_meta WHERE meta_material_id = 1;
-DELETE FROM composite_has_material where recycle_type_id = 1;
-DELETE FROM recycle_type WHERE id = 1;
-DELETE FROM material WHERE id = 1;
-DELETE FROM meta_material WHERE id = 1;
 
 
