@@ -1,4 +1,5 @@
 import React from "react";
+import {connect} from "react-redux";
 import Material from "../Material.jsx";
 import UsedMaterialsList from "../UsedMaterialsList.jsx";
 import UsedMaterialsLog from "../UsedMaterialsLog.jsx";
@@ -49,7 +50,7 @@ class MaterialListPage extends React.Component {
 
 	render() {
 		const {materialUsageList, compositeList, showLog} = this.state;
-		const {compositeMaterials, usedMaterials} = this.props;
+		const {compositeMaterials} = this.props;
 		return (
 			<div className="materialList">
 				<br/>
@@ -59,8 +60,8 @@ class MaterialListPage extends React.Component {
 				<button onClick={ e => this.handleListChange('building')}>Använt material</button>
 				{materialUsageList ?
 					<div>
-						{ (!showLog) && <UsedMaterialsList usedMaterials={usedMaterials} compositeMaterials={compositeMaterials}/>}
-						{ (showLog) && <UsedMaterialsLog usedMaterials={usedMaterials}/>}
+						{ (!showLog) && <UsedMaterialsList/>}
+						{ (showLog) && <UsedMaterialsLog/>}
 					</div>
 					:
 					<div>
@@ -81,4 +82,9 @@ class MaterialListPage extends React.Component {
 		);
 	}
 }
-export default MaterialListPage;
+
+export default connect(
+	(state) => ( {
+		compositeMaterials: state.resources.compositeMaterials.json,
+	})
+)(MaterialListPage)

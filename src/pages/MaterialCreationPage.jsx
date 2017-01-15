@@ -7,15 +7,16 @@ export default class MaterialCreationPage extends React.Component {
 	}
 
 	render() {
+		const {url, materials, recycleTypes} = this.props;
 		return (
 			<div className="material-box">
 
 				<h1>Lägg till ett grund-material eller prefabelement:</h1>
 				<p>Här kan du lägga till material till systemet som du sedan kan använda när du rapporterar in material</p>
 				<ConstructionForm
-					url={this.props.url}
-					compositeMaterials={this.props.compositeMaterials}
+					url={url}
 					constructionCreation={true}
+					recycleTypes={recycleTypes}
 				/>
 			</div>
 		);

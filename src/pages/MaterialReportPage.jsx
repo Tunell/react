@@ -16,7 +16,7 @@ export default class MaterialReportPage extends React.Component {
   }
 
   render() {
-		const {compositeMaterials, usedMaterials, url} = this.props;
+		const {usedMaterials, url, recycleTypes} = this.props;
     return (
       <div className="material-box">
 
@@ -29,12 +29,12 @@ export default class MaterialReportPage extends React.Component {
         Består det du vill rapportera in av flera material? Klicka då på <Link to="/skapa-material" activeClassName="active">Skapa byggdel</Link>.
 
       </p>
-      <p style={{color:'red'}}>TODO: Filtrera lista beroende på entreprenad-typ, Fltrera ner listan(man ser allt från start).</p>
+				<p style={{color:'red'}}>TODO: Filtrera lista beroende på entreprenad-typ.</p>
 				<ConstructionForm
 					url={url}
-					compositeMaterials={compositeMaterials}
 					constructionCreation={false}
-          constructionParts={1}
+					constructionParts={1}
+					recycleTypes={recycleTypes}
 				/>
 				<UsedMaterialsLog usedMaterials={usedMaterials}/>
       </div>
