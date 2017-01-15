@@ -1,16 +1,17 @@
-import React from 'react';
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import { routerReducer } from 'react-router-redux';
-import thunk from 'redux-thunk';
-import createLogger from 'redux-logger';
-
-import {loginReducer} from './Login/loginReducer.js';
+import React from "react";
+import {createStore, combineReducers, applyMiddleware, compose} from "redux";
+import {routerReducer} from "react-router-redux";
+import thunk from "redux-thunk";
+import createLogger from "redux-logger";
+import {resourceFromUrl} from "./materialGetters/materialGettersReducer";
+import {loginReducer} from "./Login/loginReducer.js";
 
 const logger = createLogger({level: 'log'});
 
 const appReducer = combineReducers({
 	routing: routerReducer,
-	user: loginReducer
+	user: loginReducer,
+	resources: resourceFromUrl
 });
 
 const rootReducer = (state, action) => {

@@ -1,4 +1,5 @@
 import React from "react";
+import {connect} from "react-redux";
 
 type Props = {
 	usedMaterials: object,
@@ -14,8 +15,8 @@ class UsedMaterialsList extends React.Component {
 
 	render() {
 		const {usedMaterials, compositeMaterials} = this.props;
+		//calculate the sum of all materials
 		const materialUsage = usedMaterials.reduce((allCompositeMaterials, compositeMaterial) => {
-
 			compositeMaterials[compositeMaterial.composite_material_id].composite_has_materials.map(rawMaterial => {
 				if (rawMaterial.material_name in allCompositeMaterials) {
 					allCompositeMaterials[rawMaterial.material_name] += compositeMaterial.amount;
@@ -44,4 +45,9 @@ class UsedMaterialsList extends React.Component {
 	}
 }
 
-export default UsedMaterialsList;
+export default connect(
+	(state) => ( {
+		usedMaterials: state.resources.usedMaterials.json,
+		compositeMaterials: state.resources.compositeMaterials.json,
+	})
+)(UsedMaterialsList)
