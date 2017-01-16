@@ -1,3 +1,5 @@
+const _ = require('lodash');
+const queryBuilder = require('./queryBuilder');
 // Helper functions for the routeHandler
 const helpers = {
     // Takes a req.url and extracts the table-name
@@ -21,6 +23,9 @@ const helpers = {
             href: `http://${req.swagger.swaggerObject.host}${req.swagger.apiPath}/${dbInfo.insertId}`
         }
         return metaObject;
-    }
+    },
+
+    dbQueryBuilder: queryBuilder.dbQueryBuilder
+
 }
 module.exports = helpers;

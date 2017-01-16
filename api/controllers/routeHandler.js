@@ -4,29 +4,24 @@ const util = require('util');
 const mysql = require('promise-mysql');
 const serverConfig = require('../../config/config.json');
 const pool = mysql.createPool(serverConfig.dbConfig);
-const select = require('../helpers/select');
+const selectComp = require('../helpers/select');
 const insert = require('../helpers/insert');
 const update = require('../helpers/update');
 const remove = require('../helpers/remove');
+const query = require('../helpers/generatedQueries');
 const helpers = require('../helpers/routeHandlerHelpers');
 
 // Get all the entries associated with endpoint
 function getAll(req, res) {
     // Extract query parameters
-    const queryObject = helpers.getQueryParams(req.swagger.params);
     // Composite material has a specific query
-    if(helpers.parseUrlToTable(req.url) === 'composite_material') {
-        select.selectCompositeMaterialAll(pool)
+    if (helpers.parseUrlToTable(req.url) === 'composite_material') {
+        selectComp.all(pool)
             .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
-    } else if(helpers.parseUrlToTable(req.url) === 'used_material') {
-        select.selectUsedMaterialAll(pool)
-            .then(result => res.json(result))
-            .catch(err => res.status(500).json(err.message))
-    }
-
-    else {
-        select.selectAll(pool, helpers.parseUrlToTable(req.url), queryObject)
+    } else {
+        let SQLquery = helpers.dbQueryBuilder(req.swagger);
+        query.select(pool, SQLquery)
             .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
     }
@@ -36,15 +31,12 @@ function getAll(req, res) {
 function getId(req, res) {
     const queryObject = helpers.getQueryParams(req.swagger.params);
     if(helpers.parseUrlToTable(req.url) === 'composite_material') {
-        select.selectCompositeMaterialId(pool, queryObject.id)
+        selectComp.id(pool, queryObject.id)
             .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
-    } else if(helpers.parseUrlToTable(req.url) === 'used_material') {
-        select.selectUsedMaterialId(pool, queryObject.id)
-            .then(result => res.json(result))
-            .catch(err => res.status(500).json(err.message))
-    }else {
-        select.selectQuery(pool, helpers.parseUrlToTable(req.url), queryObject)
+    } else {
+        let SQLquery = helpers.dbQueryBuilder(req.swagger);
+        query.select(pool, SQLquery)
             .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
     }

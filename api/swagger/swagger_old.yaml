@@ -528,10 +528,6 @@ definitions:
       - amount
       - comment
     properties:
-      id:
-        type: integer
-      name:
-        type: string
       user_id:
         type: integer
       user_name:
@@ -540,10 +536,14 @@ definitions:
         type: integer
       composite_material_name:
         type: string
-      comment:
-        type: string
       amount:
         type: integer
+      id:
+        type: integer
+      comment:
+        type: string
+      name:
+        type: string
       created:
         type: string
       changed:
@@ -558,13 +558,11 @@ definitions:
       - user_id
       - name
     properties:
-      id:
+      user_id:
         type: integer
       name:
         type: string
-      user_id:
-        type: integer
-      user_name:
+      id:
         type: integer
       created:
         type: string
@@ -584,27 +582,27 @@ definitions:
       - unit_id
       - composite_has_materials
     properties:
-      id:
+      user_id: 
         type: integer
       name:
         type: string
-      user_id: 
-        type: integer
-      user_name:
-        type: string
       unit_id:
         type: integer
+      composite_has_materials:
+        type: array
+        items:
+          $ref: "#/definitions/composite-has-material"
+      id:
+        type: integer
+      username:
+        type: string
       unit_name:
         type: string
       created:
         type: string
       changed:
         type: string
-      composite_has_materials:
-        type: array
-        items:
-          $ref: "#/definitions/composite-has-material"
-
+      
           
   composite-has-material:
     required:
@@ -613,23 +611,22 @@ definitions:
       - unit_id
       - amount
     properties:
-      composite_material_id:
-        type: integer
       material_id:
+        type: integer
+      recycle_type_id:
+        type: integer
+      unit_id:
+        type: integer
+      amount:
+        type: integer
+      composite_material_id:
         type: integer
       material_name:
         type: string
-      recycle_type_id:
-        type: integer
       recycle_type_name:
         type: string
-      unit_id:
-        type: integer
       unit_name:
         type: string
-      amount:
-        type: integer
-      
       
         
   composite-materials:
@@ -680,14 +677,12 @@ definitions:
       - user_id
       - name
     properties:
+      user_id:
+        type: integer
       name:
         type: string
       id:
         type: integer
-      user_id:
-        type: integer
-      user_name:
-        type: string
       created:
         type: string
       changed:
@@ -702,10 +697,10 @@ definitions:
     required:
       - name
     properties:
-      id:
-        type: integer
       name:
         type: string
+      id:
+        type: integer
         
   recycle-types:
     type: array
@@ -714,9 +709,9 @@ definitions:
        
   user:
     required:
-      - name
+      - username
     properties:
-      name:
+      username:
         type: string
   
   users:
