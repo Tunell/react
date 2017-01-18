@@ -2,6 +2,7 @@
 const util = require('util');
 // Database
 const mysql = require('promise-mysql');
+console.log('got to here!!')
 const serverConfig = {
     "connectionLimit": 100,
     host     : process.env.RDS_HOSTNAME,
