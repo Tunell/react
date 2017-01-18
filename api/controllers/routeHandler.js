@@ -5,11 +5,11 @@ const mysql = require('promise-mysql');
 console.log('got to here!!')
 const serverConfig = {
     "connectionLimit": 100,
-    host     : process.env.RDS_HOSTNAME,
-    user     : process.env.RDS_USERNAME,
-    password : process.env.RDS_PASSWORD,
-    port     : process.env.RDS_PORT,
-    database : process.env.RDS_DB_NAME
+    host     : process.env.RDS_HOSTNAME || "localhost",
+    user     : process.env.RDS_USERNAME || "root",
+    password : process.env.RDS_PASSWORD || "Wrufrafr",
+    port     : process.env.RDS_PORT || 3306,
+    database : process.env.RDS_DB_NAME || "byggstyrning"
 };
 const pool = mysql.createPool(serverConfig);
 const selectComp = require('../helpers/select');

@@ -1,12 +1,14 @@
 'use strict';
 var SwaggerExpress = require('swagger-express-mw');
-var app = require('express')();
+var express = require('express');
+var app = express();
 var swaggerDoc = require('./swagger.json');
 var swaggerTools = require('swagger-tools');
+var path = require('path');
 let api_key = require('./config/config.json').security.api_key;
 
 // Webpack configuration for react
-
+/*
 var webpack = require('webpack');
 var config = require("./webpack.config.js");
 var WebpackDevServer = require('webpack-dev-server');
@@ -19,7 +21,8 @@ var server = new WebpackDevServer(compiler,{
         '/api': 'http://localhost:3000'
     }
 });
-server.listen(process.env.PORT);
+server.listen(8080);
+*/
 
 var config = {
     appRoot: __dirname, // required config
@@ -45,6 +48,12 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
     });
 
     swaggerExpress.register(app);
+
+    app.use(express.static('public'))
+    app.get('/', function (req, res) {
+        var test = path.resolve('./index.html');
+        res.sendFile(test)
+    })
 
     var port = process.env.PORT || 3000;
     app.listen(port);
