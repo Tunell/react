@@ -2,7 +2,13 @@
 const util = require('util');
 // Database
 const mysql = require('promise-mysql');
-const serverConfig = require('../../config/config.json');
+const serverConfig = {
+    "connectionLimit": 100,
+    host     : process.env.RDS_HOSTNAME,
+    user     : process.env.RDS_USERNAME,
+    password : process.env.RDS_PASSWORD,
+    port     : process.env.RDS_PORT
+};
 const pool = mysql.createPool(serverConfig.dbConfig);
 const selectComp = require('../helpers/select');
 const insert = require('../helpers/insert');

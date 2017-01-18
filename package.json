@@ -8,6 +8,7 @@
   "license": "",
   "main": "app.js",
   "dependencies": {
+    "aws-sdk": "^2.7.24",
     "body-parser": "^1.15.0",
     "es6-promise": "^4.0.5",
     "express": "^4.12.3",
