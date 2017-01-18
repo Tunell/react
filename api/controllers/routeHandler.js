@@ -11,7 +11,7 @@ const serverConfig = {
     port     : process.env.RDS_PORT,
     database : process.env.RDS_DB_NAME
 };
-const pool = mysql.createPool(serverConfig.dbConfig);
+const pool = mysql.createPool(serverConfig);
 const selectComp = require('../helpers/select');
 const insert = require('../helpers/insert');
 const update = require('../helpers/update');
