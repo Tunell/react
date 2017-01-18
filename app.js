@@ -19,7 +19,7 @@ var server = new WebpackDevServer(compiler,{
         '/api': 'http://localhost:3000'
     }
 });
-server.listen(80);
+server.listen(process.env.PORT);
 
 var config = {
     appRoot: __dirname, // required config
