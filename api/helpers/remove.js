@@ -4,7 +4,10 @@ const remove = {
         return pool.getConnection()
             .then( connection => {
                 return connection.query('DELETE FROM ?? WHERE id = ?', [table, id])
-                    .then( deleteInfo => deleteInfo.affectedRows.toString())
+                    .then( deleteInfo => {
+                        connection.release();
+                        return deleteInfo.affectedRows.toString()
+                    })
             })
     }
 }

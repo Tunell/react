@@ -3,7 +3,10 @@ const insert = {
     insertRow: (pool, table, data) => {
         return pool.getConnection()
             .then( connection => connection.query('INSERT INTO ?? SET ?', [table, data])
-                .then( insertInfo => insertInfo))
+                .then( insertInfo => {
+                    connection.release();
+                    return insertInfo
+                }))
     },
 
     // Insert a composite-material, spans several tables
@@ -35,10 +38,14 @@ const insert = {
             })
             // Commit queries
             .then( () => conn.query('COMMIT'))
-            .then( () => compMatInsertInfo)
+            .then( () => {
+                connection.release();
+                return compMatInsertInfo
+            })
             // If violations or failure, rollback
             .catch( err => {
                 conn.query('ROLLBACK')
+                connection.release();
                 return err.message
             })
     }

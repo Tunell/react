@@ -18,9 +18,6 @@ securityDefinitions:
     in: header
     name: api_key
 
-security:
- - api_key: []
-
 paths:
   /used-materials:
     x-swagger-router-controller: routeHandler
