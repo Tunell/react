@@ -8,21 +8,22 @@ var path = require('path');
 let api_key = require('./config/config.json').security.api_key;
 
 // Webpack configuration for react
-/*
-var webpack = require('webpack');
-var config = require("./webpack.config.js");
-var WebpackDevServer = require('webpack-dev-server');
-var compiler = webpack(config);
-var server = new WebpackDevServer(compiler,{
-    hot: true,
-    stats: { colors: true },
-    noInfo: true,
-    proxy: {
-        '/api': 'http://localhost:3000'
-    }
-});
-server.listen(8080);
-*/
+// IF DEV ENVIRONMENT
+if(!process.env.RDS_HOSTNAME) {
+    var webpack = require('webpack');
+    var config = require("./webpack.config.js");
+    var WebpackDevServer = require('webpack-dev-server');
+    var compiler = webpack(config);
+    var server = new WebpackDevServer(compiler,{
+        hot: true,
+        stats: { colors: true },
+        noInfo: true,
+        proxy: {
+            '/api': 'http://localhost:3000'
+        }
+    });
+    server.listen(8080);
+}
 
 var config = {
     appRoot: __dirname, // required config
@@ -49,11 +50,14 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
 
     swaggerExpress.register(app);
 
-    app.use(express.static('public'))
-    app.get('/', function (req, res) {
-        var test = path.resolve('./index.html');
-        res.sendFile(test)
-    })
+    // IF PRODUCTION ENVIRONMENT
+    if(process.env.RDS_HOSTNAME) {
+        app.use(express.static('public'))
+        app.get('/', function (req, res) {
+            var test = path.resolve('./index.html');
+            res.sendFile(test)
+        })
+    }
 
     var port = process.env.PORT || 3000;
     app.listen(port);
