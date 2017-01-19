@@ -1,13 +1,12 @@
+var Promise = require("bluebird");
+var getSqlConnection = require('./databaseConnection');
+
 const remove = {
     // Delete a entry in db
-    deleteId: (pool, table, id) => {
-        return pool.getConnection()
-            .then( connection => {
+    deleteId: (table, id) => {
+        return new Promise.using(getSqlConnection(), function(connection) {
                 return connection.query('DELETE FROM ?? WHERE id = ?', [table, id])
-                    .then( deleteInfo => {
-                        connection.release();
-                        return deleteInfo.affectedRows.toString()
-                    })
+                    .then( deleteInfo => deleteInfo.affectedRows.toString())
             })
     }
 }

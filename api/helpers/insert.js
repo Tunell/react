@@ -1,22 +1,21 @@
+var Promise = require("bluebird");
+var getSqlConnection = require('./databaseConnection');
+
 const insert = {
     // Insert a entry into a table in db
-    insertRow: (pool, table, data) => {
-        return pool.getConnection()
-            .then( connection => connection.query('INSERT INTO ?? SET ?', [table, data])
-                .then( insertInfo => {
-                    connection.release();
-                    return insertInfo
-                }))
+    insertRow: (table, data) => {
+        return new Promise.using(getSqlConnection(), function(connection) {
+                return connection.query('INSERT INTO ?? SET ?', [table, data])
+                    .then( insertInfo => insertInfo)
+            })
     },
 
     // Insert a composite-material, spans several tables
     // table parameter not used!
-    insertCompositeMaterial: (pool, table, compositeMaterial) => {
+    insertCompositeMaterial: (table, compositeMaterial) => {
         let conn;
         let compMatInsertInfo;
-        return pool.getConnection()
-        // Start transaction
-            .then(connection => {
+        return new Promise.using(getSqlConnection(), function(connection) {
                 conn = connection;
                 return connection.query('START TRANSACTION');
             })
@@ -38,14 +37,10 @@ const insert = {
             })
             // Commit queries
             .then( () => conn.query('COMMIT'))
-            .then( () => {
-                connection.release();
-                return compMatInsertInfo
-            })
+            .then( () => compMatInsertInfo)
             // If violations or failure, rollback
             .catch( err => {
                 conn.query('ROLLBACK')
-                connection.release();
                 return err.message
             })
     }

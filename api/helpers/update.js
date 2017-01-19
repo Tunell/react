@@ -1,19 +1,21 @@
 const _ = require('lodash');
+var Promise = require("bluebird");
+var getSqlConnection = require('./databaseConnection');
 const update = {
     // Update a entry in db
-    updateRow: (pool, table, id, data) => {
-        return pool.getConnection()
-            .then( connection => connection.query('UPDATE ?? SET ? WHERE id = ?',
-                [table, data, id])
-                .then( updateInfo => updateInfo.changedRows))
+    updateRow: (table, id, data) => {
+        return new Promise.using(getSqlConnection(), function(connection) {
+                return connection.query('UPDATE ?? SET ? WHERE id = ?',
+                    [table, data, id])
+                    .then( updateInfo => updateInfo.changedRows)
+            })
     },
 
     // Update a composite material, spans serveral tables
     // table not used!
-    updateCompositeMaterial: (pool, table, id, compositeMaterial) => {
+    updateCompositeMaterial: (table, id, compositeMaterial) => {
         let conn;
-        return pool.getConnection()
-            .then(connection => {
+        return new Promise.using(getSqlConnection(), function(connection) {
                 conn = connection;
                 return conn.query('START TRANSACTION');
             })

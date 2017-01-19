@@ -1,9 +1,8 @@
 'use strict';
 const util = require('util');
 // Database
-const mysql = require('promise-mysql');
-console.log('got to here!!')
-const serverConfig = {
+//const mysql = require('promise-mysql');
+/*const serverConfig = {
     "connectionLimit": 100,
     host     : process.env.RDS_HOSTNAME || "localhost",
     user     : process.env.RDS_USERNAME || "root",
@@ -12,6 +11,8 @@ const serverConfig = {
     database : process.env.RDS_DB_NAME || "byggstyrning"
 };
 const pool = mysql.createPool(serverConfig);
+*/
+const pool = '';
 const selectComp = require('../helpers/select');
 const insert = require('../helpers/insert');
 const update = require('../helpers/update');
@@ -24,12 +25,12 @@ function getAll(req, res) {
     // Extract query parameters
     // Composite material has a specific query
     if (helpers.parseUrlToTable(req.url) === 'composite_material') {
-        selectComp.all(pool)
+        selectComp.all()
             .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
     } else {
         let SQLquery = helpers.dbQueryBuilder(req.swagger);
-        query.select(pool, SQLquery)
+        query.select(SQLquery)
             .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
     }
@@ -39,12 +40,12 @@ function getAll(req, res) {
 function getId(req, res) {
     const queryObject = helpers.getQueryParams(req.swagger.params);
     if(helpers.parseUrlToTable(req.url) === 'composite_material') {
-        selectComp.id(pool, queryObject.id)
+        selectComp.id(queryObject.id)
             .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
     } else {
         let SQLquery = helpers.dbQueryBuilder(req.swagger);
-        query.select(pool, SQLquery)
+        query.select(SQLquery)
             .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
     }
@@ -56,7 +57,7 @@ function post (req, res) {
     let data = req.swagger.params[Object.keys(req.swagger.params)[0]].value;
     // Determine which function to use
     const insertFunc = helpers.parseUrlToTable(req.url) === 'composite_material' ? 'insertCompositeMaterial' : 'insertRow';
-    insert[insertFunc](pool, helpers.parseUrlToTable(req.url), data)
+    insert[insertFunc](helpers.parseUrlToTable(req.url), data)
         .then(result => res.status(201).json(helpers.addMeta(result, req)))
         .catch(err => res.status(500).json(err.message))
 }
@@ -66,14 +67,14 @@ function post (req, res) {
 function put (req, res) {
     let data = req.swagger.params[Object.keys(req.swagger.params)[0]].value;
     const putFunc = helpers.parseUrlToTable(req.url) === 'composite_material' ? 'updateCompositeMaterial' : 'updateRow';
-    update[putFunc](pool, helpers.parseUrlToTable(req.url), req.swagger.params.id.value, data)
+    update[putFunc](helpers.parseUrlToTable(req.url), req.swagger.params.id.value, data)
         .then(result => res.status(204).json(result))
         .catch(err => res.status(500).json(err.message))
 }
 
 // Delete a entry
 function deleteRow (req, res) {
-    remove.deleteId(pool, helpers.parseUrlToTable(req.url), req.swagger.params.id.value)
+    remove.deleteId(helpers.parseUrlToTable(req.url), req.swagger.params.id.value)
         .then(result => res.status(204).json(result))
         .catch(err => res.status(500).json(err.message))
 }
