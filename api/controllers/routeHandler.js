@@ -114,5 +114,11 @@ module.exports = {
     getUserId: getId,
     postUser: post,
     putUser: put,
-    deleteUser: deleteRow
+    deleteUser: deleteRow,
+
+    getRecordStateAll: getAll,
+    getRecordStateId: getId,
+    postRecordState: post,
+    putRecordState: put,
+    deleteRecordState: deleteRow
 };

@@ -35,6 +35,11 @@ VALUES (1, 1, 2, 2, 1),
        (3, 1, 1, 1, 1),
        (3, 2, 1, 1, 1);
 
+INSERT INTO record_state (name)
+VALUES ("ACTIVE"),
+       ("DELETED"),
+       ("REPORTED");
+
 INSERT INTO used_material(user_id, composite_material_id, amount, comment)
 VALUES (1, 1, 8, "Första våningsplanet");
 

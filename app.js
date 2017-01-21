@@ -15,6 +15,7 @@ if(!process.env.RDS_HOSTNAME) {
     var WebpackDevServer = require('webpack-dev-server');
     var compiler = webpack(config);
     var server = new WebpackDevServer(compiler,{
+        historyApiFallback: true,
         hot: true,
         stats: { colors: true },
         noInfo: true,
@@ -24,6 +25,7 @@ if(!process.env.RDS_HOSTNAME) {
     });
     server.listen(8080);
 }
+
 
 var config = {
     appRoot: __dirname, // required config
@@ -49,6 +51,20 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
     });
 
     swaggerExpress.register(app);
+
+
+    // TODO: TRYING TO GET ROUTING TO WORK
+    //---------------------------------------------------------------------------------------------------------------
+
+    // CURRENTLY NOT WORKING
+    app.use(express.static('public'))
+    app.get('/rapportera', function (req, res) {
+        var test = path.resolve('./public/index.html');
+        res.status(404).sendFile(test)
+    })
+
+    //---------------------------------------------------------------------------------------------------------------
+
 
     // IF PRODUCTION ENVIRONMENT
     if(process.env.RDS_HOSTNAME) {
