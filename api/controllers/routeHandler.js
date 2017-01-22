@@ -1,26 +1,18 @@
 'use strict';
 const util = require('util');
-// Database
-//const mysql = require('promise-mysql');
-/*const serverConfig = {
-    "connectionLimit": 100,
-    host     : process.env.RDS_HOSTNAME || "localhost",
-    user     : process.env.RDS_USERNAME || "root",
-    password : process.env.RDS_PASSWORD || "Wrufrafr",
-    port     : process.env.RDS_PORT || 3306,
-    database : process.env.RDS_DB_NAME || "byggstyrning"
-};
-const pool = mysql.createPool(serverConfig);
-*/
-const pool = '';
 const selectComp = require('../helpers/select');
 const insert = require('../helpers/insert');
 const update = require('../helpers/update');
 const remove = require('../helpers/remove');
 const query = require('../helpers/generatedQueries');
 const helpers = require('../helpers/routeHandlerHelpers');
+const _ = require('lodash')
 
 // Get all the entries associated with endpoint
+function get(req, res) {
+    _.has(req.swagger.params, 'id') ? getId(req, res) : getAll(req, res)
+}
+
 function getAll(req, res) {
     // Extract query parameters
     // Composite material has a specific query
@@ -80,45 +72,8 @@ function deleteRow (req, res) {
 }
 
 module.exports = {
-    getUsedMaterialAll: getAll,
-    getUsedMaterialId: getId,
-    postUsedMaterial: post,
-    putUsedMaterial: put,
-    deleteUsedMaterial: deleteRow,
-
-    getMaterialAll: getAll,
-    getMaterialId: getId,
-    postMaterial: post,
-    putMaterial: put,
-    deleteMaterial: deleteRow,
-
-    getCompositeMaterialAll: getAll,
-    getCompositeMaterialId: getId,
-    postCompositeMaterial: post,
-    putCompositeMaterial: put,
-    deleteCompositeMaterial: deleteRow,
-
-    getUnitAll: getAll,
-    getUnitId: getId,
-    postUnit: post,
-    putUnit: put,
-    deleteUnit: deleteRow,
-
-    getRecycleTypeAll: getAll,
-    getRecycleTypeId: getId,
-    postRecycleType: post,
-    putRecycleType: put,
-    deleteRecycleType: deleteRow,
-
-    getUserAll: getAll,
-    getUserId: getId,
-    postUser: post,
-    putUser: put,
-    deleteUser: deleteRow,
-
-    getRecordStateAll: getAll,
-    getRecordStateId: getId,
-    postRecordState: post,
-    putRecordState: put,
-    deleteRecordState: deleteRow
+    get,
+    post,
+    put,
+    "delete": deleteRow
 };

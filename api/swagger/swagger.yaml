@@ -29,7 +29,6 @@ paths:
       tags:
       - "used-material"
       summary: Return all used-materials
-      operationId: getUsedMaterialAll
       parameters:
        - $ref: "#/parameters/user_id"
       responses:
@@ -43,7 +42,6 @@ paths:
       tags:
       - "used-material"
       summary: Create a used-material
-      operationId: postUsedMaterial
       parameters:
         - name: used_material
           in: body
@@ -64,7 +62,6 @@ paths:
       tags:
       - "used-material"
       summary: Return a used-material
-      operationId: getUsedMaterialId 
       responses:
         200:
           description: A used-material object
@@ -79,7 +76,6 @@ paths:
       tags:
       - "used-material"
       summary: Change a used-material
-      operationId: putUsedMaterial 
       parameters:
           - name: used_material
             in: body
@@ -95,7 +91,6 @@ paths:
       tags:
       - "used-material"
       summary: Delete a used-material
-      operationId: deleteUsedMaterial 
       responses:
         204:
           description: Used-material successfully deleted.
@@ -112,7 +107,6 @@ paths:
       tags:
       - "material"
       summary: Return all materials
-      operationId: getMaterialAll
       parameters:
        - $ref: "#/parameters/user_id"
       responses:
@@ -126,7 +120,6 @@ paths:
       tags:
       - "material"
       summary: Create a material
-      operationId: postMaterial
       parameters:
         - name: material
           in: body
@@ -147,7 +140,6 @@ paths:
         tags:
         - "material"
         summary: Return a material
-        operationId: getMaterialId 
         responses:
           200:
             description: A material object
@@ -162,7 +154,6 @@ paths:
         tags:
         - "material"
         summary: Change a material
-        operationId: putMaterial 
         parameters:
             - name: material
               in: body
@@ -180,7 +171,6 @@ paths:
         tags:
         - "material"
         summary: Delete a material
-        operationId: deleteMaterial 
         responses:
           204:
             description: Used-material successfully deleted.
@@ -195,7 +185,6 @@ paths:
         tags:
           - "composite-material"
         summary: Return all composite-materials
-        operationId: getCompositeMaterialAll
         parameters:
          - $ref: "#/parameters/user_id"
         responses:
@@ -209,7 +198,6 @@ paths:
         tags:
           - "composite-material"
         summary: Create a composite-material
-        operationId: postCompositeMaterial
         parameters:
           - name: composite_material
             in: body
@@ -232,7 +220,6 @@ paths:
         tags:
           - "composite-material"
         summary: Return a composite-material
-        operationId: getCompositeMaterialId 
         responses:
           200:
             description: A material object
@@ -245,7 +232,6 @@ paths:
         tags:
           - "composite-material"
         summary: Change a composite-material
-        operationId: putCompositeMaterial 
         parameters:
             - name: composite-material
               in: body
@@ -261,7 +247,6 @@ paths:
         tags:
           - "composite-material"
         summary: Delete a composite-material
-        operationId: deleteCompositeMaterial 
         responses:
           204:
             description: Composite-material successfully deleted.
@@ -276,7 +261,6 @@ paths:
         tags:
           - "unit"
         summary: Return all units
-        operationId: getUnitAll
         parameters:
          - $ref: "#/parameters/user_id"
         responses:
@@ -290,7 +274,6 @@ paths:
         tags:
           - "unit"
         summary: Create a unit
-        operationId: postUnit
         parameters:
           - name: composite_material
             in: body
@@ -313,7 +296,6 @@ paths:
         tags:
           - "unit"
         summary: Return a unit
-        operationId: getUnitId 
         responses:
           200:
             description: A material object
@@ -328,7 +310,6 @@ paths:
         tags:
           - "unit"
         summary: Change a unit
-        operationId: putUnit 
         parameters:
             - name: composite-material
               in: body
@@ -346,7 +327,6 @@ paths:
         tags:
           - "unit"
         summary: Delete a unit
-        operationId: deleteUnit 
         responses:
           204:
             description: Used-material successfully deleted.
@@ -360,7 +340,6 @@ paths:
         tags:
           - "recycle-type"
         summary: Return all recycle-types
-        operationId: getRecycleTypeAll
         parameters:
          - $ref: "#/parameters/user_id"
         responses:
@@ -374,7 +353,6 @@ paths:
         tags:
           - "recycle-type"
         summary: Create a recycle-type
-        operationId: postRecycleType
         parameters:
           - name: composite_material
             in: body
@@ -397,7 +375,6 @@ paths:
         tags:
           - "recycle-type"
         summary: Return a recycle-type
-        operationId: getRecycleTypeId 
         responses:
           200:
             description: A material object
@@ -412,7 +389,6 @@ paths:
         tags:
           - "recycle-type"
         summary: Change a recycle-type
-        operationId: putRecycleType 
         parameters:
             - name: composite-material
               in: body
@@ -428,7 +404,6 @@ paths:
         tags:
           - "recycle-type"
         summary: Delete a recycle-type
-        operationId: deleteRecycleType 
         responses:
           204:
             description: Used-material successfully deleted.
@@ -442,7 +417,6 @@ paths:
         tags:
           - "user"
         summary: Return all users
-        operationId: getUserAll
         responses:
           200:
             description: A list of users
@@ -454,7 +428,6 @@ paths:
         tags:
           - "user"
         summary: Create a user
-        operationId: postUser
         parameters:
           - name: user
             in: body
@@ -477,7 +450,6 @@ paths:
         tags:
           - "user"
         summary: Return a user
-        operationId: getUserId 
         responses:
           200:
             description: A user object
@@ -492,7 +464,6 @@ paths:
         tags:
           - "user"
         summary: Change a user
-        operationId: putUser 
         parameters:
             - name: user
               in: body
@@ -510,7 +481,6 @@ paths:
         tags:
           - "user"
         summary: Delete a user
-        operationId: deleteUser
         responses:
           204:
             description: User successfully deleted.
@@ -523,7 +493,6 @@ paths:
         tags:
           - "record-state"
         summary: Return all record_states
-        operationId: getRecordStateAll
         responses:
           200:
             description: A list of record states
@@ -535,7 +504,6 @@ paths:
         tags:
           - "record-state"
         summary: Create a record state
-        operationId: postRecordState
         parameters:
           - name: record-state
             in: body
@@ -558,7 +526,6 @@ paths:
         tags:
           - "record-state"
         summary: Return a record-state
-        operationId: getRecordStateId 
         responses:
           200:
             description: A record-state
@@ -573,7 +540,6 @@ paths:
         tags:
           - "record-state"
         summary: Change a record-state
-        operationId: putRecordState 
         parameters:
             - name: record-state
               in: body
@@ -591,7 +557,6 @@ paths:
         tags:
           - "record-state"
         summary: Delete a record-state
-        operationId: deleteRecordState
         responses:
           204:
             description: Record-state successfully deleted.
