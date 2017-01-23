@@ -22,7 +22,8 @@ class LoadMaterials extends React.Component {
 			{key: 'compositeMaterials', url: '/api/composite-materials'},
 			{key: 'materials', url: '/api/materials'},
 			{key: 'recycleTypes', url: '/api/recycle-types'},
-			{key: 'units', url: '/api/units'}
+			{key: 'units', url: '/api/units'},
+			{key: 'users', url: '/api/users'}
 		];
 		resourcesToLoad.map(resource => {
 			fetchJsonWithSpecifiedStore(resource.key, resource.url)
