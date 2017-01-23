@@ -1,5 +1,4 @@
 import React from "react";
-import fuzzy from "fuzzy";
 import CSSModules from "react-css-modules";
 import styles from "./MaterialSelection.less";
 import {connect} from "react-redux";
@@ -13,12 +12,11 @@ class MaterialSelection extends React.Component {
 
 			material_id: 0,
 			//FIXME: unit_id shouldn't be in here but is curently needed.
-			unit_id: 1,
-			amount: 0,
-			recycle_type_id: 0,
+			unit_id: null,
+			amount: null,
+			recycle_type_id: null,
 			comment: '',
 			materialList,
-			materialSearchString: '',
 			searchOpen: false,
 			createNewText: 'Hittar du inte det du söker? Skapa en ny byggdel här! (funkar inte ännu, använd menyn..)'
 		};
@@ -35,23 +33,6 @@ class MaterialSelection extends React.Component {
 		});
 	}
 
-	materialSearch(e) {
-		const {materialCreation, materials, compositeMaterials} = this.props;
-		const materialList = materialCreation ? materials : compositeMaterials;
-
-		const options = {
-			extract: el => el.name
-		};
-		const results = fuzzy.filter(e.target.value, materialList, options);
-		const matches = results.map(el => el.original);
-
-		this.setState({
-			materialList: matches,
-			materialSearchString: e.target.value
-		});
-
-	}
-
 	handleMaterialChange(selected, materialIndex, material_id) {
 		const {materialCreation, compositeMaterials, materials} = this.props;
 		const materialList = materialCreation ? materials : compositeMaterials;
@@ -63,8 +44,7 @@ class MaterialSelection extends React.Component {
 			materialIndex,
 			material_id: material_id,
 			searchOpen: false,
-			subMaterials,
-			materialSearchString: selected.target.textContent
+			subMaterials
 		});
 	}
 
@@ -103,41 +83,34 @@ class MaterialSelection extends React.Component {
 	}
 
 	render() {
-		const {materialList, materialSearchString, material_id, amount, comment, subMaterials, amountError} = this.state;
-		const {materialCreation, compositeMaterials, materials, materialIndex, recycleTypes} = this.props;
+		const {materialList, material_id, amount, comment, subMaterials, amountError} = this.state;
+		const {materialCreation, materialIndex, recycleTypes} = this.props;
 
 		let materialUnit;
-		let materialNameText = materialList.filter(
-			filterMatierial => filterMatierial.id == material_id
-		).map(
-			filterMatierial => {
-				materialUnit = filterMatierial.unit;
-				return filterMatierial.name
-			}
-		);
-		materialNameText = materialNameText == '' ? 'Materialets namn' : materialNameText;
 
 		return (
 			<div>
 				<p style={{color: 'red'}}>{amountError}</p>
-				{materialList.map((val, i) => {
-					return (
-						<div
-							key={i}
-							onClick={event => this.handleMaterialChange(event, materialIndex, val.id)}
-							value={val.id}>
-							{val.name}
-						</div>
-					);
-				})}
-				<input
-					type="text"
-					placeholder="Sök efter materialets namn"
-					value={ materialSearchString }
-					name="material"
-					onChange={ event => this.materialSearch(event) }/>
 
 				<div styleName="amount-unit">
+					<select
+						type="text"
+						placeholder="Sök efter materialets namn"
+						value={ material_id }
+						name="material"
+						styleName="material"
+						onChange={ event => this.handleMaterialChange(materialIndex, event.target.value) }>
+						<option defaultValue>Välj material</option>
+						{materialList.map((val, i) => (
+								<option
+									key={i}
+									value={val.id}>
+									{val.name}
+								</option>
+							)
+						)}
+					</select>
+
 					<input
 						type="text"
 						placeholder="Mängd"
@@ -150,7 +123,7 @@ class MaterialSelection extends React.Component {
           </span>
 					{ (materialCreation || (subMaterials && subMaterials.length === 0) ) &&
 					<select styleName="RecycleClass" onChange={ (event) => this.handleRecycleClassChange(event)}>
-						<option disabled defaultValue>Typ av Material</option>
+						<option defaultValue>Typ av Material</option>
 						{recycleTypes && recycleTypes.map(recycleType =>
 							<option key={recycleType.id} value={recycleType.id}>{recycleType.name} </option>
 						)}

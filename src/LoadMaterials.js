@@ -18,11 +18,11 @@ class LoadMaterials extends React.Component {
 	componentDidMount() {
 		const {fetchJsonWithSpecifiedStore} = this.props;
 		const resourcesToLoad = [
-			{key: "usedMaterials", url: 'api/used-materials'},
-			{key: 'compositeMaterials', url: 'api/composite-materials'},
-			{key: 'materials', url: 'api/materials'},
-			{key: 'recycleTypes', url: 'api/recycle-types'},
-			{key: 'units', url: 'api/units'}
+			{key: "usedMaterials", url: '/api/used-materials?user'},
+			{key: 'compositeMaterials', url: '/api/composite-materials'},
+			{key: 'materials', url: '/api/materials'},
+			{key: 'recycleTypes', url: '/api/recycle-types'},
+			{key: 'units', url: '/api/units'}
 		];
 		resourcesToLoad.map(resource => {
 			fetchJsonWithSpecifiedStore(resource.key, resource.url)

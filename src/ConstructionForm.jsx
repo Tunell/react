@@ -11,7 +11,7 @@ class ConstructionForm extends React.Component {
 		super(props);
 		this.state = {
 			name: this.props.constructionName ? this.props.constructionName : '',
-			unit_id: 0,
+			unit_id: null,
 			materialComposition: [],
 			constructionParts: this.props.constructionParts ? this.props.constructionParts : 0,
 			constructionCreation: this.props.constructionCreation ? this.props.constructionCreation : false
@@ -182,8 +182,11 @@ class ConstructionForm extends React.Component {
 							value={ name }
 							name="name"
 							onChange={ event => this.handleNameUnitChange(event) }/>
-						<select name="unit_id" onChange={ event => this.handleNameUnitChange(event) }>
-							<option disabled defaultValue>Produktens enhet</option>
+						<select
+							name="unit_id"
+							value={unit_id}
+							onChange={ event => this.handleNameUnitChange(event) }>
+							<option defaultValue>Produktens enhet</option>
 							{units && units.map(unit =>
 								<option key={unit.id} value={unit.id}>{unit.name} </option>
 							)}
@@ -192,7 +195,11 @@ class ConstructionForm extends React.Component {
 				}
 				{ constructionParts > 0 &&
 				<div>
-					{ constructionSpecified && <h3>Bestående av:</h3> }
+					{ constructionCreation && <p>
+						1 {units[unit_id-1] && units[unit_id-1].name} {name} Består av följande:
+					</p>
+					}
+					{/* constructionSpecified && <h3>Bestående av:</h3> */}
 					{ subMaterials }
 					{ constructionCreation && <div>
 						<button onClick={ event => this.addConstructionPart(event) }>Lägg till material</button>
