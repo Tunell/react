@@ -16,13 +16,14 @@ function get(req, res) {
 function getAll(req, res) {
     // Extract query parameters
     // Composite material has a specific query
+    const queryObject = helpers.getQueryParams(req.swagger.params);
     if (helpers.parseUrlToTable(req.url) === 'composite_material') {
-        selectComp.all()
+        selectComp.all(queryObject.user_id)
             .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
     } else {
         let SQLquery = helpers.dbQueryBuilder(req.swagger);
-        query.select(SQLquery)
+        query.select(SQLquery, queryObject.user_id)
             .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
     }
@@ -37,7 +38,7 @@ function getId(req, res) {
             .catch(err => res.status(500).json(err.message))
     } else {
         let SQLquery = helpers.dbQueryBuilder(req.swagger);
-        query.select(SQLquery)
+        query.select(SQLquery, queryObject.id)
             .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
     }

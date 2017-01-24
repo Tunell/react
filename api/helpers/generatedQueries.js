@@ -2,9 +2,9 @@ var Promise = require("bluebird");
 var getSqlConnection = require('./databaseConnection');
 
 const generated = {
-    select: (query) => {
+    select: (query, filter) => {
         return new Promise.using(getSqlConnection(), (connection) => {
-            return connection.query(query).then( rows => rows)
+            return connection.query(query, filter).then( rows => rows)
         })
     }
 }

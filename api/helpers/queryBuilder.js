@@ -58,13 +58,23 @@ function buildQuery(mainTable, relatedTables, props, userParams) {
     let selectQuery = selectors.toString();
     let fromQuery = tables.toString();
     let whereQuery = createWhere(mainTable, relatedTables);
+
     if(whereQuery === '' && _.has(userParams, 'id')){
         whereQuery = `${mainTable}.id = ${userParams.id}`;
     } else if(whereQuery === '' && !(_.has(userParams, 'id'))){
         whereQuery = 'true';
     } else {
-        whereQuery = _.has(userParams, 'id') ? whereQuery + ` AND ${mainTable}.id = ${userParams.id}` : whereQuery
+        whereQuery = _.has(userParams, 'id') ? whereQuery + ` AND ${mainTable}.id = ?` : whereQuery
     }
+
+    if(whereQuery === '' && _.has(userParams, 'user_id')){
+        whereQuery = `${mainTable}.id = ${userParams.id}`;
+    } else if(whereQuery === '' && !(_.has(userParams, 'user_id'))){
+        whereQuery = 'true';
+    } else {
+        whereQuery = _.has(userParams, 'user_id') ? whereQuery + ` AND ${mainTable}.user_id = ?` : whereQuery
+    }
+
     let SQLquery = String.raw`SELECT ${selectQuery}
         FROM ${fromQuery}
         WHERE ${whereQuery}`

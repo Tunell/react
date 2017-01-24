@@ -14,26 +14,39 @@ const selectCompositeMaterial = {
 
     // Select query for all composite material, span several tables
 
-    all: () => {
+    all: (user_id) => {
         return new Promise.using(getSqlConnection(), function(connection) {
-            let query = "SELECT composite_material.id AS id, composite_material.user_id AS user_id, user.name AS user_name, composite_material.name AS composite_material_name, composite_material.unit_id AS composite_material_unit_id, unit_2.name AS composite_material_unit_name, composite_material.created AS created, composite_material.changed AS changed, composite_has_material.material_id AS material_id, material.name AS material_name, composite_has_material.unit_id AS material_unit_id, unit_1.name AS material_unit_name, composite_has_material.recycle_type_id AS material_recycle_type_id, recycle_type.name AS material_recycle_type_name, composite_has_material.amount AS amount FROM composite_material, composite_has_material, recycle_type, unit AS unit_1, material, unit AS unit_2, user WHERE composite_material.id = composite_has_material.composite_material_id AND composite_has_material.recycle_type_id = recycle_type.id AND composite_has_material.unit_id = unit_1.id AND composite_has_material.material_id = material.id AND composite_material.unit_id = unit_2.id AND composite_material.user_id = user.id";
-            return connection.query(query)
+
+            let query = String.raw`
+            SELECT
+            composite_material.id                  AS id,
+                composite_material.user_id             AS user_id,
+                user.name                              AS user_name,
+                composite_material.name                AS composite_material_name,
+                composite_material.unit_id             AS composite_material_unit_id,
+                unit_2.name                            AS composite_material_unit_name,
+                composite_material.created             AS created,
+                composite_material.changed             AS changed,
+                composite_has_material.material_id     AS material_id,
+                material.name                          AS material_name,
+                composite_has_material.unit_id         AS material_unit_id,
+                unit_1.name                            AS material_unit_name,
+                composite_has_material.recycle_type_id AS material_recycle_type_id,
+                recycle_type.name                      AS material_recycle_type_name,
+                composite_has_material.amount          AS amount
+            FROM composite_material, composite_has_material, recycle_type, unit AS unit_1, material, unit AS unit_2, user
+            WHERE composite_material.id = composite_has_material.composite_material_id AND
+            composite_has_material.recycle_type_id = recycle_type.id AND composite_has_material.unit_id = unit_1.id AND
+            composite_has_material.material_id = material.id AND composite_material.unit_id = unit_2.id AND
+            composite_material.user_id = user.id
+            `
+            if(user_id !== undefined) {
+                query += `AND composite_material.user_id = ?`
+            }
+            return connection.query(query, user_id)
                 .then( rows => createCompMaterials(rows))
         })
     }
-    /*
-    all: (pool) => {
-        return pool.getConnection()
-            .then( connection => {
-                let query = "SELECT composite_material.id AS id, composite_material.user_id AS user_id, user.name AS user_name, composite_material.name AS composite_material_name, composite_material.unit_id AS composite_material_unit_id, unit_2.name AS composite_material_unit_name, composite_material.created AS created, composite_material.changed AS changed, composite_has_material.material_id AS material_id, material.name AS material_name, composite_has_material.unit_id AS material_unit_id, unit_1.name AS material_unit_name, composite_has_material.recycle_type_id AS material_recycle_type_id, recycle_type.name AS material_recycle_type_name, composite_has_material.amount AS amount FROM composite_material, composite_has_material, recycle_type, unit AS unit_1, material, unit AS unit_2, user WHERE composite_material.id = composite_has_material.composite_material_id AND composite_has_material.recycle_type_id = recycle_type.id AND composite_has_material.unit_id = unit_1.id AND composite_has_material.material_id = material.id AND composite_material.unit_id = unit_2.id AND composite_material.user_id = user.id";
-                return connection.query(query)
-                    .then( rows => {
-                        connection.release();
-                        return createCompMaterials(rows)
-                    })
-            })
-    }
-    */
 }
 
 // Given a composite-material row, returns if it matches another row.
