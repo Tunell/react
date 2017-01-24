@@ -21,6 +21,10 @@ const insert = {
             })
             // Add queries
             .then( () => {
+                // Check that there are composite_has_materials specified
+                if(compositeMaterial.composite_has_materials.length === 0) {
+                    throw new Error('No composite_has_materials specified in request, cannot create composite-material')
+                }
                 // Query 1
                 return conn.query('INSERT INTO composite_material (user_id, name, unit_id) VALUES (?, ?, ?)',
                     [compositeMaterial.user_id, compositeMaterial.name, compositeMaterial.unit_id])
