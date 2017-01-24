@@ -9,15 +9,16 @@ import Login from "./pages/LoginPage.jsx";
 
 const routes = (
 
-    <Route path="/" component={TopMenu}>
-			<Route component={LoadMaterials}>
-        <IndexRoute component={Login}/>
-        <Route path="logga-in" component={Login}/>
-        <Route path="rapportera" component={MaterialReportPage}/>
-        <Route path="skapa-material" component={MaterialCreationPage}/>
-        <Route path="material-list" component={MaterialList}/>
-        {/*<Route path="/prefab-material-list" component={MaterialList} allowComposite={true}/>
-        <Route path="/anvant-material" component={MaterialList} materialUsageList={true}/>*/}
+
+    <Route component={LoadMaterials}>
+        <Route path="/" component={TopMenu}>
+            <IndexRoute component={Login}/>
+            <Route path="logga-in" component={Login}/>
+            <Route path="rapportera" component={MaterialReportPage}/>
+            <Route path="skapa-material" component={MaterialCreationPage}/>
+            <Route path="material-list" component={MaterialList}/>
+            {/*<Route path="/prefab-material-list" component={MaterialList} allowComposite={true}/>
+            <Route path="/anvant-material" component={MaterialList} materialUsageList={true}/>*/}
       </Route>
     </Route>
 );

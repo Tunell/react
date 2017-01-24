@@ -11,8 +11,8 @@ export default class MaterialCreationPage extends React.Component {
 		return (
 			<div className="material-box">
 
-				<h1>Lägg till ett grund-material eller prefabelement:</h1>
-				<p>Här kan du lägga till material till systemet som du sedan kan använda när du rapporterar in material</p>
+				<h1>Här kan du skapa byggdelar:</h1>
+				<p>En byggdel lägger du till systemet för att använda när du rapporterar in material. På så sätt kan du återanvända samma element flera gånger</p>
 				<ConstructionForm
 					url={url}
 					constructionCreation={true}

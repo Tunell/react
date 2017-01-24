@@ -11,7 +11,7 @@ class TopMenu extends React.Component {
 	}
 
 	render() {
-		const {changeUser, user} = this.props;
+		const {changeUser, user, users} = this.props;
 		return (
 			<div>
 				<div styleName="menu-bar">
@@ -29,9 +29,9 @@ class TopMenu extends React.Component {
 						 <Link to="/combo-vy" activeClassName="active">Kombinerad (test) vy </Link>*/ }
 						<select value={user} onChange={(event)=>changeUser(event.target.value)}>
 							<option disabled defaultValue>Typ av entrepenad</option>
-							<option value="1">Grundläggnings-entreprenad</option>
-							<option value="3">El-entreprenad</option>
-							<option value="2">VVS-entreprenad</option>
+							{users && users.map(user =>
+								<option key={user.id} value={user.id}>{user.name} </option>
+							)}
 						</select>
 					</div>
 				</div>
@@ -50,7 +50,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(
 	(state) => ( {
-		user: state.user
+		user: state.user,
+		users: state.resources.users && state.resources.users.json,
 	}),
 	mapDispatchToProps
 )(CSSModules(TopMenu, styles))

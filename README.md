@@ -1,6 +1,6 @@
 # react
 
-https://waffle.io/Tunell/react
+u
 
 cd to the correct folder.
 
@@ -17,3 +17,6 @@ npm start
 ##To Build:
 
 webpack
+
+##Live server:
+http://node-express-env.z7h53zphpv.us-west-2.elasticbeanstalk.com/

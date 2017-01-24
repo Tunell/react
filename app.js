@@ -58,10 +58,25 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
 
     // CURRENTLY NOT WORKING
     app.use(express.static('public'))
-    app.get('/rapportera', function (req, res) {
-        var test = path.resolve('./public/index.html');
-        res.status(404).sendFile(test)
-    })
+	app.use(function (req, res, next) {
+		res.status(404);
+
+		// respond with html page
+		if (req.accepts('html')) {
+			res.sendFile(path.join(__dirname, "./index.html"));
+			return;
+		}
+
+		// respond with json
+		if (req.accepts('json')) {
+			res.send({ error: 'Not found' });
+			return;
+		}
+
+		// default to plain-text. send()
+		res.type('txt').send('Not found');
+
+	})
 
     //---------------------------------------------------------------------------------------------------------------
 
