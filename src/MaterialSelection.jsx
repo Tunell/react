@@ -6,13 +6,14 @@ import {connect} from "react-redux";
 class MaterialSelection extends React.Component {
 	constructor(props) {
 		super(props);
-		const {materialCreation, material_has_meta, compositeMaterials} = this.props;
-		const materialList = materialCreation ? material_has_meta : compositeMaterials;
+		const {materialCreation, material_has_metas, compositeMaterials} = this.props;
+		const materialList = materialCreation ? material_has_metas : compositeMaterials;
 		this.state = {
 
 			material_id: 0,
 			//FIXME: unit_id shouldn't be in here but is curently needed.
 			unit_id: null,
+			unit_name: "",
 			amount: null,
 			recycle_type_id: null,
 			comment: '',
@@ -22,32 +23,34 @@ class MaterialSelection extends React.Component {
 		};
 	};
 
-	materialChange(nextState) {
-		this.props.onMaterialChange({
-			materialIndex: nextState.materialIndex,
-			material_id: parseInt(nextState.material_id),
-			unit_id: parseInt(nextState.unit_id),
-			amount: parseInt(nextState.amount),
-			recycle_type_id: parseInt(nextState.recycle_type_id),
-			comment: nextState.comment,
-		});
-	}
-
-	handleMaterialChange(materialIndex, material_id) {
-		const {materialCreation, compositeMaterials, material_has_meta} = this.props;
-		const materialList = materialCreation ? material_has_meta : compositeMaterials;
+	handleMaterialChange(materialIndex, materialListIndex) {
+		const {materialList} = this.state;
+		const {materialCreation} = this.props;
 		const subMaterials = materialList
-			.filter(loopMaterial => (loopMaterial.composite_has_materials && loopMaterial.id == material_id))
+			.filter(loopMaterial => (loopMaterial.composite_has_materials && loopMaterial.id == materialListIndex))
 			.map(loopMaterial => loopMaterial.composite_has_materials);
 
-		this.setState({
-			materialIndex,
-			material_id: material_id,
-			searchOpen: false,
-			unit_id: 2, //material_has_meta[material_id],
-			subMaterials
-		});
+		if (materialCreation) {
+			this.setState({
+				materialIndex,
+				material_id: materialList[materialListIndex].material_id,
+				searchOpen: false,
+				unit_id: materialList[materialListIndex].unit_id,
+				unit_name: materialList[materialListIndex].unit_name,
+				subMaterials
+			});
+		} else {
+			this.setState({
+				materialIndex,
+				material_id: materialList[materialListIndex].id,
+				searchOpen: false,
+				unit_id: materialList[materialListIndex].unit_id,
+				unit_name: materialList[materialListIndex].unit_name,
+				subMaterials
+			});
+		}
 	}
+
 
 	handleAmountChange(e) {
 		this.setState({
@@ -83,8 +86,19 @@ class MaterialSelection extends React.Component {
 		}
 	}
 
+	materialChange(nextState) {
+		this.props.onMaterialChange({
+			materialIndex: nextState.materialIndex,
+			material_id: parseInt(nextState.material_id),
+			unit_id: parseInt(nextState.unit_id),
+			amount: parseInt(nextState.amount),
+			recycle_type_id: parseInt(nextState.recycle_type_id),
+			comment: nextState.comment,
+		});
+	}
+
 	render() {
-		const {materialList, material_id, amount, comment, subMaterials, amountError} = this.state;
+		const {materialList, material_id, unit_id, unit_name, amount, comment, subMaterials, amountError} = this.state;
 		const {materialCreation, materialIndex, recycleTypes} = this.props;
 
 		let materialUnit;
@@ -105,8 +119,12 @@ class MaterialSelection extends React.Component {
 						{materialList.map((val, i) => (
 								<option
 									key={i}
-									value={val.id}>
-									{val.name}
+									value={i}>
+									{materialCreation ?
+										`${val.material_name} ${val.recycle_type_name}`
+										:
+										val.name
+									}
 								</option>
 							)
 						)}
@@ -119,17 +137,18 @@ class MaterialSelection extends React.Component {
 						onChange={ event => this.handleAmountChange(event)}
 						styleName="amount"
 					/>
+					{unit_name}
+
 					<span styleName="unit">
             { materialUnit }
           </span>
-					{ (materialCreation || (subMaterials && subMaterials.length === 0) ) &&
+					{/* (materialCreation  enable comments for all || (subMaterials && subMaterials.length === 0) ) &&*/}
 					<select styleName="RecycleClass" onChange={ (event) => this.handleRecycleClassChange(event)}>
 						<option defaultValue>Typ av Material</option>
 						{recycleTypes && recycleTypes.map(recycleType =>
 							<option key={recycleType.id} value={recycleType.id}>{recycleType.name} </option>
 						)}
 					</select>
-					}
 					{ !materialCreation && <input
 						type="text"
 						placeholder="Kommentar"
@@ -147,6 +166,6 @@ export default connect(
 	(state) => ( {
 		recycleTypes: state.resources.recycleTypes.json,
 		compositeMaterials: state.resources.compositeMaterials.json,
-		material_has_meta: state.resources.materials.json
+		material_has_metas: state.resources.material_has_metas.json
 	})
 )(CSSModules(MaterialSelection, styles))
