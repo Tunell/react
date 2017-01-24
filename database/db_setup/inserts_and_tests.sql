@@ -16,13 +16,20 @@ VALUES (1, "Betong"),
 
 INSERT INTO recycle_type (name)
 VALUES ("Nytt"),
-       ("Återvunnet");
+       ("Återvunnet"),
+       ("Vet Ej");
 
 INSERT INTO meta_material (name, unit_id)
 VALUES ("CO2", 2);
 
 INSERT INTO material_has_meta (meta_material_id, material_id, recycle_type_id, unit_id, amount)
-VALUES (1, 1, 1, 1, 4);
+VALUES (1, 1, 1, 3, 1),
+       (1, 1, 1, 2, 1),
+       (1, 1, 1, 1, 1),
+
+       (1, 2, 1, 1, 1),
+       (1, 2, 1, 2, 1),
+       (1, 2, 1, 3, 1);
 
 INSERT INTO composite_material (user_id, name, unit_id)
 VALUES (1, "Betong", 3),

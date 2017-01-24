@@ -565,7 +565,21 @@ paths:
           500:
             $ref: "#/responses/Standard500ErrorResponse" 
             
-          
+            
+  /material-has-metas:
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "material-has-meta"
+        summary: Return all record_states
+        responses:
+          200:
+            description: A list of record states
+            schema:
+              $ref: "#/definitions/material-has-metas"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+            
           
   /swagger:
     x-swagger-pipe: swagger_raw
@@ -791,6 +805,38 @@ definitions:
     type: array
     items:
       $ref: "#/definitions/record-state"
+      
+      
+  material-has-meta:
+    required:
+      - meta_material_id
+      - material_id
+      - recycle_type_id
+      - unit_id
+      - amount
+    properties:
+      meta_material_id:
+        type: integer
+      material_id: 
+        type: integer
+      material_name:
+        type: string
+      recycle_type_id:
+        type: integer
+      recycle_type_name:
+        type: string
+      unit_id:
+        type: integer
+      unit_name:
+        type: string
+      amount:
+        type: integer
+  
+  material-has-metas:
+      type: array
+      items:
+        $ref: "#/definitions/material-has-meta"
+            
        
   Error:
     properties:

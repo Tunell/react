@@ -25,7 +25,11 @@ function getQueryParams(params) {
 }
 
 function getTableFromPath(swaggerReq) {
-    return swaggerReq.apiPath.split('/')[1].replace('-', '_').slice(0, -1)
+    let result = swaggerReq.apiPath.split('/')[1].replace('-', '_').slice(0, -1)
+    if(result === "material_has-meta") {
+        result = swaggerReq.apiPath.split('/')[1].replace('-', '_').slice(0, -1).replace('-', '_');
+    }
+    return result
 }
 
 function getTablesFromProps(props) {
