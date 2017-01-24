@@ -20,6 +20,7 @@ class LoadMaterials extends React.Component {
 		const resourcesToLoad = [
 			{key: "usedMaterials", url: '/api/used-materials?user'},
 			{key: 'compositeMaterials', url: '/api/composite-materials'},
+			{key: 'materials_has_meta', url: '/api/materials_has_meta'},
 			{key: 'materials', url: '/api/materials'},
 			{key: 'recycleTypes', url: '/api/recycle-types'},
 			{key: 'units', url: '/api/units'},

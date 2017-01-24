@@ -6,8 +6,8 @@ import {connect} from "react-redux";
 class MaterialSelection extends React.Component {
 	constructor(props) {
 		super(props);
-		const {materialCreation, materials, compositeMaterials} = this.props;
-		const materialList = materialCreation ? materials : compositeMaterials;
+		const {materialCreation, material_has_meta, compositeMaterials} = this.props;
+		const materialList = materialCreation ? material_has_meta : compositeMaterials;
 		this.state = {
 
 			material_id: 0,
@@ -33,17 +33,18 @@ class MaterialSelection extends React.Component {
 		});
 	}
 
-	handleMaterialChange(selected, materialIndex, material_id) {
-		const {materialCreation, compositeMaterials, materials} = this.props;
-		const materialList = materialCreation ? materials : compositeMaterials;
+	handleMaterialChange(materialIndex, material_id) {
+		const {materialCreation, compositeMaterials, material_has_meta} = this.props;
+		const materialList = materialCreation ? material_has_meta : compositeMaterials;
 		const subMaterials = materialList
-			.filter(loopMaterial => (loopMaterial.materialComposition && loopMaterial.id == material_id))
-			.map(loopMaterial => loopMaterial.materialComposition);
+			.filter(loopMaterial => (loopMaterial.composite_has_materials && loopMaterial.id == material_id))
+			.map(loopMaterial => loopMaterial.composite_has_materials);
 
 		this.setState({
 			materialIndex,
 			material_id: material_id,
 			searchOpen: false,
+			unit_id: 2, //material_has_meta[material_id],
 			subMaterials
 		});
 	}
@@ -133,6 +134,7 @@ class MaterialSelection extends React.Component {
 						type="text"
 						placeholder="Kommentar"
 						value={ comment }
+						styleName="comment"
 						onChange={ event => this.handleCommentChange(event) }/>
 					}
 				</div>
@@ -145,6 +147,6 @@ export default connect(
 	(state) => ( {
 		recycleTypes: state.resources.recycleTypes.json,
 		compositeMaterials: state.resources.compositeMaterials.json,
-		materials: state.resources.materials.json
+		material_has_meta: state.resources.materials.json
 	})
 )(CSSModules(MaterialSelection, styles))
