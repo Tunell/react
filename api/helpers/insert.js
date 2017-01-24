@@ -45,7 +45,7 @@ const insert = {
             // If violations or failure, rollback
             .catch( err => {
                 conn.query('ROLLBACK')
-                return err.message
+                throw new Error(err.message)
             })
     }
 }

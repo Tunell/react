@@ -57,7 +57,7 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
     //---------------------------------------------------------------------------------------------------------------
 
     // CURRENTLY NOT WORKING
-    app.use(express.static('public'))
+    /*app.use(express.static('public'))
 	app.use(function (req, res, next) {
 		res.status(404);
 
@@ -77,6 +77,7 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
 		res.type('txt').send('Not found');
 
 	})
+	*/
 
     //---------------------------------------------------------------------------------------------------------------
 
