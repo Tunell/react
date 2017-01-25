@@ -96,7 +96,7 @@ class MaterialSelection extends React.Component {
 			materialIndex,
 			material_id: parseInt(nextState.material_id),
 			unit_id: parseInt(nextState.unit_id),
-			amount: parseInt(nextState.amount),
+			amount: parseFloat(nextState.amount),
 			recycle_type_id: parseInt(nextState.recycle_type_id),
 			comment: nextState.comment,
 		});
