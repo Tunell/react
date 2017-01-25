@@ -17,14 +17,17 @@ class UsedMaterialsList extends React.Component {
 		const {usedMaterials, compositeMaterials} = this.props;
 		//calculate the sum of all materials
 		const materialUsage = usedMaterials.reduce((allCompositeMaterials, compositeMaterial) => {
-			compositeMaterials[compositeMaterial.composite_material_id].composite_has_materials.map(rawMaterial => {
-				if (rawMaterial.material_name in allCompositeMaterials) {
-					allCompositeMaterials[rawMaterial.material_name] += compositeMaterial.amount;
-				}
-				else {
-					allCompositeMaterials[rawMaterial.material_name] = compositeMaterial.amount;
-				}
-			});
+			const compMaterial = compositeMaterials.filter(filterMaterial=> filterMaterial.id == compositeMaterial.composite_material_id)[0];
+			if(compMaterial){
+				compMaterial.composite_has_materials.map(rawMaterial => {
+					if (rawMaterial.material_name in allCompositeMaterials) {
+						allCompositeMaterials[rawMaterial.material_name] += compositeMaterial.amount;
+					}
+					else {
+						allCompositeMaterials[rawMaterial.material_name] = compositeMaterial.amount;
+					}
+				});
+			}
 			return allCompositeMaterials;
 		}, {});
 
