@@ -18,7 +18,6 @@ class MaterialSelection extends React.Component {
 			recycle_type_id: null,
 			comment: '',
 			materialList,
-			searchOpen: false,
 			createNewText: 'Hittar du inte det du söker? Skapa en ny byggdel här! (funkar inte ännu, använd menyn..)'
 		};
 	};
@@ -29,12 +28,18 @@ class MaterialSelection extends React.Component {
 		const subMaterials = materialList
 			.filter(loopMaterial => (loopMaterial.composite_has_materials && loopMaterial.id == materialListIndex))
 			.map(loopMaterial => loopMaterial.composite_has_materials);
-
-		if (materialCreation) {
+		if(materialListIndex === 'placeholder'){
+			this.setState({
+				materialListIndex: 0,
+				material_id: 0,
+				unit_id: 0,
+				unit_name: 0,
+				subMaterials
+			});
+		}else if (materialCreation) {
 			this.setState({
 				materialListIndex,
 				material_id: materialList[materialListIndex].material_id,
-				searchOpen: false,
 				unit_id: materialList[materialListIndex].unit_id,
 				unit_name: materialList[materialListIndex].unit_name,
 				subMaterials
@@ -43,7 +48,6 @@ class MaterialSelection extends React.Component {
 			this.setState({
 				materialListIndex,
 				material_id: materialList[materialListIndex].id,
-				searchOpen: false,
 				unit_id: materialList[materialListIndex].unit_id,
 				unit_name: materialList[materialListIndex].unit_name,
 				subMaterials
@@ -115,7 +119,7 @@ class MaterialSelection extends React.Component {
 						name="material"
 						styleName="material"
 						onChange={ event => this.handleMaterialChange(event.target.value) }>
-						<option defaultValue>Välj material</option>
+						<option defaultValue value="placeholder">Välj material</option>
 						{materialList.map((val, i) => (
 								<option
 									key={i}

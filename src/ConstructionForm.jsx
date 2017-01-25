@@ -48,15 +48,21 @@ class ConstructionForm extends React.Component {
 
 	addConstructionPart(e) {
 		e.preventDefault();
+		let {composite_has_materials} = this.state;
+		composite_has_materials.push({});
 		this.setState({
-			constructionParts: this.state.constructionParts + 1
+			constructionParts: this.state.constructionParts + 1,
+			composite_has_materials
 		});
 	}
 
 	removeConstructionPart(e) {
 		e.preventDefault();
+		let {composite_has_materials} = this.state;
+		composite_has_materials.pop();
 		this.setState({
-			constructionParts: this.state.constructionParts - 1
+			constructionParts: this.state.constructionParts - 1,
+			composite_has_materials
 		});
 		//FIXME: This also needs to go through the state and remove the unwanted material_id
 	}
@@ -158,7 +164,9 @@ class ConstructionForm extends React.Component {
 				submitEnabled = false;
 			}
 			composite_has_materials.map(compositeMapMaterial => {
-				if(compositeMapMaterial.material_id > 0 && compositeMapMaterial.amount > 0 &&  compositeMapMaterial.recycle_type_id > 0){
+				if(compositeMapMaterial.material_id > 0 &&
+					compositeMapMaterial.amount > 0 &&
+					compositeMapMaterial.recycle_type_id > 0){
 
 				}else{
 					submitEnabled = false
@@ -167,6 +175,7 @@ class ConstructionForm extends React.Component {
 		} else {
 			submitEnabled = (user > 0 &&
 				composite_has_materials[0] &&
+				composite_has_materials[0].material_id > 0 &&
 				composite_has_materials[0].amount > 0 &&
 				composite_has_materials[0].comment &&
 				composite_has_materials[0].recycle_type_id > 0
