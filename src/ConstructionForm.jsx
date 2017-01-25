@@ -106,7 +106,7 @@ class ConstructionForm extends React.Component {
 			//add new used-material_id
 			response = await LoadJson(url, "POST", {
 				composite_material_id: parseInt(this.state.composite_has_materials[0].material_id),
-				amount: parseInt(this.state.composite_has_materials[0].amount),
+				amount: parseFloat(this.state.composite_has_materials[0].amount),
 				user_id: parseInt(user),
 				comment: this.state.composite_has_materials[0].comment
 			});
@@ -166,6 +166,7 @@ class ConstructionForm extends React.Component {
 			composite_has_materials.map(compositeMapMaterial => {
 				if(compositeMapMaterial.material_id > 0 &&
 					compositeMapMaterial.amount > 0 &&
+					!isNaN(compositeMapMaterial.amount) &&
 					compositeMapMaterial.recycle_type_id > 0){
 
 				}else{
@@ -177,6 +178,7 @@ class ConstructionForm extends React.Component {
 				composite_has_materials[0] &&
 				composite_has_materials[0].material_id > 0 &&
 				composite_has_materials[0].amount > 0 &&
+				!isNaN(composite_has_materials[0].amount) &&
 				composite_has_materials[0].comment &&
 				composite_has_materials[0].recycle_type_id > 0
 			);
