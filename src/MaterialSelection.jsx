@@ -9,7 +9,7 @@ class MaterialSelection extends React.Component {
 		const {materialCreation, material_has_metas, compositeMaterials} = this.props;
 		const materialList = materialCreation ? material_has_metas : compositeMaterials;
 		this.state = {
-
+			materialListIndex: 0,
 			material_id: 0,
 			//FIXME: unit_id shouldn't be in here but is curently needed.
 			unit_id: null,
@@ -23,7 +23,7 @@ class MaterialSelection extends React.Component {
 		};
 	};
 
-	handleMaterialChange(materialIndex, materialListIndex) {
+	handleMaterialChange(materialListIndex) {
 		const {materialList} = this.state;
 		const {materialCreation} = this.props;
 		const subMaterials = materialList
@@ -32,7 +32,7 @@ class MaterialSelection extends React.Component {
 
 		if (materialCreation) {
 			this.setState({
-				materialIndex,
+				materialListIndex,
 				material_id: materialList[materialListIndex].material_id,
 				searchOpen: false,
 				unit_id: materialList[materialListIndex].unit_id,
@@ -41,7 +41,7 @@ class MaterialSelection extends React.Component {
 			});
 		} else {
 			this.setState({
-				materialIndex,
+				materialListIndex,
 				material_id: materialList[materialListIndex].id,
 				searchOpen: false,
 				unit_id: materialList[materialListIndex].unit_id,
@@ -87,8 +87,9 @@ class MaterialSelection extends React.Component {
 	}
 
 	materialChange(nextState) {
+		const {materialIndex} = this.props;
 		this.props.onMaterialChange({
-			materialIndex: nextState.materialIndex,
+			materialIndex,
 			material_id: parseInt(nextState.material_id),
 			unit_id: parseInt(nextState.unit_id),
 			amount: parseInt(nextState.amount),
@@ -98,8 +99,8 @@ class MaterialSelection extends React.Component {
 	}
 
 	render() {
-		const {materialList, material_id, unit_id, unit_name, amount, comment, subMaterials, amountError} = this.state;
-		const {materialCreation, materialIndex, recycleTypes} = this.props;
+		const {materialList, materialListIndex, unit_name, amount, comment, amountError} = this.state;
+		const {materialCreation,  recycleTypes} = this.props;
 
 		let materialUnit;
 
@@ -111,10 +112,9 @@ class MaterialSelection extends React.Component {
 					<select
 						type="text"
 						placeholder="Sök efter materialets namn"
-						value={ material_id }
 						name="material"
 						styleName="material"
-						onChange={ event => this.handleMaterialChange(materialIndex, event.target.value) }>
+						onChange={ event => this.handleMaterialChange(event.target.value) }>
 						<option defaultValue>Välj material</option>
 						{materialList.map((val, i) => (
 								<option

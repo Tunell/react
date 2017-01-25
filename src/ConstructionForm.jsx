@@ -154,6 +154,16 @@ class ConstructionForm extends React.Component {
 		//Validate all fields before enabling submit-button
 		if (constructionCreation) {
 			submitEnabled = (unit_id > 0 && name && user > 0);
+			if(!composite_has_materials.length > 0){
+				submitEnabled = false;
+			}
+			composite_has_materials.map(compositeMapMaterial => {
+				if(compositeMapMaterial.material_id > 0 && compositeMapMaterial.amount > 0 &&  compositeMapMaterial.recycle_type_id > 0){
+
+				}else{
+					submitEnabled = false
+				}
+			});
 		} else {
 			submitEnabled = (user > 0 &&
 				composite_has_materials[0] &&
