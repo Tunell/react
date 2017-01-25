@@ -1,6 +1,5 @@
 DROP DATABASE byggstyrning;
 CREATE DATABASE byggstyrning;
-
 -- MySQL Workbench Forward Engineering
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
@@ -116,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `byggstyrning`.`used_material` (
   `user_id` INT NOT NULL,
   `composite_material_id` INT NOT NULL,
   `record_state_id` INT NOT NULL DEFAULT 1,
-  `amount` INT NOT NULL,
+  `amount` DOUBLE NOT NULL,
   `comment` VARCHAR(200) NOT NULL,
   `created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `changed` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -178,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `byggstyrning`.`material_has_meta` (
   `material_id` INT NOT NULL,
   `recycle_type_id` INT NOT NULL,
   `unit_id` INT NOT NULL,
-  `amount` INT NOT NULL,
+  `amount` DOUBLE NOT NULL,
   INDEX `fk_material_has_meta_material1_idx` (`material_id` ASC),
   PRIMARY KEY (`meta_material_id`, `material_id`, `recycle_type_id`, `unit_id`),
   INDEX `fk_material_has_meta_meta_material1_idx` (`meta_material_id` ASC),
@@ -214,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `byggstyrning`.`composite_has_material` (
   `material_id` INT NOT NULL,
   `recycle_type_id` INT NOT NULL,
   `unit_id` INT NOT NULL,
-  `amount` INT NOT NULL,
+  `amount` DOUBLE NOT NULL,
   PRIMARY KEY (`composite_material_id`, `material_id`, `recycle_type_id`, `unit_id`),
   INDEX `fk_composite_has_material_material1_idx` (`material_id` ASC),
   INDEX `fk_composite_has_material_recycle_class1_idx` (`recycle_type_id` ASC),
@@ -245,6 +244,7 @@ CREATE TABLE IF NOT EXISTS `byggstyrning`.`composite_has_material` (
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
 
 USE byggstyrning;
 

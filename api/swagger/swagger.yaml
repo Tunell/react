@@ -609,7 +609,8 @@ definitions:
       comment:
         type: string
       amount:
-        type: integer
+        type: number
+        format: double
       created:
         type: string
       changed:
@@ -694,7 +695,8 @@ definitions:
       unit_name:
         type: string
       amount:
-        type: integer
+        type: number
+        format: double
       
       
         
@@ -830,7 +832,8 @@ definitions:
       unit_name:
         type: string
       amount:
-        type: integer
+        type: number
+        format: double
   
   material-has-metas:
       type: array
