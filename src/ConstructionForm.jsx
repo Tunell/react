@@ -12,7 +12,7 @@ class ConstructionForm extends React.Component {
 		this.state = {
 			name: this.props.constructionName ? this.props.constructionName : '',
 			unit_id: null,
-			materialComposition: [],
+			composite_has_materials: [],
 			constructionParts: this.props.constructionParts ? this.props.constructionParts : 0,
 			constructionCreation: this.props.constructionCreation ? this.props.constructionCreation : false
 		};
@@ -40,7 +40,7 @@ class ConstructionForm extends React.Component {
 		this.setState({
 			name: '',
 			unit_id: 0,
-			materialComposition: [],
+			composite_has_materials: [],
 			constructionParts,
 			constructionCreation: constructionType
 		});
@@ -62,17 +62,17 @@ class ConstructionForm extends React.Component {
 	}
 
 	handleMaterialChange(material) {
-		const {materialComposition} = this.state;
+		const {composite_has_materials} = this.state;
 		if (material.material_id == 'createNew') {
 			this.createConstructionPart('standard');
 			return;
 		}
-		let materialArray = materialComposition;
+		let materialArray = composite_has_materials;
 		materialArray[material.materialIndex] = material;
 		materialArray[material.materialIndex].created = Date.now();
 
 		this.setState({
-			materialComposition: materialArray
+			composite_has_materials: materialArray
 		});
 	}
 
@@ -82,7 +82,7 @@ class ConstructionForm extends React.Component {
 		const {unit_id} = this.state;
 		const name = this.state.name.trim();
 		//Validate form
-		/*if (!user || !unit_id || !name || this.state.materialComposition.length == 0) {
+		/*if (!user || !unit_id || !name || this.state.composite_has_materials.length == 0) {
 			return;
 		 }*/
 
@@ -93,16 +93,16 @@ class ConstructionForm extends React.Component {
 			response = await LoadJson(url, "POST", {
 				name,
 				unit_id,
-				composite_has_materials: this.state.materialComposition,
+				composite_has_materials: this.state.composite_has_materials,
 				user_id: parseInt(user)
 			});
 		} else {
 			//add new used-material_id
 			response = await LoadJson(url, "POST", {
-				composite_material_id: parseInt(this.state.materialComposition[0].material_id),
-				amount: parseInt(this.state.materialComposition[0].amount),
+				composite_material_id: parseInt(this.state.composite_has_materials[0].material_id),
+				amount: parseInt(this.state.composite_has_materials[0].amount),
 				user_id: parseInt(user),
-				comment: this.state.materialComposition[0].comment
+				comment: this.state.composite_has_materials[0].comment
 			});
 
 		}
@@ -123,7 +123,7 @@ class ConstructionForm extends React.Component {
 			this.setState({
 					name: '',
 					unit_id: 0,
-					materialComposition: [],
+					composite_has_materials: [],
 					constructionParts: 0,
 					constructionCreation: false,
 					error: false
@@ -137,7 +137,7 @@ class ConstructionForm extends React.Component {
 
 	render() {
 		const {units, user} = this.props;
-		const {unit_id, materialComposition, constructionParts, constructionCreation, name, error} = this.state;
+		const {unit_id, composite_has_materials, constructionParts, constructionCreation, name, error} = this.state;
 		let subMaterials = [];
 		for (var i = 0; i < this.state.constructionParts; i++) {
 			subMaterials.push(
@@ -156,10 +156,10 @@ class ConstructionForm extends React.Component {
 			submitEnabled = (unit_id > 0 && name && user > 0);
 		} else {
 			submitEnabled = (user > 0 &&
-				materialComposition[0] &&
-				materialComposition[0].amount > 0 &&
-				materialComposition[0].comment &&
-				materialComposition[0].recycle_type_id > 0
+				composite_has_materials[0] &&
+				composite_has_materials[0].amount > 0 &&
+				composite_has_materials[0].comment &&
+				composite_has_materials[0].recycle_type_id > 0
 			);
 		}
 		return (

@@ -22,13 +22,15 @@ class TopMenu extends React.Component {
 						</Link>
 						<Link to="/material-list" activeClassName="active"> Min Materiallista
 						</Link>
-						<Link to="/logga-in" activeClassName="active"> Logga in
-						</Link>
 						{ /*<Link to="/prefab-material-list" activeClassName="active">Prefablista</Link>
 						 <Link to="/anvant-material" activeClassName="active">Använt material</Link>
 						 <Link to="/combo-vy" activeClassName="active">Kombinerad (test) vy </Link>*/ }
-						<select value={user} onChange={(event)=>changeUser(event.target.value)}>
-							<option disabled defaultValue>Typ av entrepenad</option>
+						<select
+							value={user}
+							onChange={(event)=>changeUser(event.target.value)}
+						    styleName="user"
+						>
+							<option disabled defaultValue>Logga In</option>
 							{users && users.map(user =>
 								<option key={user.id} value={user.id}>{user.name} </option>
 							)}
