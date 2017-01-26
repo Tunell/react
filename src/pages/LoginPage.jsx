@@ -3,23 +3,19 @@ import React from "react";
 import {connect} from "react-redux";
 import {changeUser} from "../Login/loginAction.jsx";
 
-const LoginPage = ({changeUser, user}: {changeUser: any, user: number}) => (
+const LoginPage = ({changeUser, user, users}: {changeUser: any, user: number, users: [Object]}) => (
 	<div>
 		<p style={{color:'red'}}>TODO: Lägg till lösenord till hela sidan</p>
 		<br/>
-		<select value={user} onChange={event => changeUser(event.target.value)}>
-			<option>
-				Typ av entrepenad
-			</option>
-			<option value="1">
-				Grundläggnings-entreprenad
-			</option>
-			<option value="3">
-				El-entreprenad
-			</option>
-			<option value="2">
-				VVS-entreprenad
-			</option>
+		<select
+			value={user}
+			onChange={(event)=>changeUser(event.target.value)}
+			styleName="user"
+		>
+			<option disabled defaultValue>Logga In</option>
+			{users && users.map(user =>
+				<option key={user.id} value={user.id}>{user.name} </option>
+			)}
 		</select>
 	</div>
 );
@@ -30,7 +26,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(
 	(state) => ( {
-		user: state.user
+		user: state.user,
+		users: state.resources.users && state.resources.users.json,
 	}),
 	mapDispatchToProps
 )(LoginPage)
