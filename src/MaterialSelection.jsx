@@ -7,7 +7,12 @@ class MaterialSelection extends React.Component {
 	constructor(props) {
 		super(props);
 		const {materialCreation, material_has_metas, compositeMaterials} = this.props;
-		const materialList = materialCreation ? material_has_metas : compositeMaterials;
+		const filteredMaterialHasMeta = material_has_metas.filter(
+			(elt, i, a) => i === a.findIndex(
+				elt2 => elt.material_id === elt2.material_id
+			)
+		);
+		const materialList = materialCreation ? filteredMaterialHasMeta : compositeMaterials;
 		this.state = {
 			materialListIndex: 0,
 			material_id: 0,
@@ -103,7 +108,7 @@ class MaterialSelection extends React.Component {
 	}
 
 	render() {
-		const {materialList, materialListIndex, unit_name, amount, comment, amountError} = this.state;
+		const {materialList, unit_name, amount, comment, amountError} = this.state;
 		const {materialCreation,  recycleTypes} = this.props;
 
 		let materialUnit;
@@ -125,7 +130,7 @@ class MaterialSelection extends React.Component {
 									key={i}
 									value={i}>
 									{materialCreation ?
-										`${val.material_name} ${val.recycle_type_name}`
+										val.material_name
 										:
 										val.name
 									}
