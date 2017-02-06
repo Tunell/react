@@ -15,7 +15,7 @@ class LoadMaterials extends React.Component {
 		};
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		const {fetchJsonWithSpecifiedStore} = this.props;
 		const resourcesToLoad = [
 			{key: "usedMaterials", url: '/api/used-materials?user'},

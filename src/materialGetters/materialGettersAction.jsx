@@ -22,7 +22,11 @@ const recieveJson = (url, json) => {
 	}
 };
 
-//Action Creator
+/**
+ * Action Creator
+ * @param url
+ * @returns {{type, url: *}}
+ */
 const requestJson = (url) => {
 	return {
 		type: REQUEST_RESOURCE,
@@ -30,7 +34,12 @@ const requestJson = (url) => {
 	}
 };
 
-//Action Creator
+/**
+ * Action Creator
+ * @param reduxStorageUrl
+ * @param urlWithParams
+ * @returns {function(*, *)}
+ */
 export function fetchJsonWithSpecifiedStore(reduxStorageUrl, urlWithParams) {
 	return (dispatch, getState) => {
 		dispatch(requestJson(reduxStorageUrl))

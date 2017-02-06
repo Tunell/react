@@ -28,11 +28,11 @@ class TopMenu extends React.Component {
 						<select
 							value={user}
 							onChange={(event)=>changeUser(event.target.value)}
-						    styleName="user"
+							styleName="user"
 						>
 							<option disabled defaultValue>Logga In</option>
-							{users && users.map(user =>
-								<option key={user.id} value={user.id}>{user.name} </option>
+							{users.map(user =>
+								<option key={user.id} value={user.id}>{user.name}</option>
 							)}
 						</select>
 					</div>
@@ -53,7 +53,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
 	(state) => ( {
 		user: state.user,
-		users: state.resources.users && state.resources.users.json,
+		users: state.resources.users.json ? state.resources.users.json : [],
 	}),
 	mapDispatchToProps
 )(CSSModules(TopMenu, styles))

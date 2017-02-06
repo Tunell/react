@@ -249,7 +249,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
 	(state) => ( {
 		user: state.user,
-		units: state.resources.units.json,
+		units: state.resources.units.json ? state.resources.units.json : [],
 	}),
 	mapDispatchToProps
 )(CSSModules(ConstructionForm, styles))
