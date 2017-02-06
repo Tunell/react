@@ -20,7 +20,7 @@ module.exports = [{
 		devtool: 'eval',
 
     plugins: [
-        new webpack.NoErrorsPlugin(), // recommanded by webpack
+	    new webpack.NoEmitOnErrorsPlugin(),
         new webpack.HotModuleReplacementPlugin()
     ],
     resolve:{

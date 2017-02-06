@@ -18,13 +18,13 @@ class UsedMaterialsLog extends React.Component {
 	}
 
 	async deleteMaterial(material: number) {
-		const {fetchJsonWithSpecifiedStore} = this.props;
+		const {user, fetchJsonWithSpecifiedStore} = this.props;
 		try {
 			const response = await LoadJson('/api/used-materials/' + material, "DELETE");
 
 			const resourcesToLoad = [
-				{key: "usedMaterials", url: 'api/used-materials'},
-				{key: 'compositeMaterials', url: 'api/composite-materials'},
+				{key: "usedMaterials", url: `/api/used-materials?user_id=${user}`},
+				{key: 'compositeMaterials', url: `/api/composite-materials?user_id=${user}`},
 			];
 			resourcesToLoad.map(resource => {
 				fetchJsonWithSpecifiedStore(resource.key, resource.url)
@@ -78,6 +78,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(
 	(state) => ( {
+		user: state.user,
 		usedMaterials: state.resources.usedMaterials.json,
 	}),
 	mapDispatchToProps
