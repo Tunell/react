@@ -13,7 +13,7 @@ module.exports = [{
     ],
     output: {
         path: __dirname,
-        filename: 'target/bundle.js',
+	    filename: 'bundle.js',
         library: 'MyApp',
         publicPath: 'http://localhost:8080/'
     },
