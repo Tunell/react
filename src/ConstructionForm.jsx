@@ -19,13 +19,21 @@ class ConstructionForm extends React.Component {
 	}
 
 	handleNameUnitChange(e) {
+		const value = e.target.value;
 		if (e.target.name === 'unit_id') {
-			this.setState({
-				[e.target.name]: parseInt(e.target.value)
-			});
+			if (isNaN(value)) {
+				this.setState({
+					[e.target.name + 'Error']: 'Enhets id måste vara ett nummer'
+				});
+			} else {
+				this.setState({
+					[e.target.name + 'Error']: false,
+					[e.target.name]: parseInt(value)
+				});
+			}
 		} else {
 			this.setState({
-				[e.target.name]: e.target.value
+				[e.target.name]: value
 			});
 		}
 	}
@@ -78,9 +86,35 @@ class ConstructionForm extends React.Component {
 		materialArray[material.materialIndex].created = Date.now();
 
 		this.setState({
-			composite_has_materials: materialArray
+			composite_has_materials: materialArray,
+			recycle_type_idError: composite_has_materials.every(composite_has_material => {
+				return isNaN(composite_has_material.recycle_type_id)
+			}) ? "Du måste välja återvinningstyp på dit material" : false,
+			composite_has_materialsError: composite_has_materials.every(composite_has_material => {
+				return isNaN(composite_has_material.material_id) || composite_has_material.material_id === 0
+			}) ? "Du måste välja ett material" : false
 		});
 	}
+
+	validateForm = () => {
+		const {constructionCreation, unit_id, composite_has_materials} = this.state;
+		if (constructionCreation) {
+			//TODO: add validation on construction creation
+		} else {
+			if (unit_id === null) {
+				this.setState({
+					unit_idError: unit_id === null ? "Du måste välja ett material" : false,
+					recycle_type_idError: composite_has_materials.every(composite_has_material => {
+						return isNaN(composite_has_material.recycle_type_id)
+					}) ? "Du måste välja återvinningstyp på dit material" : false,
+					composite_has_materialsError: composite_has_materials.every(composite_has_material => {
+						return isNaN(composite_has_material.material_id) || composite_has_material.material_id === 0
+					}) ? "Du måste välja ett material" : false
+				})
+			}
+
+		}
+	};
 
 	async handleSubmit(e) {
 		e.preventDefault();
@@ -89,7 +123,7 @@ class ConstructionForm extends React.Component {
 		const name = this.state.name.trim();
 		//Validate form
 		/*if (!user || !unit_id || !name || this.state.composite_has_materials.length == 0) {
-			return;
+		 return;
 		 }*/
 
 		const url = constructionCreation ? '/api/composite-materials/' : '/api/used-materials';
@@ -143,7 +177,7 @@ class ConstructionForm extends React.Component {
 
 	render() {
 		const {units, user} = this.props;
-		const {unit_id, composite_has_materials, constructionParts, constructionCreation, name, error} = this.state;
+		const {unit_id, unit_idError, composite_has_materials, composite_has_materialsError, recycle_type_idError, constructionParts, constructionCreation, name, error} = this.state;
 		let subMaterials = [];
 		for (var i = 0; i < this.state.constructionParts; i++) {
 			subMaterials.push(
@@ -160,16 +194,15 @@ class ConstructionForm extends React.Component {
 		//Validate all fields before enabling submit-button
 		if (constructionCreation) {
 			submitEnabled = (unit_id > 0 && name && user > 0);
-			if(!composite_has_materials.length > 0){
+			if (!composite_has_materials.length > 0) {
 				submitEnabled = false;
 			}
 			composite_has_materials.map(compositeMapMaterial => {
-				if(compositeMapMaterial.material_id > 0 &&
-					compositeMapMaterial.amount > 0 &&
-					!isNaN(compositeMapMaterial.amount) &&
-					compositeMapMaterial.recycle_type_id > 0){
+				if (compositeMapMaterial.material_id > 0 &&
+					compositeMapMaterial.amount > 0 && !isNaN(compositeMapMaterial.amount) &&
+					compositeMapMaterial.recycle_type_id > 0) {
 
-				}else{
+				} else {
 					submitEnabled = false
 				}
 			});
@@ -177,8 +210,7 @@ class ConstructionForm extends React.Component {
 			submitEnabled = (user > 0 &&
 				composite_has_materials[0] &&
 				composite_has_materials[0].material_id > 0 &&
-				composite_has_materials[0].amount > 0 &&
-				!isNaN(composite_has_materials[0].amount) &&
+				composite_has_materials[0].amount > 0 && !isNaN(composite_has_materials[0].amount) &&
 				composite_has_materials[0].comment &&
 				composite_has_materials[0].recycle_type_id > 0
 			);
@@ -203,6 +235,7 @@ class ConstructionForm extends React.Component {
 							value={ name }
 							name="name"
 							onChange={ event => this.handleNameUnitChange(event) }/>
+						{unit_idError && <div style={{color:'red'}}>{unit_idError}</div>}
 						<select
 							name="unit_id"
 							value={unit_id}
@@ -217,10 +250,12 @@ class ConstructionForm extends React.Component {
 				{ constructionParts > 0 &&
 				<div>
 					{ constructionCreation && <p>
-						1 {units[unit_id-1] && units[unit_id-1].name} {name} Består av följande:
+						1 {units[unit_id - 1] && units[unit_id - 1].name} {name} Består av följande:
 					</p>
 					}
 					{/* constructionSpecified && <h3>Bestående av:</h3> */}
+					{composite_has_materialsError && <div style={{color:'red'}}>{composite_has_materialsError}</div>}
+					{recycle_type_idError && <div style={{color:'red'}}>{recycle_type_idError}</div>}
 					{ subMaterials }
 					{ constructionCreation && <div>
 						<button onClick={ event => this.addConstructionPart(event) }>Lägg till material</button>
@@ -234,6 +269,7 @@ class ConstructionForm extends React.Component {
 					type="submit"
 					value="Spara"
 					styleName="submit"
+					onMouseEnter={this.validateForm}
 					disabled={!submitEnabled}/>
 				{/*<button onClick={ this.createConstructionPartClicked }>Skapa nytt Material</button>*/}
 			</form>
