@@ -6,7 +6,18 @@ import styles from "./ConstructionForm.less";
 import MaterialSelection from "./MaterialSelection.jsx";
 import LoadJson from "./functions/LoadJson";
 
-class ConstructionForm extends React.Component {
+
+const mapStateToProps = (state) => ({
+	user: state.user,
+	units: state.resources.units.json ? state.resources.units.json : [],
+});
+const mapDispatchToProps = (dispatch) => ({
+	fetchJsonWithSpecifiedStore: (reduxStorageUrl, urlWithParamsuser) => dispatch(fetchJsonWithSpecifiedStore(reduxStorageUrl, urlWithParamsuser))
+});
+
+@connect(mapStateToProps, mapDispatchToProps)
+@CSSModules(styles)
+export default class ConstructionForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -21,17 +32,12 @@ class ConstructionForm extends React.Component {
 	handleNameUnitChange(e) {
 		const value = e.target.value;
 		if (e.target.name === 'unit_id') {
-			if (isNaN(value)) {
-				this.setState({
-					[e.target.name + 'Error']: 'Enhets id måste vara ett nummer'
-				});
-			} else {
-				this.setState({
-					[e.target.name + 'Error']: false,
-					[e.target.name]: parseInt(value)
-				});
-			}
+			this.setState({
+				[e.target.name + 'Error']: false,
+				[e.target.name]: parseInt(value)
+			});
 		} else {
+			//Name Change
 			this.setState({
 				[e.target.name]: value
 			});
@@ -76,7 +82,7 @@ class ConstructionForm extends React.Component {
 	}
 
 	handleMaterialChange(material) {
-		const {composite_has_materials} = this.state;
+		const {composite_has_materials, shouldValidateOnInput} = this.state;
 		if (material.material_id == 'createNew') {
 			this.createConstructionPart('standard');
 			return;
@@ -86,32 +92,45 @@ class ConstructionForm extends React.Component {
 		materialArray[material.materialIndex].created = Date.now();
 
 		this.setState({
-			composite_has_materials: materialArray,
-			recycle_type_idError: composite_has_materials.every(composite_has_material => {
-				return isNaN(composite_has_material.recycle_type_id)
-			}) ? "Du måste välja återvinningstyp på dit material" : false,
-			composite_has_materialsError: composite_has_materials.every(composite_has_material => {
-				return isNaN(composite_has_material.material_id) || composite_has_material.material_id === 0
-			}) ? "Du måste välja ett material" : false
+			composite_has_materials: materialArray
 		});
+		if (shouldValidateOnInput) {
+			this.validateForm();
+		}
 	}
 
 	validateForm = () => {
-		const {constructionCreation, unit_id, composite_has_materials} = this.state;
+		const {user} = this.props;
+
+		const {constructionCreation, unit_id, composite_has_materials, name} = this.state;
+
+		this.setState({
+			shouldValidateOnInput: true,
+			userError: !user ? "Välj en användare i topmenyn" : false,
+
+			composite_has_materialsError: composite_has_materials.every(composite_has_material => {
+				return isNaN(composite_has_material.material_id) || composite_has_material.material_id === 0
+			}) ? "Välj ett material" : false,
+
+			amountError: composite_has_materials.every(composite_has_material => {
+				return isNaN(composite_has_material.amount);
+			}) ? "Fyll i materialets mängd" : false,
+
+			recycle_type_idError: composite_has_materials.every(composite_has_material => {
+				return isNaN(composite_has_material.recycle_type_id);
+			}) ? "Välj återvinningstyp på dit material" : false,
+		});
 		if (constructionCreation) {
-			//TODO: add validation on construction creation
+			this.setState({
+				nameError: name === '' ? "Ge materialet ett namn" : false,
+				unit_idError: (isNaN(unit_id) || unit_id === null || unit_id === 0) ? "Välj en enhet på materialet" : false,
+			});
 		} else {
-			if (unit_id === null) {
-				this.setState({
-					unit_idError: unit_id === null ? "Du måste välja ett material" : false,
-					recycle_type_idError: composite_has_materials.every(composite_has_material => {
-						return isNaN(composite_has_material.recycle_type_id)
-					}) ? "Du måste välja återvinningstyp på dit material" : false,
-					composite_has_materialsError: composite_has_materials.every(composite_has_material => {
-						return isNaN(composite_has_material.material_id) || composite_has_material.material_id === 0
-					}) ? "Du måste välja ett material" : false
-				})
-			}
+			this.setState({
+				commentError: composite_has_materials.every(composite_has_material => {
+					return composite_has_material.comment === '';
+				}) ? "Skriv en kommentar till materialet" : false
+			});
 
 		}
 	};
@@ -166,7 +185,8 @@ class ConstructionForm extends React.Component {
 					composite_has_materials: [],
 					constructionParts: 0,
 					constructionCreation: false,
-					error: false
+					error: false,
+					shouldValidateOnInput: false
 				},
 				this.setState({
 					constructionParts: 1
@@ -175,9 +195,21 @@ class ConstructionForm extends React.Component {
 		}
 	}
 
+	componentDidUpdate(prevProps, prevState) {
+		const {shouldValidateOnInput} = this.state;
+		if (shouldValidateOnInput &&
+			( JSON.stringify(this.state) !== JSON.stringify(prevState) || JSON.stringify(prevProps) !== JSON.stringify(this.props) )
+		) {
+			this.validateForm();
+		}
+	}
+
 	render() {
 		const {units, user} = this.props;
-		const {unit_id, unit_idError, composite_has_materials, composite_has_materialsError, recycle_type_idError, constructionParts, constructionCreation, name, error} = this.state;
+		const {
+			unit_id, composite_has_materials, constructionParts, constructionCreation, name,
+			recycle_type_idError, amountError, userError, commentError, composite_has_materialsError, nameError, unit_idError, error
+		} = this.state;
 		let subMaterials = [];
 		for (var i = 0; i < this.state.constructionParts; i++) {
 			subMaterials.push(
@@ -215,6 +247,7 @@ class ConstructionForm extends React.Component {
 				composite_has_materials[0].recycle_type_id > 0
 			);
 		}
+		const errorArr = [userError, nameError, unit_idError, composite_has_materialsError, amountError, recycle_type_idError, commentError];
 		return (
 			<form className="material-form" onSubmit={ event => this.handleSubmit(event)}>
 
@@ -235,7 +268,6 @@ class ConstructionForm extends React.Component {
 							value={ name }
 							name="name"
 							onChange={ event => this.handleNameUnitChange(event) }/>
-						{unit_idError && <div style={{color:'red'}}>{unit_idError}</div>}
 						<select
 							name="unit_id"
 							value={unit_id}
@@ -254,8 +286,7 @@ class ConstructionForm extends React.Component {
 					</p>
 					}
 					{/* constructionSpecified && <h3>Bestående av:</h3> */}
-					{composite_has_materialsError && <div style={{color:'red'}}>{composite_has_materialsError}</div>}
-					{recycle_type_idError && <div style={{color:'red'}}>{recycle_type_idError}</div>}
+
 					{ subMaterials }
 					{ constructionCreation && <div>
 						<button onClick={ event => this.addConstructionPart(event) }>Lägg till material</button>
@@ -264,6 +295,11 @@ class ConstructionForm extends React.Component {
 					</div>}
 				</div>
 				}
+				{!submitEnabled && errorArr
+					.filter(error => error)
+					.map((error, i) =>
+						<div key={i} style={{color:'#a95e5e'}}>{error}</div>
+					)}
 				<br/>
 				<input
 					type="submit"
@@ -276,16 +312,3 @@ class ConstructionForm extends React.Component {
 		);
 	}
 }
-
-
-const mapDispatchToProps = (dispatch) => ({
-	fetchJsonWithSpecifiedStore: (reduxStorageUrl, urlWithParamsuser) => dispatch(fetchJsonWithSpecifiedStore(reduxStorageUrl, urlWithParamsuser))
-});
-
-export default connect(
-	(state) => ( {
-		user: state.user,
-		units: state.resources.units.json ? state.resources.units.json : [],
-	}),
-	mapDispatchToProps
-)(CSSModules(ConstructionForm, styles))
