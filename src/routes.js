@@ -5,7 +5,7 @@ import MaterialList from "./pages/MaterialListPage.jsx";
 import TopMenu from "./TopMenu.jsx";
 import MaterialCreationPage from "./pages/MaterialCreationPage.jsx";
 import MaterialReportPage from "./pages/MaterialReportPage.jsx";
-import Login from "./pages/LoginPage.jsx";
+import Login from "./Login/LoginPage.jsx";
 
 const routes = (
 

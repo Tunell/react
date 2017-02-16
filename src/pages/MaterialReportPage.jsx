@@ -29,7 +29,6 @@ export default class MaterialReportPage extends React.Component {
 					                                                                       activeClassName="active">Skapa byggdel</Link>.
 
 				</p>
-				<p style={{color:'red'}}>TODO: Filtrera lista beroende på entreprenad-typ.</p>
 				<ConstructionForm
 					url={url}
 					constructionCreation={false}

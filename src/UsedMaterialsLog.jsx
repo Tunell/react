@@ -1,5 +1,4 @@
 import React from "react";
-import {Link} from "react-router";
 import CSSModules from "react-css-modules";
 import LoadJson from "./functions/LoadJson";
 import {connect} from "react-redux";
@@ -19,13 +18,13 @@ class UsedMaterialsLog extends React.Component {
 	}
 
 	async deleteMaterial(material: number) {
-		const {fetchJsonWithSpecifiedStore} = this.props;
+		const {user, fetchJsonWithSpecifiedStore} = this.props;
 		try {
 			const response = await LoadJson('/api/used-materials/' + material, "DELETE");
 
 			const resourcesToLoad = [
-				{key: "usedMaterials", url: 'api/used-materials'},
-				{key: 'compositeMaterials', url: 'api/composite-materials'},
+				{key: "usedMaterials", url: `/api/used-materials?user_id=${user}`},
+				{key: 'compositeMaterials', url: `/api/composite-materials?user_id=${user}`},
 			];
 			resourcesToLoad.map(resource => {
 				fetchJsonWithSpecifiedStore(resource.key, resource.url)
@@ -41,7 +40,7 @@ class UsedMaterialsLog extends React.Component {
 		const {usedMaterials} = this.props;
 		return (
 			<table styleName="table">
-				<tbody>
+				<thead>
 				<tr>
 					<th>Material</th>
 					<th>Amount</th>
@@ -51,7 +50,9 @@ class UsedMaterialsLog extends React.Component {
 					{/*<th>Edit</th>*/}
 					<th>Delete</th>
 				</tr>
-				{usedMaterials
+				</thead>
+				<tbody>
+				{usedMaterials && usedMaterials
 					.map(material => (
 						<tr key={material.id}>
 							<th>{material.composite_material_name}</th>
@@ -77,6 +78,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default connect(
 	(state) => ( {
+		user: state.user,
 		usedMaterials: state.resources.usedMaterials.json,
 	}),
 	mapDispatchToProps

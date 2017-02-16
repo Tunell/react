@@ -153,9 +153,9 @@ class MaterialSelection extends React.Component {
           </span>
 					{/* (materialCreation  enable comments for all || (subMaterials && subMaterials.length === 0) ) &&*/}
 					<select styleName="RecycleClass" onChange={ (event) => this.handleRecycleClassChange(event)}>
-						<option defaultValue>Typ av Material</option>
-						{recycleTypes && recycleTypes.map(recycleType =>
-							<option key={recycleType.id} value={recycleType.id}>{recycleType.name} </option>
+						<option defaultValue>Återvinningsgrad</option>
+						{recycleTypes.map(recycleType =>
+							<option key={recycleType.id} value={recycleType.id}>{recycleType.name}</option>
 						)}
 					</select>
 					{ !materialCreation && <input
@@ -173,8 +173,8 @@ class MaterialSelection extends React.Component {
 
 export default connect(
 	(state) => ( {
-		recycleTypes: state.resources.recycleTypes.json,
-		compositeMaterials: state.resources.compositeMaterials.json,
-		material_has_metas: state.resources.material_has_metas.json
+		recycleTypes: state.resources.recycleTypes.json ? state.resources.recycleTypes.json : [],
+		compositeMaterials: state.resources.compositeMaterials.json ? state.resources.compositeMaterials.json : [],
+		material_has_metas: state.resources.material_has_metas.json ? state.resources.material_has_metas.json : [],
 	})
 )(CSSModules(MaterialSelection, styles))

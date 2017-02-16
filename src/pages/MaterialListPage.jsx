@@ -65,17 +65,9 @@ class MaterialListPage extends React.Component {
 					</div>
 					:
 					<div>
-						{
-							compositeList ?
-								<div>
-									<h1>Byggdelar:</h1>
-									{compositeMaterials.map(material => (<Material material={material} composite={ true }/>))}
-								</div> :
-								<div>
-									<h1>Material och Produkter</h1>
-									{compositeMaterials.map(material => (<Material material={material} composite={ false }/>))}
-								</div>
-						}
+						{compositeList ? <h1>Byggdelar:</h1> : <h1>Material och Produkter</h1>}
+						{compositeMaterials.map(material => (
+							<Material key={material.id} material={material} composite={ true }/>))}
 					</div>
 				}
 			</div>
@@ -85,6 +77,6 @@ class MaterialListPage extends React.Component {
 
 export default connect(
 	(state) => ( {
-		compositeMaterials: state.resources.compositeMaterials.json,
+		compositeMaterials: state.resources.compositeMaterials.json ? state.resources.compositeMaterials.json : [],
 	})
 )(MaterialListPage)

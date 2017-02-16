@@ -13,14 +13,14 @@ module.exports = [{
     ],
     output: {
         path: __dirname,
-        filename: 'target/bundle.js',
+	    filename: 'bundle.js',
         library: 'MyApp',
         publicPath: 'http://localhost:8080/'
     },
 		devtool: 'eval',
 
     plugins: [
-        new webpack.NoErrorsPlugin(), // recommanded by webpack
+	    new webpack.NoEmitOnErrorsPlugin(),
         new webpack.HotModuleReplacementPlugin()
     ],
     resolve:{
