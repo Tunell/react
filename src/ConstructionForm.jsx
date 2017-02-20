@@ -12,22 +12,19 @@ const mapStateToProps = (state) => ({
 	units: state.resources.units.json ? state.resources.units.json : [],
 });
 const mapDispatchToProps = (dispatch) => ({
-	fetchJsonWithSpecifiedStore: (reduxStorageUrl, urlWithParamsuser) => dispatch(fetchJsonWithSpecifiedStore(reduxStorageUrl, urlWithParamsuser))
+	fetchJsonWithSpecifiedStore: (reduxStorageUrl, urlWithParams) => dispatch(fetchJsonWithSpecifiedStore(reduxStorageUrl, urlWithParams))
 });
 
 @connect(mapStateToProps, mapDispatchToProps)
 @CSSModules(styles)
 export default class ConstructionForm extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			name: this.props.constructionName ? this.props.constructionName : '',
-			unit_id: null,
-			composite_has_materials: [],
-			constructionParts: this.props.constructionParts ? this.props.constructionParts : 0,
-			constructionCreation: this.props.constructionCreation ? this.props.constructionCreation : false
-		};
-	}
+	state = {
+		name: this.props.constructionName ? this.props.constructionName : '',
+		unit_id: null,
+		composite_has_materials: [],
+		constructionParts: this.props.constructionParts ? this.props.constructionParts : 0,
+		constructionCreation: this.props.constructionCreation ? this.props.constructionCreation : false
+	};
 
 	handleNameUnitChange(e) {
 		const value = e.target.value;
@@ -177,7 +174,7 @@ export default class ConstructionForm extends React.Component {
 				{key: 'compositeMaterials', url: 'api/composite-materials'},
 			];
 			resourcesToLoad.map(resource => {
-				fetchJsonWithSpecifiedStore(resource.key, resource.url)
+				fetchJsonWithSpecifiedStore(resource.key, resource.url + '?user_id=' + user);
 			});
 			this.setState({
 					name: '',
@@ -187,11 +184,16 @@ export default class ConstructionForm extends React.Component {
 					constructionCreation: false,
 					error: false,
 					shouldValidateOnInput: false
-				},
+				}
+			);
+			//FIXME: Really uggly way to reset state
+
+			setTimeout(() => {
 				this.setState({
 					constructionParts: 1
-				})
-			);
+				});
+			}, 500);
+
 		}
 	}
 
