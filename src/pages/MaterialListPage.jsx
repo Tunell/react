@@ -6,17 +6,13 @@ import UsedMaterialsLog from "../UsedMaterialsLog.jsx";
 
 class MaterialListPage extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			compositeList: this.props.allowComposite || ( this.props.route && this.props.route.allowComposite),
-			materialUsageList: this.props.materialUsageList || ( this.props.route && this.props.route.materialUsageList),
-			showLog: false
-		};
-		this.handleListChange = this.handleListChange.bind(this);
+	state = {
+		compositeList: this.props.allowComposite || ( this.props.route && this.props.route.allowComposite),
+		materialUsageList: this.props.materialUsageList || ( this.props.route && this.props.route.materialUsageList),
+		showLog: false
 	};
 
-	handleListChange(listType) {
+	handleListChange = (listType) => {
 		switch (listType) {
 			case 'building':
 				this.setState({
@@ -45,12 +41,11 @@ class MaterialListPage extends React.Component {
 				});
 				break;
 		}
-
-	}
+	};
 
 	render() {
 		const {materialUsageList, compositeList, showLog} = this.state;
-		const {compositeMaterials} = this.props;
+		const {compositeMaterials, materials} = this.props;
 		return (
 			<div className="materialList">
 				<br/>
@@ -58,17 +53,30 @@ class MaterialListPage extends React.Component {
 				<button onClick={ e => this.handleListChange('prefab')}>Byggdelar</button>
 				<button onClick={ e => this.handleListChange('usedMaterials')}>Materialrapporterings logg</button>
 				<button onClick={ e => this.handleListChange('building')}>Använt material</button>
-				{materialUsageList ?
-					<div>
-						{ (!showLog) && <UsedMaterialsList/>}
-						{ (showLog) && <UsedMaterialsLog/>}
-					</div>
-					:
-					<div>
-						{compositeList ? <h1>Byggdelar:</h1> : <h1>Material och Produkter</h1>}
-						{compositeMaterials.map(material => (
-							<Material key={material.id} material={material} composite={ true }/>))}
-					</div>
+				{
+					(() => {
+						if (materialUsageList && !showLog) {
+							return <UsedMaterialsList/>
+						} else if (materialUsageList && showLog) {
+							return <UsedMaterialsLog/>
+						} else if (compositeList) {
+							return <div>
+								<h1>Byggdelar:</h1>
+								{compositeMaterials.map(material => (
+									<Material key={material.id} material={material} composite={ true }/>
+								))}
+							</div>
+
+						} else {
+							return <div>
+								<h1>Material och Produkter</h1>
+								{materials.map(material => (
+									<Material key={material.id} material={material} composite={ true }/>
+								))}
+							</div>
+
+						}
+					})()
 				}
 			</div>
 		);
@@ -78,5 +86,6 @@ class MaterialListPage extends React.Component {
 export default connect(
 	(state) => ( {
 		compositeMaterials: state.resources.compositeMaterials.json ? state.resources.compositeMaterials.json : [],
+		materials: state.resources.materials.json ? state.resources.materials.json : [],
 	})
 )(MaterialListPage)
