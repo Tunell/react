@@ -186,7 +186,7 @@ export default class ConstructionForm extends React.Component {
 					shouldValidateOnInput: false
 				}
 			);
-			//FIXME: Really uggly way to reset state
+			//FIXME: Really ugly way to reset state
 
 			setTimeout(() => {
 				this.setState({
@@ -222,8 +222,7 @@ export default class ConstructionForm extends React.Component {
 					materialCreation={ constructionCreation }/>
 			)
 		}
-		const constructionSpecified = ( constructionCreation == 'standard' ||
-		constructionCreation == 'prefab' );
+		const constructionSpecified = ( constructionCreation == 'standard' || constructionCreation == 'prefab' );
 		let submitEnabled;
 		//Validate all fields before enabling submit-button
 		if (constructionCreation) {

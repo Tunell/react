@@ -116,15 +116,14 @@ export default class MaterialSelection extends React.Component {
 	}
 
 	render() {
-		const {unit_name, amount, comment, amountError} = this.state;
-		const {materialCreation, recycleTypes, materialList} = this.props;
+		const {unit_name, amount, comment, amountError, material_id} = this.state;
+		const {materialCreation, recycleTypes, materialList, compositeMaterials} = this.props;
 
 		let materialUnit;
 
 		return (
 			<div>
 				<p style={{color: 'red'}}>{amountError}</p>
-
 				<div styleName="amount-unit">
 					<select
 						type="text"
@@ -159,13 +158,16 @@ export default class MaterialSelection extends React.Component {
 					<span styleName="unit">
             { materialUnit }
           </span>
-					{/* (materialCreation  enable comments for all || (subMaterials && subMaterials.length === 0) ) &&*/}
+					{ (compositeMaterials.filter(material => material.id === material_id) &&
+					compositeMaterials.filter(material => material.id === material_id)[0] &&
+					compositeMaterials.filter(material => material.id === material_id)[0].user_id == 0) &&
 					<select styleName="RecycleClass" onChange={ (event) => this.handleRecycleClassChange(event)}>
 						<option defaultValue>Återvinningsgrad</option>
 						{recycleTypes.map(recycleType =>
 							<option key={recycleType.id} value={recycleType.id}>{recycleType.name}</option>
 						)}
 					</select>
+					}
 					{ !materialCreation && <input
 						type="text"
 						placeholder="Kommentar"
