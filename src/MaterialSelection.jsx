@@ -1,39 +1,47 @@
 import React from "react";
+import {connect} from "react-redux";
 import CSSModules from "react-css-modules";
 import styles from "./MaterialSelection.less";
-import {connect} from "react-redux";
 
-class MaterialSelection extends React.Component {
-	constructor(props) {
-		super(props);
-		const {materialCreation, material_has_metas, compositeMaterials} = this.props;
-		const filteredMaterialHasMeta = material_has_metas.filter(
-			(elt, i, a) => i === a.findIndex(
-				elt2 => elt.material_id === elt2.material_id
-			)
-		);
-		const materialList = materialCreation ? filteredMaterialHasMeta : compositeMaterials;
-		this.state = {
-			materialListIndex: 0,
-			material_id: 0,
-			//FIXME: unit_id shouldn't be in here but is curently needed.
-			unit_id: null,
-			unit_name: "",
-			amount: null,
-			recycle_type_id: null,
-			comment: '',
-			materialList,
-			createNewText: 'Hittar du inte det du söker? Skapa en ny byggdel här! (funkar inte ännu, använd menyn..)'
-		};
+function mapStateToProps(state, ownProps) {
+	const compositeMaterials = state.resources.compositeMaterials.json ? state.resources.compositeMaterials.json : [];
+	const recycleTypes = state.resources.recycleTypes.json ? state.resources.recycleTypes.json : [];
+	const material_has_metas = state.resources.material_has_metas.json ? state.resources.material_has_metas.json : [];
+	const filteredMaterialHasMeta = material_has_metas.filter(
+		(elt, i, a) => i === a.findIndex(
+			elt2 => elt.material_id === elt2.material_id
+		)
+	);
+	const materialList = ownProps.materialCreation ? filteredMaterialHasMeta : compositeMaterials;
+
+	return {
+		recycleTypes,
+		compositeMaterials,
+		material_has_metas,
+		materialList,
+	};
+}
+
+@connect(mapStateToProps)
+@CSSModules(styles)
+export default class MaterialSelection extends React.Component {
+	state = {
+		materialListIndex: 0,
+		material_id: 0,
+		unit_id: null,//FIXME: unit_id shouldn't be in here but is curently needed.
+		unit_name: "",
+		amount: null,
+		recycle_type_id: null,
+		comment: '',
+		createNewText: 'Hittar du inte det du söker? Skapa en ny byggdel här! (funkar inte ännu, använd menyn..)'
 	};
 
 	handleMaterialChange(materialListIndex) {
-		const {materialList} = this.state;
-		const {materialCreation} = this.props;
+		const {materialCreation, materialList} = this.props;
 		const subMaterials = materialList
 			.filter(loopMaterial => (loopMaterial.composite_has_materials && loopMaterial.id == materialListIndex))
 			.map(loopMaterial => loopMaterial.composite_has_materials);
-		if(materialListIndex === 'placeholder'){
+		if (materialListIndex === 'placeholder') {
 			this.setState({
 				materialListIndex: 0,
 				material_id: 0,
@@ -41,7 +49,7 @@ class MaterialSelection extends React.Component {
 				unit_name: 0,
 				subMaterials
 			});
-		}else if (materialCreation) {
+		} else if (materialCreation) {
 			this.setState({
 				materialListIndex,
 				material_id: materialList[materialListIndex].material_id,
@@ -108,15 +116,14 @@ class MaterialSelection extends React.Component {
 	}
 
 	render() {
-		const {materialList, unit_name, amount, comment, amountError} = this.state;
-		const {materialCreation,  recycleTypes} = this.props;
+		const {unit_name, amount, comment, amountError, material_id} = this.state;
+		const {materialCreation, recycleTypes, materialList, compositeMaterials} = this.props;
 
 		let materialUnit;
 
 		return (
 			<div>
 				<p style={{color: 'red'}}>{amountError}</p>
-
 				<div styleName="amount-unit">
 					<select
 						type="text"
@@ -125,7 +132,7 @@ class MaterialSelection extends React.Component {
 						styleName="material"
 						onChange={ event => this.handleMaterialChange(event.target.value) }>
 						<option defaultValue value="placeholder">Välj material</option>
-						{materialList.map((val, i) => (
+						{materialList && materialList.map((val, i) => (
 								<option
 									key={i}
 									value={i}>
@@ -151,13 +158,16 @@ class MaterialSelection extends React.Component {
 					<span styleName="unit">
             { materialUnit }
           </span>
-					{/* (materialCreation  enable comments for all || (subMaterials && subMaterials.length === 0) ) &&*/}
+					{ (compositeMaterials.filter(material => material.id === material_id) &&
+					compositeMaterials.filter(material => material.id === material_id)[0] &&
+					compositeMaterials.filter(material => material.id === material_id)[0].user_id == 0) &&
 					<select styleName="RecycleClass" onChange={ (event) => this.handleRecycleClassChange(event)}>
 						<option defaultValue>Återvinningsgrad</option>
 						{recycleTypes.map(recycleType =>
 							<option key={recycleType.id} value={recycleType.id}>{recycleType.name}</option>
 						)}
 					</select>
+					}
 					{ !materialCreation && <input
 						type="text"
 						placeholder="Kommentar"
@@ -170,11 +180,3 @@ class MaterialSelection extends React.Component {
 		);
 	}
 }
-
-export default connect(
-	(state) => ( {
-		recycleTypes: state.resources.recycleTypes.json ? state.resources.recycleTypes.json : [],
-		compositeMaterials: state.resources.compositeMaterials.json ? state.resources.compositeMaterials.json : [],
-		material_has_metas: state.resources.material_has_metas.json ? state.resources.material_has_metas.json : [],
-	})
-)(CSSModules(MaterialSelection, styles))
