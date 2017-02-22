@@ -41,7 +41,11 @@ const selectCompositeMaterial = {
             composite_material.user_id = user.id
             `
             if(user_id !== undefined) {
-                query += `AND composite_material.user_id = ?`
+                //query += `AND (composite_material.user_id = ? OR composite_material.user_id = ?)`
+                query += `AND (composite_material.user_id = ? `
+                let user_id_without_first = user_id.slice(1, user_id.length)
+                user_id_without_first.forEach( _ => { query += ` OR composite_material.user_id = ?` })
+                query += `)`
             }
             return connection.query(query, user_id)
                 .then( rows => createCompMaterials(rows))
