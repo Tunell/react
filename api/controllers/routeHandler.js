@@ -9,6 +9,11 @@ const helpers = require('../helpers/routeHandlerHelpers');
 const _ = require('lodash')
 
 // Get all the entries associated with endpoint
+
+function isEmpty(result) {
+    return result.length === 0
+}
+
 function get(req, res) {
     _.has(req.swagger.params, 'id') ? getId(req, res) : getAll(req, res)
 }
@@ -19,12 +24,12 @@ function getAll(req, res) {
     const queryObject = helpers.getQueryParams(req.swagger.params);
     if (helpers.parseUrlToTable(req.url) === 'composite_material') {
         selectComp.all(queryObject.user_id)
-            .then(result => res.json(result))
+            .then(result => isEmpty(result) ? res.status(404).json({message:'Not Found'}) : res.json(result))
             .catch(err => res.status(500).json(err.message))
     } else {
         let SQLquery = helpers.dbQueryBuilder(req.swagger);
         query.select(SQLquery, queryObject.user_id)
-            .then(result => res.json(result))
+            .then(result => isEmpty(result) ? res.status(404).json({message:'Not Found'}): res.json(result))
             .catch(err => res.status(500).json(err.message))
     }
 }
@@ -34,12 +39,12 @@ function getId(req, res) {
     const queryObject = helpers.getQueryParams(req.swagger.params);
     if(helpers.parseUrlToTable(req.url) === 'composite_material') {
         selectComp.id(queryObject.id)
-            .then(result => res.json(result))
+            .then(result => isEmpty(result) ? res.status(404).json({message:'Not Found'}): res.json(result))
             .catch(err => res.status(500).json(err.message))
     } else {
         let SQLquery = helpers.dbQueryBuilder(req.swagger);
         query.select(SQLquery, queryObject.id)
-            .then(result => res.json(result))
+            .then(result => isEmpty(result) ? res.status(404).json({message:'Not Found'}): res.json(result))
             .catch(err => res.status(500).json(err.message))
     }
 }

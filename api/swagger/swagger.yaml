@@ -36,8 +36,8 @@ paths:
           description: A list of used-materials
           schema:
             $ref: "#/definitions/used-materials"
-          examples: 
-              application/json: 
+        404:
+          $ref: "#/responses/Standard404NotFoundResponse"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
     post:
@@ -52,7 +52,9 @@ paths:
             $ref: "#/definitions/used-material"
       responses:
         201:
-          $ref: "#/responses/Standard201CreatedResponse" 
+          $ref: "#/responses/Standard201CreatedResponse"
+        403:
+          $ref: "#/responses/Standard403ForbiddenResponse"
         500:
           $ref: "#/responses/Standard500ErrorResponse"  
           
@@ -87,6 +89,10 @@ paths:
       responses:
         204:
           description: Used-material sucessfully updated.
+        403:
+          $ref: "#/responses/Standard403ForbiddenResponse"
+        404:
+          $ref: "#/responses/Standard404NotFoundResponse"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
     delete:
@@ -96,8 +102,10 @@ paths:
       responses:
         204:
           description: Used-material successfully deleted.
+        403:
+          $ref: "#/responses/Standard403ForbiddenResponse"
         404:
-          $ref: "#/responses/ObjectDoesNotExistResponse"
+          $ref: "#/responses/Standard404NotFoundResponse"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
           
@@ -116,6 +124,8 @@ paths:
           description: A list of materials
           schema:
             $ref: "#/definitions/materials"
+        404:
+          $ref: "#/responses/Standard404NotFoundResponse"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
     post:
@@ -131,6 +141,8 @@ paths:
       responses:
         201:
           $ref: "#/responses/Standard201CreatedResponse"
+        403:
+          $ref: "#/responses/Standard403ForbiddenResponse"
         500:
           $ref: "#/responses/Standard500ErrorResponse" 
           
@@ -147,8 +159,10 @@ paths:
             description: A material object
             schema:
               $ref: "#/definitions/material"
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
           404:
-            description: The used-material does not exist.
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
             
@@ -166,7 +180,9 @@ paths:
           204:
             description: Used-material sucessfully updated.
           404:
-            $ref: "#/responses/ObjectDoesNotExistResponse"
+            $ref: "#/responses/Standard404NotFoundResponse" 
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
       delete:
@@ -176,8 +192,10 @@ paths:
         responses:
           204:
             description: Used-material successfully deleted.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
           404:
-            $ref: "#/responses/ObjectDoesNotExistResponse"
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"  
         
@@ -194,6 +212,8 @@ paths:
             description: A list of materials
             schema:
               $ref: "#/definitions/composite-materials"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
       post:
@@ -208,9 +228,9 @@ paths:
               $ref: "#/definitions/composite-material"
         responses:
           201:
-            $ref: "#/responses/Standard201CreatedResponse" 
-          400:
-            description: Ops, something went wrong! material couldn't be created.
+            $ref: "#/responses/Standard201CreatedResponse"
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse" 
             
@@ -227,6 +247,8 @@ paths:
             description: A material object
             schema:
               $ref: "#/definitions/composite-material"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
             
@@ -243,6 +265,10 @@ paths:
         responses:
           204:
             description: Used-material sucessfully updated.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
       delete:
@@ -252,8 +278,10 @@ paths:
         responses:
           204:
             description: Composite-material successfully deleted.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
           404:
-            $ref: "#/responses/ObjectDoesNotExistResponse"
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
   
@@ -270,6 +298,8 @@ paths:
             description: A list of materials
             schema:
               $ref: "#/definitions/units"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
       post:
@@ -285,6 +315,8 @@ paths:
         responses:
           201:
             $ref: "#/responses/Standard201CreatedResponse" 
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse" 
        
@@ -304,7 +336,7 @@ paths:
             schema:
               $ref: "#/definitions/unit"
           404:
-            description: The used-material does not exist.
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
             
@@ -321,8 +353,10 @@ paths:
         responses:
           204:
             description: Used-material sucessfully updated.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
           404:
-            $ref: "#/responses/ObjectDoesNotExistResponse"
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
       delete:
@@ -332,6 +366,10 @@ paths:
         responses:
           204:
             description: Used-material successfully deleted.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"  
           
@@ -349,6 +387,8 @@ paths:
             description: A list of materials
             schema:
               $ref: "#/definitions/recycle-types"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
       post:
@@ -364,6 +404,8 @@ paths:
         responses:
           201:
             $ref: "#/responses/Standard201CreatedResponse" 
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse" 
        
@@ -383,7 +425,7 @@ paths:
             schema:
               $ref: "#/definitions/recycle-type"
           404:
-            description: The used-material does not exist.
+            $ref: "#/responses/Standard404NotFoundResponse" 
           500:
             $ref: "#/responses/Standard500ErrorResponse"
             
@@ -400,6 +442,10 @@ paths:
         responses:
           204:
             description: Used-material sucessfully updated.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
       delete:
@@ -409,6 +455,10 @@ paths:
         responses:
           204:
             description: Used-material successfully deleted.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"  
             
@@ -424,6 +474,8 @@ paths:
             description: A list of users
             schema:
               $ref: "#/definitions/users"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
       post:
@@ -439,6 +491,8 @@ paths:
         responses:
           201:
             $ref: "#/responses/Standard201CreatedResponse" 
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse" 
        
@@ -458,7 +512,7 @@ paths:
             schema:
               $ref: "#/definitions/user"
           404:
-            description: The user does not exist.
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
             
@@ -476,7 +530,9 @@ paths:
           204:
             description: User sucessfully updated.
           404:
-            $ref: "#/responses/ObjectDoesNotExistResponse"
+            $ref: "#/responses/Standard404NotFoundResponse"
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
       delete:
@@ -486,6 +542,10 @@ paths:
         responses:
           204:
             description: User successfully deleted.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"  
             
@@ -500,6 +560,8 @@ paths:
             description: A list of record states
             schema:
               $ref: "#/definitions/record-states"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
       post:
@@ -515,6 +577,8 @@ paths:
         responses:
           201:
             $ref: "#/responses/Standard201CreatedResponse" 
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse" 
        
@@ -534,7 +598,7 @@ paths:
             schema:
               $ref: "#/definitions/record-state"
           404:
-            description: The record-state does not exist.
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
             
@@ -551,8 +615,10 @@ paths:
         responses:
           204:
             description: Record-state sucessfully updated.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
           404:
-            $ref: "#/responses/ObjectDoesNotExistResponse"
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
       delete:
@@ -562,6 +628,10 @@ paths:
         responses:
           204:
             description: Record-state successfully deleted.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse" 
             
@@ -577,6 +647,8 @@ paths:
             description: A list of record states
             schema:
               $ref: "#/definitions/material-has-metas"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
             
@@ -847,12 +919,6 @@ definitions:
         type: string
 
 responses:
-  Standard500ErrorResponse:
-    description: An unexpected error occured.
-    schema:
-      $ref: "#/definitions/Error"
-  ObjectDoesNotExistResponse:
-    description: The object was not found in
   Standard201CreatedResponse:
     description: Created entity
     schema:
@@ -890,6 +956,28 @@ responses:
               type: string
             href:
               type: string
+  
+  Standard403ForbiddenResponse:
+    description: The request is forbidden
+    schema:
+      properties:
+        message:
+          type: string
+        reason:
+          type: string
+ 
+  Standard404NotFoundResponse:
+    description: The resource was not found
+    schema:
+      properties:
+        message:
+          type: string
+          
+  Standard500ErrorResponse:
+    description: An unexpected error occured.
+    schema:
+      $ref: "#/definitions/Error"
+
 
 parameters:
 
