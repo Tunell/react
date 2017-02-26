@@ -52,7 +52,7 @@ class UsedMaterialsLog extends React.Component {
 				</tr>
 				</thead>
 				<tbody>
-				{usedMaterials && usedMaterials
+				{usedMaterials && usedMaterials.length > 0 && usedMaterials
 					.map(material => (
 						<tr key={material.id}>
 							<th>{material.composite_material_name}</th>

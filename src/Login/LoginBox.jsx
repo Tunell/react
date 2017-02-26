@@ -10,7 +10,7 @@ const LoginBox = ({changeUser, user, users}: {changeUser: any, user: number, use
 		styleName="user"
 	>
 		<option disabled defaultValue>Logga In</option>
-		{users.filter(user => user.id !== 0)
+		{users.filter(user => user.id !== 1)
 			.map(user =>
 			<option key={user.id} value={user.id}>{user.name} </option>
 		)}

@@ -114,7 +114,12 @@ export default class ConstructionForm extends React.Component {
 			}) ? "Fyll i materialets mängd" : false,
 
 			recycle_type_idError: composite_has_materials.every(composite_has_material => {
-				return isNaN(composite_has_material.recycle_type_id);
+				if (composite_has_material.recycle_type_idNeeded) {
+					return isNaN(composite_has_material.recycle_type_id);
+				} else {
+					return false;
+				}
+
 			}) ? "Välj återvinningstyp på dit material" : false,
 		});
 		if (constructionCreation) {
@@ -170,11 +175,11 @@ export default class ConstructionForm extends React.Component {
 			response.results.errors.map(error => console.log(error.code + " on field: ", error.path[0], ". ", error.message));
 		} else {
 			const resourcesToLoad = [
-				{key: "usedMaterials", url: 'api/used-materials'},
-				{key: 'compositeMaterials', url: 'api/composite-materials'},
+				{key: "usedMaterials", url: 'api/used-materials', params: '?user_id=' + user},
+				{key: 'compositeMaterials', url: 'api/composite-materials', params: '?user_id=1&user_id=' + user},
 			];
 			resourcesToLoad.map(resource => {
-				fetchJsonWithSpecifiedStore(resource.key, resource.url + '?user_id=' + user);
+				fetchJsonWithSpecifiedStore(resource.key, resource.url + resource.params);
 			});
 			this.setState({
 					name: '',
@@ -245,7 +250,7 @@ export default class ConstructionForm extends React.Component {
 				composite_has_materials[0].material_id > 0 &&
 				composite_has_materials[0].amount > 0 && !isNaN(composite_has_materials[0].amount) &&
 				composite_has_materials[0].comment &&
-				composite_has_materials[0].recycle_type_id > 0
+				(!composite_has_materials[0].recycle_type_idNeeded || composite_has_materials[0].recycle_type_id > 0)
 			);
 		}
 		const errorArr = [userError, nameError, unit_idError, composite_has_materialsError, amountError, recycle_type_idError, commentError];
