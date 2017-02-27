@@ -16,19 +16,24 @@ function mapStateToProps(state, ownProps) {
 	//usd in MaterialReportPage
 	const compositeMaterials = state.resources.compositeMaterials.json ?
 		state.resources.compositeMaterials.json : [];
-	const filteredCompositeMaterials = compositeMaterials.filter(
+
+	const filteredCompositeMaterials = JSON.parse(JSON.stringify(compositeMaterials)).filter(
 		//Filter admin material duplicates (recycle_types)to only show one of each material*/
 		(elt, i, a) => {
 			/*if not admin-material return all*/
 			if (elt.user_id !== 1) {
 				return true;
 			}
+
 			if (elt.name.indexOf("-") > -1) {
 				elt.name = elt.name.substring(0, elt.name.indexOf("-"));
 			}
 			/*if admin-material remove duplicates*/
 			return i === a.findIndex(
-					elt2 => elt.name === elt2.name
+					elt2 => {
+
+						return elt2.name == elt.name;
+					}
 				);
 		}
 	);
