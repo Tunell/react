@@ -1,11 +1,11 @@
 * {
-  box-sizing: border-box;
-  color: #555;
+    box-sizing: border-box;
+    color: #555;
 }
 body,
 html {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 h1,
 h2,
@@ -13,109 +13,109 @@ h3,
 a,
 body,
 input {
-  font-family: helvetica, arial, sans-serif;
+    font-family: helvetica, arial, sans-serif;
 }
 button,
 input[type="submit"] {
-  margin: 0 15px 15px 0;
-  padding: 15px 20px;
-  border: 1px solid rgba(0, 0, 0, 0.13);
-  border-radius: 5px;
-  background: white;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
+    margin: 0 15px 15px 0;
+    padding: 15px 20px;
+    border: 1px solid rgba(0, 0, 0, 0.13);
+    border-radius: 5px;
+    background: white;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 button:hover,
 input[type="submit"]:hover {
-  background: rgba(0, 0, 0, 0.04);
+    background: rgba(0, 0, 0, 0.04);
 }
 input,
 select {
-  margin: 0 15px 15px 0;
-  vertical-align: top;
-  width: 230px;
-  padding: 8px 10px;
-  border: 1px solid #eee;
-  border-radius: 2px;
-  line-height: 24px;
-  outline: none;
-  font-size: 16px;
-  color: #666;
-  box-sizing: border-box;
-  font-family: inherit;
+    margin: 0 15px 15px 0;
+    vertical-align: top;
+    width: 230px;
+    padding: 8px 10px;
+    border: 1px solid #eee;
+    border-radius: 2px;
+    line-height: 24px;
+    outline: none;
+    font-size: 16px;
+    color: #666;
+    box-sizing: border-box;
+    font-family: inherit;
 }
 #main-content {
-  width: 90%;
-  max-width: 991px;
-  margin: 0 auto;
+    width: 90%;
+    max-width: 991px;
+    margin: 0 auto;
 }
 .ConstructionForm__headline___wqmOe {
-  background: none;
+    background: none;
 }
 .MaterialSelection__amount-unit___2fH0A {
-  vertical-align: top;
-  display: inline-block;
+    vertical-align: top;
+    display: inline-block;
 }
 .MaterialSelection__amount___Q_jiH,
 .MaterialSelection__unit___1hnNE,
 .MaterialSelection__RecycleClass___8abpJ {
-  vertical-align: baseline;
+    vertical-align: baseline;
 }
 .MaterialSelection__material___1IDK7,
 .MaterialSelection__fuzzy___3DP6w {
-  width: 230px !important;
-  display: inline-block;
+    width: 230px !important;
+    display: inline-block;
 }
 .MaterialSelection__material___1IDK7 {
-  border: 1px solid #eee;
-  border-radius: 5px;
-  padding: 12px 8px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 12px 8px;
 }
 .MaterialSelection__fuzzy___3DP6w,
 .MaterialSelection__material___1IDK7,
 .MaterialSelection__amount___Q_jiH,
 .MaterialSelection__RecycleClass___8abpJ {
-  margin: 5px 15px 5px 0;
+    margin: 5px 15px 5px 0;
 }
 .MaterialSelection__fuzzy___3DP6w > div {
-  padding: 0 !important;
-  box-shadow: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
 }
 .TopMenu__menu-bar___1H7Ik {
-  background: -webkit-linear-gradient(top, #ffffff 0%, #e4e4e4 100%);
-  background: linear-gradient(to bottom, #ffffff 0%, #e4e4e4 100%);
+    background: -webkit-linear-gradient(top, #ffffff 0%, #e4e4e4 100%);
+    background: linear-gradient(to bottom, #ffffff 0%, #e4e4e4 100%);
 }
 .TopMenu__menu___F7C0B {
-  width: 90%;
-  max-width: 991px;
-  margin: 0 auto;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+    width: 90%;
+    max-width: 991px;
+    margin: 0 auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
 }
 .TopMenu__menu___F7C0B a.active {
-  background: -webkit-linear-gradient(top, #a9a9a9 0%, #929292 100%);
-  background: linear-gradient(to bottom, #a9a9a9 0%, #929292 100%);
-  color: white;
+    background: -webkit-linear-gradient(top, #a9a9a9 0%, #929292 100%);
+    background: linear-gradient(to bottom, #a9a9a9 0%, #929292 100%);
+    color: white;
 }
 .TopMenu__menu___F7C0B a.active:visited {
-  color: white;
+    color: white;
 }
 .TopMenu__menu___F7C0B a {
-  padding: 10px 20px;
-  border-right: 2px solid white;
-  text-decoration: none;
-  color: #555;
-  font-size: 14px;
-  font-weight: bold;
+    padding: 10px 20px;
+    border-right: 2px solid white;
+    text-decoration: none;
+    color: #555;
+    font-size: 14px;
+    font-weight: bold;
 }
 .TopMenu__menu___F7C0B a:nth-last-child(1) {
-  border-right: none;
+    border-right: none;
 }
 .TopMenu__menu___F7C0B a:visited {
-  color: #555;
+    color: #555;
 }
 
 /*# sourceMappingURL=app.css.map */

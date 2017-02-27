@@ -24,12 +24,12 @@ function getAll(req, res) {
     const queryObject = helpers.getQueryParams(req.swagger.params);
     if (helpers.parseUrlToTable(req.url) === 'composite_material') {
         selectComp.all(queryObject.user_id)
-            .then(result => isEmpty(result) ? res.status(404).json({message:'Not Found'}) : res.json(result))
+            .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
     } else {
         let SQLquery = helpers.dbQueryBuilder(req.swagger);
         query.select(SQLquery, queryObject.user_id)
-            .then(result => isEmpty(result) ? res.status(404).json({message:'Not Found'}): res.json(result))
+            .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
     }
 }
