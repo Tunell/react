@@ -57,7 +57,7 @@ function post (req, res) {
     const insertFunc = helpers.parseUrlToTable(req.url) === 'composite_material' ? 'insertCompositeMaterial' : 'insertRow';
     insert[insertFunc](helpers.parseUrlToTable(req.url), data)
         .then(result => res.status(201).json(helpers.addMeta(result, req)))
-        .catch(err => res.status(500).json(err.message))
+        .catch(err => res.status(err.error.statusCode).json(err))
 }
 
 // Change a entry

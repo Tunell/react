@@ -82,7 +82,6 @@ CREATE TABLE IF NOT EXISTS `byggstyrning`.`composite_material` (
   PRIMARY KEY (`id`),
   INDEX `fk_composite_material_user1_idx` (`user_id` ASC),
   INDEX `fk_composite_material_unit1_idx` (`unit_id` ASC),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC),
   CONSTRAINT `fk_composite_material_user1`
   FOREIGN KEY (`user_id`)
   REFERENCES `byggstyrning`.`user` (`id`)
@@ -244,6 +243,7 @@ CREATE TABLE IF NOT EXISTS `byggstyrning`.`composite_has_material` (
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
 
 
 USE byggstyrning;
