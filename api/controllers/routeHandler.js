@@ -7,6 +7,7 @@ const remove = require('../helpers/remove');
 const query = require('../helpers/generatedQueries');
 const helpers = require('../helpers/routeHandlerHelpers');
 const _ = require('lodash')
+const errorParser = require('./../helpers/dbErrorParser')
 
 // Get all the entries associated with endpoint
 
@@ -57,7 +58,7 @@ function post (req, res) {
     const insertFunc = helpers.parseUrlToTable(req.url) === 'composite_material' ? 'insertCompositeMaterial' : 'insertRow';
     insert[insertFunc](helpers.parseUrlToTable(req.url), data)
         .then(result => res.status(201).json(helpers.addMeta(result, req)))
-        .catch(err => res.status(err.error.statusCode).json(err))
+        .catch(err => res.status(err.statusCode).json({error: err}))
 }
 
 // Change a entry
@@ -73,8 +74,11 @@ function put (req, res) {
 // Delete a entry
 function deleteRow (req, res) {
     remove.deleteId(helpers.parseUrlToTable(req.url), req.swagger.params.id.value)
-        .then(result => res.status(204).json(result))
-        .catch(err => res.status(500).json(err.message))
+        .then(result => parseInt(result) === 0 ? res.status(404).json({message:'Not Found'}) : res.status(204).json(result))
+        .catch(err => {
+            const error = errorParser.createErrorResponse(err)
+            res.status(error.statusCode).json({error: error})
+        })
 }
 
 module.exports = {

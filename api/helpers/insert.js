@@ -1,5 +1,6 @@
 var Promise = require("bluebird");
 var getSqlConnection = require('./databaseConnection');
+const errorParser = require('./dbErrorParser')
 
 const insert = {
     // Insert a entry into a table in db
@@ -44,44 +45,11 @@ const insert = {
             .then( () => compMatInsertInfo)
             // If violations or failure, rollback
             .catch( err => {
-                let errorResponse = createErrorResponse(err)
+                let errorResponse = errorParser.createErrorResponse(err)
                 conn.query('ROLLBACK')
                 throw (errorResponse)
             })
     }
-}
-
-function createErrorResponse(err) {
-    let msg, field, statusCode
-    ({msg, field, statusCode} = decodeError(err.errno, err.message))
-    const errorResponse = {
-        error: {
-            msg,
-            field,
-            code: err.errno,
-            exceptionMsg: err.message,
-            statusCode
-        }
-    }
-    return errorResponse
-}
-
-function decodeError(errno,  message) {
-    let field, msg, statusCode
-    switch(errno) {
-        // The provided foreign key ID is not found
-        case 1452:
-            field = message.split('FOREIGN KEY')[1].split('REFERENCES')[0].split('`')[1]
-            msg = `Det id på ${field} som skickats finns ej.`
-            statusCode = 403
-            break
-
-        default:
-            field = "Did not find any field."
-            msg = `Kunde inte hitta vad som gick fel.`
-            statusCode = 403
-    }
-    return {field, msg, statusCode}
 }
 
 module.exports = insert;

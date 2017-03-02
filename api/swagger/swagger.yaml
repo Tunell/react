@@ -72,7 +72,7 @@ paths:
           schema:
             $ref: "#/definitions/used-material"
         404:
-          description: The used-material does not exist.
+           $ref: "#/responses/Standard404NotFoundResponse"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
           
