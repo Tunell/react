@@ -261,7 +261,7 @@ paths:
               in: body
               description: The composite_material object that will be changed
               schema:
-                $ref: "#/definitions/composite-material-update-object"
+                $ref: "#/definitions/composite-material"
         responses:
           204:
             description: Used-material sucessfully updated.

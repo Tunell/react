@@ -2,7 +2,7 @@
 const util = require('util');
 const selectComp = require('../helpers/select');
 const insert = require('../helpers/insert');
-const update = require('../helpers/update');
+const update = require('../helpers/new_update');
 const remove = require('../helpers/remove');
 const query = require('../helpers/generatedQueries');
 const helpers = require('../helpers/routeHandlerHelpers');
@@ -68,7 +68,7 @@ function put (req, res) {
     const putFunc = helpers.parseUrlToTable(req.url) === 'composite_material' ? 'updateCompositeMaterial' : 'updateRow';
     update[putFunc](helpers.parseUrlToTable(req.url), req.swagger.params.id.value, data)
         .then(result => res.status(204).json(result))
-        .catch(err => res.status(500).json(err.message))
+        .catch(err => res.status(err.statusCode).json({error: err}))
 }
 
 // Delete a entry
