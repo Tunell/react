@@ -27,6 +27,15 @@ function getAll(req, res) {
         selectComp.all(queryObject.user_id)
             .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
+    } else if(helpers.parseUrlToTable(req.url) === 'used_material') {
+
+
+       // THIS IS WHERE I AM AT!!!                         FIX selectComp in select!!!!!!
+
+
+        selectComp.all(queryObject.user_id)
+            .then(result => res.json(result))
+            .catch(err => res.status(500).json(err.message))
     } else {
         let SQLquery = helpers.dbQueryBuilder(req.swagger);
         query.select(SQLquery, queryObject.user_id)

@@ -16,7 +16,6 @@ const selectCompositeMaterial = {
 
     all: (user_id) => {
         return new Promise.using(getSqlConnection(), function(connection) {
-
             let query = String.raw`
             SELECT
             composite_material.id                  AS id,
@@ -49,6 +48,37 @@ const selectCompositeMaterial = {
             }
             return connection.query(query, user_id)
                 .then( rows => createCompMaterials(rows))
+        })
+    }
+}
+
+const selectUsedMaterial = {
+    all: () => {
+        return new Promise.using(getSqlConnection(), (connection) => {
+        let query = String.raw
+        `
+        SELECT 
+            used_material.id AS id, 
+            used_material.user_id AS user_id,
+            user.name AS user_name,
+            used_has_raw_material.raw_material_id AS used_has_material_id,
+            material.name AS used_has_material_name,
+            record_state.id AS record_state,
+            record_state.name AS record_state_name,
+            used_material.comment AS comment,
+            used_material.amount AS amount,
+            used_material.material_type_id AS material_type_id,
+            material_type.name AS material_type_name
+        FROM byggstyrning.used_material,  used_has_raw_material, raw_material, material, user, record_state, material_type
+        WHERE
+        used_material.id = used_has_raw_material.used_material_id AND
+        raw_material.id = used_has_raw_material.raw_material_id AND
+        material.id = raw_material.id AND
+        user.id = used_material.user_id AND
+        used_material.record_state_id = record_state.id AND
+        used_material.material_type_id = material_type.id
+`
+            return connection.query(query)
         })
     }
 }
@@ -110,5 +140,5 @@ function createCompMaterial(row, compositeHasMaterial) {
     return compositeMaterial;
 }
 
-module.exports = selectCompositeMaterial;
+module.exports = selectUsedMaterial;
 

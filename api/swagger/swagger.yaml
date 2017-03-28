@@ -660,9 +660,9 @@ definitions:
   used-material:
     required:
       - user_id
-      - composite_material_id
       - amount
       - comment
+      - material_type_id
     properties:
       id:
         type: integer
@@ -670,9 +670,9 @@ definitions:
         type: integer
       user_name:
         type: string
-      composite_material_id:
+      used_has_material_id:
         type: integer
-      composite_material_name:
+      used_has_material_name:
         type: string
       record_state_id:
         type: integer
@@ -683,6 +683,10 @@ definitions:
       amount:
         type: number
         format: double
+      material_type_id:
+        type: integer
+      material_type_name:
+        type: string
       created:
         type: string
       changed:
@@ -771,48 +775,11 @@ definitions:
         format: double
       
       
-        
+  
   composite-materials:
     type: array
     items:
       $ref: "#/definitions/composite-material"
-    
-  composite-material-update-object:
-    required:
-      - name
-      - unit_id
-      - composite_has_materials
-    properties:
-      name:
-        type: string
-      unit_id:
-        type: integer
-      composite_has_materials:
-        type: array
-        items:
-          $ref: "#/definitions/composite-has-material-update-object"
-      id:
-        type: integer
-      user_id:
-        type: integer
-      username:
-        type: string
-      unit_name:
-        type: string
-      created:
-        type: string
-      changed:
-        type: string
-   
-      
-  composite-has-material-update-object:
-    required:
-      - new
-    properties:
-      new:
-       $ref: "#/definitions/composite-has-material"
-      old:
-       $ref: "#/definitions/composite-has-material"
        
        
   unit:
