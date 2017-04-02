@@ -12,7 +12,7 @@ module.exports = [{
         './src/app.js'
     ],
     output: {
-        path: __dirname,
+	    path: __dirname + "/public",
 	    filename: 'bundle.js',
         library: 'MyApp',
         publicPath: 'http://localhost:8080/'
