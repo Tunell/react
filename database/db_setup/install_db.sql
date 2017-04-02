@@ -258,7 +258,8 @@ INSERT INTO unit (user_id, name)
 VALUES (1, "kg"),
   (1, "m3"),
   (1, "m2"),
-  (1, "m");
+  (1, "m"),
+  (1, "st");
 
 
 INSERT INTO material (user_id, name)
