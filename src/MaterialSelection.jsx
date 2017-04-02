@@ -110,7 +110,7 @@ export default class MaterialSelection extends React.Component {
 			this.setState({
 				amountError: ""
 			});
-		} else {
+		} else if (e.target.value !== "") {
 			this.setState({
 				amountError: "Mängden måste vara en siffra"
 			});
