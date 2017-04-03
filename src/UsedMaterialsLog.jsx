@@ -53,6 +53,7 @@ class UsedMaterialsLog extends React.Component {
 				</thead>
 				<tbody>
 				{usedMaterials && usedMaterials.length > 0 && usedMaterials
+					.sort((a,b)=> new Date(b.created) - new Date(a.created))
 					.map(material => (
 						<tr key={material.id}>
 							<th>{material.composite_material_name}</th>
