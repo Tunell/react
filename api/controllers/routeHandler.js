@@ -16,10 +16,12 @@ function isEmpty(result) {
 }
 
 function get(req, res) {
+	res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
     _.has(req.swagger.params, 'id') ? getId(req, res) : getAll(req, res)
 }
 
 function getAll(req, res) {
+	res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
     // Extract query parameters
     // Composite material has a specific query
     const queryObject = helpers.getQueryParams(req.swagger.params);
@@ -37,6 +39,7 @@ function getAll(req, res) {
 
 // Get entries associated with a single id
 function getId(req, res) {
+	res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
     const queryObject = helpers.getQueryParams(req.swagger.params);
     if(helpers.parseUrlToTable(req.url) === 'composite_material') {
         selectComp.id(queryObject.id)
