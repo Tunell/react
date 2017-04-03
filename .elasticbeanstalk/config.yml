@@ -4,8 +4,8 @@ branch-defaults:
     group_suffix: null
 environment-defaults:
   node-express-env:
-    branch: null
-    repository: null
+    branch: byggstyrning
+    repository: react
 global:
   application_name: react
   branch: null
