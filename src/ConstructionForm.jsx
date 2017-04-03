@@ -1,6 +1,7 @@
 import React from "react";
 import CSSModules from "react-css-modules";
 import {connect} from "react-redux";
+import { browserHistory } from 'react-router';
 import {fetchJsonWithSpecifiedStore} from "./materialGetters/materialGettersAction";
 import styles from "./ConstructionForm.less";
 import MaterialSelection from "./MaterialSelection.jsx";
@@ -192,12 +193,15 @@ export default class ConstructionForm extends React.Component {
 				}
 			);
 			//FIXME: Really ugly way to reset state
-
-			setTimeout(() => {
-				this.setState({
-					constructionParts: 1
-				});
-			}, 500);
+			if(constructionCreation){
+				browserHistory.push('/material-list?compositeList=true');
+			} else {
+				setTimeout(() => {
+					this.setState({
+						constructionParts: 1
+					});
+				}, 500);
+			}
 
 		}
 	}

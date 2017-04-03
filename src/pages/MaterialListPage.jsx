@@ -4,10 +4,16 @@ import Material from "../Material.jsx";
 import UsedMaterialsList from "../UsedMaterialsList.jsx";
 import UsedMaterialsLog from "../UsedMaterialsLog.jsx";
 
-class MaterialListPage extends React.Component {
+@connect(
+	(state) => ( {
+		compositeMaterials: state.resources.compositeMaterials.json ? state.resources.compositeMaterials.json : [],
+		materials: state.resources.materials.json ? state.resources.materials.json : [],
+	})
+)
+export default class MaterialListPage extends React.Component {
 
 	state = {
-		compositeList: this.props.allowComposite || ( this.props.route && this.props.route.allowComposite),
+		compositeList: this.props.allowComposite || ( this.props.location.query && this.props.location.query.compositeList),
 		materialUsageList: this.props.materialUsageList || ( this.props.route && this.props.route.materialUsageList),
 		showLog: false
 	};
@@ -62,7 +68,8 @@ class MaterialListPage extends React.Component {
 						} else if (compositeList) {
 							return <div>
 								<h1>Byggdelar:</h1>
-								{compositeMaterials.map(material => (
+								{compositeMaterials.filter(material=> material.user_id !== 1)
+									.map(material => (
 									<Material key={material.id} material={material} composite={ true }/>
 								))}
 							</div>
@@ -82,10 +89,3 @@ class MaterialListPage extends React.Component {
 		);
 	}
 }
-
-export default connect(
-	(state) => ( {
-		compositeMaterials: state.resources.compositeMaterials.json ? state.resources.compositeMaterials.json : [],
-		materials: state.resources.materials.json ? state.resources.materials.json : [],
-	})
-)(MaterialListPage)
