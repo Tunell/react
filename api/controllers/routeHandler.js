@@ -19,6 +19,7 @@ function get(req, res) {
 	res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
 	res.header('Expires', '-1');
 	res.header('Pragma', 'no-cache');
+	res.header('eTag', 'false');
     _.has(req.swagger.params, 'id') ? getId(req, res) : getAll(req, res)
 }
 
@@ -26,6 +27,7 @@ function getAll(req, res) {
 	res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
 	res.header('Expires', '-1');
 	res.header('Pragma', 'no-cache');
+	res.header('eTag', 'false');
     // Extract query parameters
     // Composite material has a specific query
     const queryObject = helpers.getQueryParams(req.swagger.params);
@@ -46,6 +48,7 @@ function getId(req, res) {
 	res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
 	res.header('Expires', '-1');
 	res.header('Pragma', 'no-cache');
+	res.header('eTag', 'false');
     const queryObject = helpers.getQueryParams(req.swagger.params);
     if(helpers.parseUrlToTable(req.url) === 'composite_material') {
         selectComp.id(queryObject.id)
