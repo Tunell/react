@@ -46,6 +46,9 @@ const selectCompositeMaterial = {
                 user_id_without_first.forEach( _ => { query += ` OR composite_material.user_id = ?` })
                 query += `)`
             }
+
+
+
             return connection.query(query, user_id)
                 .then( rows => createCompMaterials(rows))
         })
@@ -53,7 +56,7 @@ const selectCompositeMaterial = {
 }
 
 const selectUsedMaterial = {
-    all: () => {
+    query: (user_id, id) => {
         let resultQueryOne;
         let resultQueryTwo;
         return new Promise.using(getSqlConnection(), (connection) => {
@@ -65,6 +68,7 @@ const selectUsedMaterial = {
     user.name AS user_name,
     used_has_raw_material.raw_material_id AS used_has_material_id,
     material.name AS used_has_material_name,
+    material.id AS material_id,
     record_state.id AS record_state_id,
     record_state.name AS record_state_name,
     used_material.comment AS comment,
@@ -81,14 +85,31 @@ FROM byggstyrning.used_material,  used_has_raw_material, raw_material, material,
 WHERE
 used_material.id = used_has_raw_material.used_material_id AND
 raw_material.id = used_has_raw_material.raw_material_id AND
-material.id = raw_material.id AND
+material.id = raw_material.material_id AND
 user.id = used_material.user_id AND
 used_material.record_state_id = record_state.id AND
 used_material.material_type_id = material_type.id AND
 recycle_type.id = material.id AND
 unit.id = raw_material.unit_id
 `
-            return connection.query(query)
+            let params = []
+            if(user_id !== undefined) {
+                params.push(user_id)
+                //query += `AND (composite_material.user_id = ? OR composite_material.user_id = ?)`
+                query += `AND (used_material.user_id = ? `
+                let user_id_without_first = user_id.slice(1, user_id.length)
+                user_id_without_first.forEach( _ => { query += ` OR used_material.user_id = ?` })
+                query += `)`
+            }
+
+            if(id !== undefined) {
+                params.push(id)
+                //query += `AND (composite_material.user_id = ? OR composite_material.user_id = ?)`
+                query += `AND (used_material.id = ? )`
+            }
+
+
+            return connection.query(query, params)
                 .then( (res) => {
                     resultQueryOne = res;
                     let query2 = String.raw
@@ -133,7 +154,19 @@ composite_has_material.recycle_type_id = recycle_type.id AND composite_has_mater
 composite_has_material.material_id = material.id AND composite_material.unit_id = unit_2.id AND
 composite_material.user_id = user.id
 `
-                   return connection.query(query2)
+                    if(user_id !== undefined) {
+                        //query += `AND (composite_material.user_id = ? OR composite_material.user_id = ?)`
+                        query2 += `AND (used_material.user_id = ? `
+                        let user_id_without_first = user_id.slice(1, user_id.length)
+                        user_id_without_first.forEach( _ => { query += ` OR used_material.user_id = ?` })
+                        query2 += `)`
+                    }
+
+                    if(id !== undefined) {
+                        query2 += `AND (used_material.id = ? )`
+                    }
+
+                   return connection.query(query2, params)
                 })
                 .then( (res) => {
                     resultQueryTwo = res;
@@ -216,5 +249,5 @@ function createCompMaterial(row, compositeHasMaterial, isUsedMaterial) {
     return compositeMaterial;
 }
 
-module.exports = selectUsedMaterial;
+module.exports = {selectUsedMaterial, selectCompositeMaterial};
 

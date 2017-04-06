@@ -49,8 +49,79 @@ const insert = {
                 conn.query('ROLLBACK')
                 throw (errorResponse)
             })
+    },
+
+    insertUsedMaterial: (table, usedMaterial) => {
+        let conn;
+        let usedMaterialInsert;
+        return new Promise.using(getSqlConnection(), function(connection) {
+            conn = connection;
+            return connection.query('START TRANSACTION');
+        })
+        // Add queries
+            .then( () => {
+                // Check that there are composite_has_materials specified
+                let query = String.raw`
+                SELECT *
+                FROM raw_material
+                WHERE unit_id = ? AND recycle_type_id = ? AND material_id = ?
+                `
+                return conn.query(query, [usedMaterial.unit_id, usedMaterial.recycle_type_id, usedMaterial.material_id])
+                    .then( rawMaterial => {
+                        console.log(rawMaterial)
+                        // Query 2
+                        if(rawMaterial.length === 1) {
+                            // Go ahead and insert used material
+                            let insertUsedMaterialQuery = String.raw`
+                            INSERT INTO used_material(user_id, material_type_id, amount, comment)
+                            VALUES (?, ?, ?, ?)
+                            `
+                            return conn.query(insertUsedMaterialQuery, [usedMaterial.user_id, usedMaterial.material_type_id, usedMaterial.amount, usedMaterial.comment])
+                                .then( usedMaterialInfo => {
+                                    usedMaterialInsert = usedMaterialInfo
+                                    let insertUsedHasRawQuery = String.raw`
+                                        INSERT INTO used_has_raw_material(used_material_id, raw_material_id)
+                                        VALUES (?, ?);                          
+                                        `
+                                        return conn.query(insertUsedHasRawQuery, [usedMaterialInsert.insertId, rawMaterial[0].id])
+                                })
+                        } else {
+                            let insertRawMaterialQuery = String.raw`
+                            INSERT INTO raw_material(unit_id, recycle_type_id, material_id)
+                            VALUES (?, ?, ?)
+                            `
+                            return conn.query(insertRawMaterialQuery, [usedMaterial.unit_id, usedMaterial.recycle_type_id, usedMaterial.material_id])
+                                .then( rawMaterial =>  {
+                                    let insertUsedMaterialQuery = String.raw`
+                            INSERT INTO used_material(user_id, material_type_id, amount, comment)
+                            VALUES (?, ?, ?, ?)
+                            `
+                                    return conn.query(insertUsedMaterialQuery, [usedMaterial.user_id, usedMaterial.material_type_id, usedMaterial.amount, usedMaterial.comment])
+                                        .then( usedMaterialInfo => {
+                                            usedMaterialInsert = usedMaterialInfo
+                                            let insertUsedHasRawQuery = String.raw`
+                                        INSERT INTO used_has_raw_material(used_material_id, raw_material_id)
+                                        VALUES (?, ?);                          
+                                        `
+                                            return conn.query(insertUsedHasRawQuery, [usedMaterialInsert.insertId, rawMaterial.insertId])
+                                        })
+                                })
+                        }
+                    })
+            })
+            // Commit queries
+            .then( () => conn.query('COMMIT'))
+            .then( () => usedMaterialInsert)
+            // If violations or failure, rollback
+            .catch( err => {
+                let errorResponse = errorParser.createErrorResponse(err)
+                conn.query('ROLLBACK')
+                throw (errorResponse)
+            })
     }
 }
+
+
 
 module.exports = insert;
 
