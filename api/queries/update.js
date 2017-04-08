@@ -1,7 +1,9 @@
-
 var Promise = require("bluebird");
-var getSqlConnection = require('./databaseConnection');
-const errorParser = require('./dbErrorParser')
+var getSqlConnection = require('./../helpers/databaseConnection');
+const errorParser = require('./../helpers/dbErrorParser')
+const queryHelper = require('./../helpers/queryHelpers')
+
+const RAW_MATERIAL = 1
 
 const update = {
     // Insert a entry into a table in db
@@ -59,8 +61,47 @@ const update = {
                 conn.query('ROLLBACK')
                 throw (errorResponse)
             })
+    },
+
+    updateUsedMaterial: (table, id, usedMaterial) => {
+        let conn;
+        return new Promise.using(getSqlConnection(), function(connection) {
+            conn = connection;
+            return connection.query('START TRANSACTION');
+        })
+            .then( () => conn.query(`UPDATE used_material SET comment = ?, amount = ?, material_type_id = ? WHERE id = ?`, [usedMaterial.comment, usedMaterial.amount, usedMaterial.material_type_id, id]))
+            .then( () => conn.query(`DELETE FROM used_has_composite_material WHERE used_material_id = ?`, [id]))
+            .then( () => conn.query(`DELETE FROM used_has_raw_material WHERE used_material_id = ?`, [id]))
+            .then( () => {
+                        if(usedMaterial.material_type_id === RAW_MATERIAL) {
+                            queryHelper.findRawMaterialId(conn, usedMaterial.material_id, usedMaterial.recycle_type_id, usedMaterial.unit_id)
+                                .then( rawMaterialId => {
+                                     let insertUsedHasRawQuery = String.raw`
+                                        INSERT INTO used_has_raw_material(used_material_id, raw_material_id)
+                                        VALUES (?, ?);                          
+                                        `
+                                    return conn.query(insertUsedHasRawQuery, [id, rawMaterialId])
+                                })
+                        } else {
+                            let usedMaterialHasComp = String.raw`
+                                        INSERT INTO used_has_composite_material(used_material_id, composite_material_id)
+                                        VALUES (?, ?);                          
+                                        `
+                            return conn.query(usedMaterialHasComp, [id, usedMaterial.used_has_material_id])
+                      }
+            })
+            // Commit queries
+            .then( () => conn.query('COMMIT'))
+            .then( () => {})
+            // If violations or failure, rollback
+            .catch( err => {
+                let errorResponse = errorParser.createErrorResponse(err)
+                conn.query('ROLLBACK')
+                throw (errorResponse)
+            })
     }
 }
+
 
 module.exports = update;
 

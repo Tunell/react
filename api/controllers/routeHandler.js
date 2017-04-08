@@ -1,11 +1,11 @@
 'use strict';
 const util = require('util');
-const selectUsed = require('../helpers/select').selectUsedMaterial;
-const selectComp = require('../helpers/select').selectCompositeMaterial;
-const insert = require('../helpers/insert');
-const update = require('../helpers/new_update');
-const remove = require('../helpers/remove');
-const query = require('../helpers/generatedQueries');
+const selectUsed = require('../queries/select').selectUsedMaterial;
+const selectComp = require('../queries/select').selectCompositeMaterial;
+const insert = require('../queries/insert');
+const update = require('../queries/update');
+const remove = require('../queries/remove');
+const query = require('../queries/built_queries/generatedQueries');
 const helpers = require('../helpers/routeHandlerHelpers');
 const _ = require('lodash')
 const errorParser = require('./../helpers/dbErrorParser')
@@ -75,7 +75,8 @@ function post (req, res) {
 // Handles both entries that has a single row and multiple rows
 function put (req, res) {
     let data = req.swagger.params[Object.keys(req.swagger.params)[0]].value;
-    const putFunc = helpers.parseUrlToTable(req.url) === 'composite_material' ? 'updateCompositeMaterial' : 'insertRow'
+    const putFunc = helpers.parseUrlToTable(req.url) === 'composite_material' ? 'updateCompositeMaterial' :
+                    helpers.parseUrlToTable(req.url) === 'used_material' ? 'updateUsedMaterial' : 'updateRow'
     update[putFunc](helpers.parseUrlToTable(req.url), req.swagger.params.id.value, data)
         .then(result => res.status(204).json(result))
         .catch(err => res.status(err.statusCode).json({error: err}))

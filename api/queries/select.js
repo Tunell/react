@@ -1,5 +1,5 @@
 var Promise = require("bluebird");
-var getSqlConnection = require('./databaseConnection');
+var getSqlConnection = require('./../helpers/databaseConnection');
 
 
 const selectCompositeMaterial = {
@@ -85,11 +85,11 @@ FROM byggstyrning.used_material,  used_has_raw_material, raw_material, material,
 WHERE
 used_material.id = used_has_raw_material.used_material_id AND
 raw_material.id = used_has_raw_material.raw_material_id AND
-material.id = raw_material.material_id AND
 user.id = used_material.user_id AND
 used_material.record_state_id = record_state.id AND
 used_material.material_type_id = material_type.id AND
-recycle_type.id = material.id AND
+material.id = raw_material.material_id AND
+recycle_type.id = raw_material.recycle_type_id AND
 unit.id = raw_material.unit_id
 `
             let params = []
@@ -209,7 +209,7 @@ function createCompMaterials(rows, isUsedMaterial){
 // Given a row, extracts data to construct a single compositeHasMaterial object
 function createCompHasMaterial(row) {
     let compositeHasMaterial = {
-        composite_material_id: row.id,
+        composite_material_id: row.used_has_material_id,
         material_id: row.material_id,
         material_name: row.material_name,
         recycle_type_id: row.material_recycle_type_id,

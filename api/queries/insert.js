@@ -1,6 +1,9 @@
 var Promise = require("bluebird");
-var getSqlConnection = require('./databaseConnection');
-const errorParser = require('./dbErrorParser')
+var getSqlConnection = require('./../helpers/databaseConnection');
+const errorParser = require('./../helpers/dbErrorParser')
+const queryHelper = require('./../helpers/queryHelpers')
+
+const RAW_MATERIAL = 1
 
 const insert = {
     // Insert a entry into a table in db
@@ -53,59 +56,35 @@ const insert = {
 
     insertUsedMaterial: (table, usedMaterial) => {
         let conn;
-        let usedMaterialInsert;
+        let usedMaterialInsert
         return new Promise.using(getSqlConnection(), function(connection) {
             conn = connection;
             return connection.query('START TRANSACTION');
         })
-        // Add queries
             .then( () => {
-                // Check that there are composite_has_materials specified
-                let query = String.raw`
-                SELECT *
-                FROM raw_material
-                WHERE unit_id = ? AND recycle_type_id = ? AND material_id = ?
-                `
-                return conn.query(query, [usedMaterial.unit_id, usedMaterial.recycle_type_id, usedMaterial.material_id])
-                    .then( rawMaterial => {
-                        console.log(rawMaterial)
-                        // Query 2
-                        if(rawMaterial.length === 1) {
-                            // Go ahead and insert used material
-                            let insertUsedMaterialQuery = String.raw`
+                let insertUsedMaterialQuery = String.raw`
                             INSERT INTO used_material(user_id, material_type_id, amount, comment)
                             VALUES (?, ?, ?, ?)
                             `
-                            return conn.query(insertUsedMaterialQuery, [usedMaterial.user_id, usedMaterial.material_type_id, usedMaterial.amount, usedMaterial.comment])
-                                .then( usedMaterialInfo => {
-                                    usedMaterialInsert = usedMaterialInfo
+                return conn.query(insertUsedMaterialQuery, [usedMaterial.user_id, usedMaterial.material_type_id, usedMaterial.amount, usedMaterial.comment])
+                    .then( (usedMaterialInsertInfo) => {
+                        usedMaterialInsert = usedMaterialInsertInfo
+                        let usedMaterialInsertId = usedMaterialInsertInfo.insertId
+                        if(usedMaterial.material_type_id === RAW_MATERIAL) {
+                            queryHelper.findRawMaterialId(conn, usedMaterial.material_id, usedMaterial.recycle_type_id, usedMaterial.unit_id)
+                                .then( rawMaterialId => {
                                     let insertUsedHasRawQuery = String.raw`
                                         INSERT INTO used_has_raw_material(used_material_id, raw_material_id)
                                         VALUES (?, ?);                          
                                         `
-                                        return conn.query(insertUsedHasRawQuery, [usedMaterialInsert.insertId, rawMaterial[0].id])
+                                    return conn.query(insertUsedHasRawQuery, [usedMaterialInsertId, rawMaterialId])
                                 })
                         } else {
-                            let insertRawMaterialQuery = String.raw`
-                            INSERT INTO raw_material(unit_id, recycle_type_id, material_id)
-                            VALUES (?, ?, ?)
-                            `
-                            return conn.query(insertRawMaterialQuery, [usedMaterial.unit_id, usedMaterial.recycle_type_id, usedMaterial.material_id])
-                                .then( rawMaterial =>  {
-                                    let insertUsedMaterialQuery = String.raw`
-                            INSERT INTO used_material(user_id, material_type_id, amount, comment)
-                            VALUES (?, ?, ?, ?)
-                            `
-                                    return conn.query(insertUsedMaterialQuery, [usedMaterial.user_id, usedMaterial.material_type_id, usedMaterial.amount, usedMaterial.comment])
-                                        .then( usedMaterialInfo => {
-                                            usedMaterialInsert = usedMaterialInfo
-                                            let insertUsedHasRawQuery = String.raw`
-                                        INSERT INTO used_has_raw_material(used_material_id, raw_material_id)
+                            let insertUsedHasCompQuery = String.raw`
+                                        INSERT INTO used_has_composite_material(used_material_id, composite_material_id)
                                         VALUES (?, ?);                          
                                         `
-                                            return conn.query(insertUsedHasRawQuery, [usedMaterialInsert.insertId, rawMaterial.insertId])
-                                        })
-                                })
+                            return conn.query(insertUsedHasCompQuery, [usedMaterialInsertId, usedMaterial.material_id])
                         }
                     })
             })

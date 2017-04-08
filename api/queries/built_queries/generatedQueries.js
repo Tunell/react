@@ -1,5 +1,5 @@
 var Promise = require("bluebird");
-var getSqlConnection = require('./databaseConnection');
+var getSqlConnection = require('./../../helpers/databaseConnection');
 
 const generated = {
     select: (query, filter) => {
