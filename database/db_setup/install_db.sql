@@ -316,15 +316,17 @@ VALUES (1, "kg"),
 INSERT INTO material (user_id, name, kg_per_m3)
 VALUES (1, "Aluminium", 2700),
   (1, "Gips", 650),
-  (1, "Sand", 10000),
   (1, "Trä", 1500),
-  (1, "Tegel", 10000),
-  (1, "Cement", 10000),
   (1, "Betong", 2500),
-  (1, "Mattor", 10000),
   (1, "Glas", 2500),
-  (1, "Isolering", 10000),
-  (1, "Stål", 7800);
+  (1, "Plast(PP)", 950),
+  (1, "Handelsstål", 7800),
+  (1, "Armering", 7800),
+  (1, "Plåt", 7800),
+  (1, "Stenull", 90),
+  (1, "Cellplast", 20),
+  (1, "Koppar", 8960);
+
 
 INSERT INTO recycle_type (name)
 VALUES ("Ej återvunnet/återanvänt"),
