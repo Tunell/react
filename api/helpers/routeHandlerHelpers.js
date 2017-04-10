@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const queryBuilder = require('./queryBuilder');
+const queryBuilder = require('./../queries/built_queries/queryBuilder');
 // Helper functions for the routeHandler
 const helpers = {
     // Takes a req.url and extracts the table-name

@@ -1,10 +1,11 @@
 'use strict';
 const util = require('util');
-const selectComp = require('../helpers/select');
-const insert = require('../helpers/insert');
-const update = require('../helpers/new_update');
-const remove = require('../helpers/remove');
-const query = require('../helpers/generatedQueries');
+const selectUsed = require('../queries/select').selectUsedMaterial;
+const selectComp = require('../queries/select').selectCompositeMaterial;
+const insert = require('../queries/insert');
+const update = require('../queries/update');
+const remove = require('../queries/remove');
+const query = require('../queries/built_queries/generatedQueries');
 const helpers = require('../helpers/routeHandlerHelpers');
 const _ = require('lodash')
 const errorParser = require('./../helpers/dbErrorParser')
@@ -35,6 +36,10 @@ function getAll(req, res) {
         selectComp.all(queryObject.user_id)
             .then(result => res.json(result))
             .catch(err => res.status(500).json(err.message))
+    } else if(helpers.parseUrlToTable(req.url) === 'used_material') {
+        selectUsed.query(queryObject.user_id)
+            .then(result => res.json(result))
+            .catch(err => res.status(500).json(err.message))
     } else {
         let SQLquery = helpers.dbQueryBuilder(req.swagger);
         query.select(SQLquery, queryObject.user_id)
@@ -54,6 +59,10 @@ function getId(req, res) {
         selectComp.id(queryObject.id)
             .then(result => isEmpty(result) ? res.status(404).json({message:'Not Found'}): res.json(result))
             .catch(err => res.status(500).json(err.message))
+    } else if(helpers.parseUrlToTable(req.url) === 'used_material') {
+        selectUsed.query(queryObject.user_id, queryObject.id)
+            .then(result => res.json(result))
+            .catch(err => res.status(500).json(err.message))
     } else {
         let SQLquery = helpers.dbQueryBuilder(req.swagger);
         query.select(SQLquery, queryObject.id)
@@ -67,7 +76,8 @@ function post (req, res) {
     // Extract the data that is to be inserted
     let data = req.swagger.params[Object.keys(req.swagger.params)[0]].value;
     // Determine which function to use
-    const insertFunc = helpers.parseUrlToTable(req.url) === 'composite_material' ? 'insertCompositeMaterial' : 'insertRow';
+    const insertFunc = helpers.parseUrlToTable(req.url) === 'composite_material' ? 'insertCompositeMaterial' :
+                        helpers.parseUrlToTable(req.url) === 'used_material' ? 'insertUsedMaterial' : 'updateRow'
     insert[insertFunc](helpers.parseUrlToTable(req.url), data)
         .then(result => res.status(201).json(helpers.addMeta(result, req)))
         .catch(err => res.status(err.statusCode).json({error: err}))
@@ -77,7 +87,8 @@ function post (req, res) {
 // Handles both entries that has a single row and multiple rows
 function put (req, res) {
     let data = req.swagger.params[Object.keys(req.swagger.params)[0]].value;
-    const putFunc = helpers.parseUrlToTable(req.url) === 'composite_material' ? 'updateCompositeMaterial' : 'updateRow';
+    const putFunc = helpers.parseUrlToTable(req.url) === 'composite_material' ? 'updateCompositeMaterial' :
+                    helpers.parseUrlToTable(req.url) === 'used_material' ? 'updateUsedMaterial' : 'updateRow'
     update[putFunc](helpers.parseUrlToTable(req.url), req.swagger.params.id.value, data)
         .then(result => res.status(204).json(result))
         .catch(err => res.status(err.statusCode).json({error: err}))

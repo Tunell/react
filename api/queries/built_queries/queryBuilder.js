@@ -1,4 +1,4 @@
-const helpers = require('./routeHandlerHelpers')
+const helpers = require('./../../helpers/routeHandlerHelpers')
 const _ = require('lodash');
 
 const queryBuilder = {

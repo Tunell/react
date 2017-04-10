@@ -1,5 +1,5 @@
 var Promise = require("bluebird");
-var getSqlConnection = require('./databaseConnection');
+var getSqlConnection = require('./../helpers/databaseConnection');
 
 const remove = {
     // Delete a entry in db
