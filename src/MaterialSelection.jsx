@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import CSSModules from "react-css-modules";
-import styles from "./MaterialSelection.less";
+import * as styles from "./MaterialSelection.less";
 
 function mapStateToProps(state, ownProps) {
 	const recycleTypes = state.resources.recycleTypes.json ? state.resources.recycleTypes.json : [];
@@ -110,7 +110,7 @@ export default class MaterialSelection extends React.Component {
 			this.setState({
 				amountError: ""
 			});
-		} else {
+		} else if (e.target.value !== "") {
 			this.setState({
 				amountError: "Mängden måste vara en siffra"
 			});
