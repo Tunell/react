@@ -36,8 +36,6 @@ paths:
           description: A list of used-materials
           schema:
             $ref: "#/definitions/used-materials"
-        404:
-          $ref: "#/responses/Standard404NotFoundResponse"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
     post:
@@ -124,8 +122,6 @@ paths:
           description: A list of materials
           schema:
             $ref: "#/definitions/materials"
-        404:
-          $ref: "#/responses/Standard404NotFoundResponse"
         500:
           $ref: "#/responses/Standard500ErrorResponse"
     post:
@@ -212,8 +208,6 @@ paths:
             description: A list of materials
             schema:
               $ref: "#/definitions/composite-materials"
-          404:
-            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
       post:
@@ -298,8 +292,6 @@ paths:
             description: A list of materials
             schema:
               $ref: "#/definitions/units"
-          404:
-            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
       post:
@@ -387,8 +379,6 @@ paths:
             description: A list of materials
             schema:
               $ref: "#/definitions/recycle-types"
-          404:
-            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
       post:
@@ -474,8 +464,6 @@ paths:
             description: A list of users
             schema:
               $ref: "#/definitions/users"
-          404:
-            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
       post:
@@ -560,8 +548,6 @@ paths:
             description: A list of record states
             schema:
               $ref: "#/definitions/record-states"
-          404:
-            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
       post:
@@ -647,8 +633,6 @@ paths:
             description: A list of record states
             schema:
               $ref: "#/definitions/material-has-metas"
-          404:
-            $ref: "#/responses/Standard404NotFoundResponse"
           500:
             $ref: "#/responses/Standard500ErrorResponse"
             

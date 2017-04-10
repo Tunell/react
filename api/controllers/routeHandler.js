@@ -61,7 +61,7 @@ function getId(req, res) {
             .catch(err => res.status(500).json(err.message))
     } else if(helpers.parseUrlToTable(req.url) === 'used_material') {
         selectUsed.query(queryObject.user_id, queryObject.id)
-            .then(result => res.json(result))
+            .then(result => isEmpty(result) ? res.status(404).json({message:'Not Found'}): res.json(result))
             .catch(err => res.status(500).json(err.message))
     } else {
         let SQLquery = helpers.dbQueryBuilder(req.swagger);
