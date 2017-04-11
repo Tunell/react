@@ -1,23 +1,23 @@
 import React from "react";
 import {connect} from "react-redux";
 import CSSModules from "react-css-modules";
+import update from 'immutability-helper';
 import * as styles from "./MaterialSelection.less";
 
 function mapStateToProps(state, ownProps) {
 	const recycleTypes = state.resources.recycleTypes.json ? state.resources.recycleTypes.json : [];
+	const units = state.resources.units.json ? state.resources.units.json : [];
+
 
 	//Used in materialCreation
-	const material_has_metas = state.resources.material_has_metas.json ? state.resources.material_has_metas.json : [];
-	const filteredMaterialHasMeta = material_has_metas.filter(
-		(elt, i, a) => i === a.findIndex(
-			elt2 => elt.material_id === elt2.material_id
-		)
-	);
+	const materials = state.resources.materials.json || [];
+
 	//usd in MaterialReportPage
 	const compositeMaterials = state.resources.compositeMaterials.json ?
 		state.resources.compositeMaterials.json : [];
 
-	const filteredCompositeMaterials = JSON.parse(JSON.stringify(compositeMaterials)).filter(
+	const mergedCompositeAndRawMaterials = update(compositeMaterials, {$push: materials});
+	const filteredCompositeMaterials = JSON.parse(JSON.stringify(mergedCompositeAndRawMaterials)).filter(
 		//Filter admin material duplicates (recycle_types)to only show one of each material*/
 		(elt, i, a) => {
 			/*if not admin-material return all*/
@@ -31,13 +31,12 @@ function mapStateToProps(state, ownProps) {
 			/*if admin-material remove duplicates*/
 			return i === a.findIndex(
 					elt2 => {
-
 						return elt2.name == elt.name;
 					}
 				);
 		}
 	);
-	let unSortedMaterialList = ownProps.materialCreation ? filteredMaterialHasMeta : filteredCompositeMaterials;
+	let unSortedMaterialList = ownProps.materialCreation ? materials : filteredCompositeMaterials;
 
 	const materialList = unSortedMaterialList.sort((a, b) => {
 		if (a.name < b.name) return -1;
@@ -47,7 +46,8 @@ function mapStateToProps(state, ownProps) {
 
 	return {
 		recycleTypes,
-		material_has_metas,
+		units,
+		materials,
 		materialList,
 		compositeMaterials
 	};
@@ -96,6 +96,7 @@ export default class MaterialSelection extends React.Component {
 				material_id: materialList[materialListIndex].id,
 				unit_id: materialList[materialListIndex].unit_id,
 				unit_name: materialList[materialListIndex].unit_name,
+				material_type_id: !!materialList[materialListIndex].composite_has_materials ? 2 : 1,
 				subMaterials
 			});
 		}
@@ -124,6 +125,12 @@ export default class MaterialSelection extends React.Component {
 		});
 	}
 
+	handleUnitChange(e) {
+		this.setState({
+			unit_id: e.target.value
+		});
+	}
+
 	handleCommentChange(e) {
 		this.setState({
 			comment: e.target.value
@@ -137,41 +144,37 @@ export default class MaterialSelection extends React.Component {
 	}
 
 	materialChange(nextState) {
-		const {materialListIndex, material_id, unit_id, amount, recycle_type_id, comment} = nextState;
+		const {materialListIndex, material_id, unit_id, amount, recycle_type_id, comment, material_type_id} = nextState;
 		const {materialIndex, materialCreation, materialList, compositeMaterials} = this.props;
 
 		//MaterialReport have to select correct recycleTyppe of admin Materials
 		let material_id_corrected_recycle = material_id;
-		let recycle_type_idNeeded = false;
-		if (!materialCreation) {
-			//this is a material report of an admin material we have to find the correct recycle Type..
-			const curentMaterial = materialList[materialListIndex];
-			if (curentMaterial.user_id === 1 /*admin material*/) {
-				const correctMaterial = compositeMaterials.filter(
-					(elt) =>
-						//Filter admin material duplicates (recycle_types)to only show one of each material*/
-					elt.name === curentMaterial.name + '-' + recycle_type_id
-				);
-				material_id_corrected_recycle = correctMaterial && correctMaterial.length > 0 && correctMaterial[0].id
-				recycle_type_idNeeded = true;
-			}
+		let recycle_type_idNeeded = true;
+
+		if(!!materialList[materialListIndex].composite_has_materials){
+			//Composite materials don't need a recyle_type since they are user created
+			recycle_type_idNeeded = false;
 		}
+
 		this.props.onMaterialChange({
 			materialIndex,
-			material_id: parseInt(material_id_corrected_recycle),
+			material_id: parseInt(material_id),
 			unit_id: parseInt(unit_id),
 			amount: parseFloat(amount),
 			recycle_type_id: parseInt(recycle_type_id),
 			comment: comment,
-			recycle_type_idNeeded
+			recycle_type_idNeeded,
+			material_type_id
 		});
 	}
 
 	render() {
-		const {unit_name, amount, comment, amountError, material_id, materialListIndex} = this.state;
-		const {materialCreation, recycleTypes, materialList} = this.props;
+		const {unit_name, amount, comment, amountError, material_id, materialListIndex, material_type_id} = this.state;
+		const {materialCreation, recycleTypes, materialList, units} = this.props;
 
 		let materialUnit;
+
+		const isCompositeMaterial = material_type_id === 2;
 
 		return (
 			<div>
@@ -188,11 +191,7 @@ export default class MaterialSelection extends React.Component {
 							<option
 								key={i}
 								value={i}>
-								{materialCreation ?
-									val.material_name
-									:
-									val.name
-								}
+								{val.name}
 							</option>
 						))}
 					</select>
@@ -204,20 +203,23 @@ export default class MaterialSelection extends React.Component {
 						onChange={ event => this.handleAmountChange(event)}
 						styleName="amount"
 					/>
-					{unit_name}
-
-					<span styleName="unit">{ materialUnit }</span>
 					{ //Check if selected material is by admin (is raw-material)
-						(materialCreation ||
-						(materialList.filter(material => material.id === material_id))
-							.filter(material => material.user_id === 1)
-							.length > 0) &&
-						<select styleName="RecycleClass" onChange={ (event) => this.handleRecycleClassChange(event)}>
-							<option defaultValue>Återvinningsgrad</option>
-							{recycleTypes.map(recycleType =>
-								<option key={recycleType.id} value={recycleType.id}>{recycleType.name}</option>
-							)}
-						</select>
+						!isCompositeMaterial ?
+						<span>
+							<select styleName="unit" onChange={ (event) => this.handleUnitChange(event)}>
+								<option defaultValue>Enhet</option>
+								{units.map(unit =>
+									<option key={unit.id} value={unit.id}>{unit.name}</option>
+								)}
+							</select>
+							<select styleName="RecycleClass" onChange={ (event) => this.handleRecycleClassChange(event)}>
+								<option defaultValue>Återvinningsgrad</option>
+								{recycleTypes.map(recycleType =>
+									<option key={recycleType.id} value={recycleType.id}>{recycleType.name}</option>
+								)}
+							</select>
+						</span> :
+						<span styleName="unit">{unit_name}</span>
 					}
 					{ !materialCreation && <input
 						type="text"

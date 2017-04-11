@@ -161,8 +161,11 @@ export default class ConstructionForm extends React.Component {
 		} else {
 			//add new used-material_id
 			response = await LoadJson(url, "POST", {
-				composite_material_id: parseInt(this.state.composite_has_materials[0].material_id),
+				material_id: parseInt(this.state.composite_has_materials[0].material_id),
 				amount: parseFloat(this.state.composite_has_materials[0].amount),
+				unit_id: parseInt(this.state.composite_has_materials[0].unit_id),
+				recycle_type_id: parseInt(this.state.composite_has_materials[0].recycle_type_id),
+				material_type_id: parseInt(this.state.composite_has_materials[0].material_type_id),
 				user_id: parseInt(user),
 				comment: this.state.composite_has_materials[0].comment
 			});

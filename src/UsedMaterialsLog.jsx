@@ -56,7 +56,7 @@ class UsedMaterialsLog extends React.Component {
 					.sort((a,b)=> new Date(b.created) - new Date(a.created))
 					.map(material => (
 						<tr key={material.id}>
-							<th>{material.composite_material_name}</th>
+							<th>{material.used_has_material_name}</th>
 							<th>{material.amount}</th>
 							<th>{material.comment}</th>
 							{/*<th>{new Date(parseInt(material.created)).toString()}</th>*/}
