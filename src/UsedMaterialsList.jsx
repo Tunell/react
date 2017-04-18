@@ -13,6 +13,7 @@ function mapStateToProps(state, ownProps) {
 	return {
 		usedMaterials: state.resources.usedMaterials.json,
 		compositeMaterials: state.resources.compositeMaterials.json,
+		materials: state.resources.materials.json,
 		recycleTypes: state.resources.recycleTypes.json,
 	};
 }
@@ -27,27 +28,48 @@ export default class UsedMaterialsList extends React.Component {
 	};
 
 	componentDidMount() {
-		const {usedMaterials, compositeMaterials} = this.props;
-		const materialUsage = usedMaterials.reduce((allCompositeMaterials, compositeMaterial) => {
-			const compMaterial = compositeMaterials.filter(filterMaterial=> filterMaterial.id == compositeMaterial.composite_material_id)[0];
-			if (compMaterial) {
+		const {usedMaterials, compositeMaterials, materials} = this.props;
+		const materialUsage = usedMaterials.reduce((allUsedMaterials, usedMaterial) => {
+			const compMaterial = compositeMaterials.filter(filterMaterial=> filterMaterial.id === usedMaterial.used_has_material_id)[0];
+
+			if (compMaterial && usedMaterial.material_type_id === 2) {
+				//This is a composite material, loop through child materials.
 				compMaterial.composite_has_materials.map(rawMaterial => {
 					const materialName = rawMaterial.material_name;
 					const recycleName = rawMaterial.recycle_type_name;
-					if (materialName in allCompositeMaterials) {
-						if (recycleName in allCompositeMaterials[materialName]) {
-							allCompositeMaterials[materialName][recycleName] += compositeMaterial.amount;
+					if (materialName in allUsedMaterials) {
+						if (recycleName in allUsedMaterials[materialName]) {
+							allUsedMaterials[materialName][recycleName] += usedMaterial.amount * rawMaterial.amount;
 						}
 						else {
-							allCompositeMaterials[materialName][recycleName] = compositeMaterial.amount;
+							allUsedMaterials[materialName][recycleName] = usedMaterial.amount * rawMaterial.amount;
 						}
 					}
 					else {
-						allCompositeMaterials[materialName] = {[recycleName]: compositeMaterial.amount};
+						allUsedMaterials[materialName] = {[recycleName]: usedMaterial.amount * rawMaterial.amount};
 					}
 				});
+			}else if(materials.filter(filterMaterial=> filterMaterial.id === usedMaterial.used_has_material_id)[0]){
+				//This is a used Material
+				const materialName = usedMaterial.used_has_material_name;
+				const recycleName = usedMaterial.recycle_type_name;
+				if (materialName in allUsedMaterials) {
+					if (recycleName in allUsedMaterials[materialName]) {
+						allUsedMaterials[materialName][recycleName] += usedMaterial.amount;
+					}
+					else {
+						allUsedMaterials[materialName][recycleName] = usedMaterial.amount;
+					}
+				}
+				else {
+					allUsedMaterials[materialName] = {[recycleName]: usedMaterial.amount};
+				}
+			}else{
+				throw(e);
+				console.log("Material dosen't exist: ", e);
+
 			}
-			return allCompositeMaterials;
+			return allUsedMaterials;
 		}, {});
 		this.setState({
 			materialUsage
@@ -81,15 +103,17 @@ export default class UsedMaterialsList extends React.Component {
 			<div>
 				<table styleName="table">
 					<thead>
-					<th styleName="cell">Material</th>
-					{recycleTypes.map((recycleClass) =>
-						<th styleName="cell">{recycleClass.name}</th>
-					)}
+						<tr>
+							<th styleName="cell">Material</th>
+							{recycleTypes.map((recycleClass) =>
+								<th styleName="cell">{recycleClass.name}</th>
+							)}
+						</tr>
 					</thead>
 					<tbody>
-					{materialUsageArr.map(material => (
-						material
-					))}
+						{materialUsageArr.map(material => (
+							material
+						))}
 					</tbody>
 				</table>
 			</div>

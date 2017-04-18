@@ -98,6 +98,6 @@
   "scripts": {
     "start": "node app.js",
     "test": "swagger project test",
-    "build": "webpack && eb deploy"
+    "build": "webpack"
   }
 }

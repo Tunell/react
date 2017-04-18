@@ -84,9 +84,7 @@ export default class MaterialSelection extends React.Component {
 			//MaterialCreationPage
 			this.setState({
 				materialListIndex,
-				material_id: materialList[materialListIndex].material_id,
-				unit_id: materialList[materialListIndex].unit_id,
-				unit_name: materialList[materialListIndex].unit_name,
+				material_id: materialList[materialListIndex].id,
 				subMaterials
 			});
 		} else {

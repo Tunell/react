@@ -38,15 +38,18 @@ class UsedMaterialsLog extends React.Component {
 
 	render() {
 		const {usedMaterials} = this.props;
+		const recycle_short = ["invalid", "Nej", "Ja", "Vet Ej"]
 		return (
 			<table styleName="table">
 				<thead>
 				<tr>
 					<th>Material</th>
-					<th>Amount</th>
-					<th>Comment</th>
-					<th>Created</th>
-					<th>User</th>
+					<th>Antal</th>
+					<th>Enhet</th>
+					<th>Återvunnet</th>
+					<th>Kommentar</th>
+					<th>Skapad</th>
+					<th>Användare</th>
 					{/*<th>Edit</th>*/}
 					<th>Delete</th>
 				</tr>
@@ -58,9 +61,11 @@ class UsedMaterialsLog extends React.Component {
 						<tr key={material.id}>
 							<th>{material.used_has_material_name}</th>
 							<th>{material.amount}</th>
+							<th>{material.unit_name}</th>
+							<th>{recycle_short[material.recycle_type_id]}</th>
 							<th>{material.comment}</th>
 							{/*<th>{new Date(parseInt(material.created)).toString()}</th>*/}
-							<th>{new Date(material.created).toLocaleDateString()}, {new Date(material.created).toLocaleTimeString()}</th>
+							<th>{!!material.created && new Date(material.created).toLocaleDateString()}{!!material.created && ", " + new Date(material.created).toLocaleTimeString()}</th>
 							<th>{material.user_name}</th>
 							{/*<th><Link to={'/api/materials/' + material.id}>Edit</Link></th>*/}
 							<th onClick={() => this.deleteMaterial(material.id)}>Delete</th>
