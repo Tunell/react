@@ -265,16 +265,16 @@ export default class ConstructionForm extends React.Component {
 			<form className="material-form" onSubmit={ event => this.handleSubmit(event)}>
 
 				{ error && error.results.errors.map(error =>
-					<p style={{color: 'red'}}>{error.code + ' on field: ' + error.path[0] + ' ' + error.message}</p>
+					<p style={{color: '#FF6138'}}>{error.code + ' on field: ' + error.path[0] + ' ' + error.message}</p>
 				)}
-				{ (constructionCreation /*&& !constructionSpecified*/) && <div>
+				{ (constructionCreation && constructionParts < 1/*&& !constructionSpecified*/) && <div>
 					{/*<button onClick={ e => this.createConstructionPartClicked(e, 'standard') }>Skapa material</button>*/}
 					<button onClick={ e => this.createConstructionPartClicked(e, 'prefab') }>Skapa byggdel</button>
 				</div>}
 				{
 					constructionSpecified &&
 					<div>
-						{ constructionParts == 0 && <p style={{color: 'red'}}>TODO: Endast för admin (läs robin)</p> }
+						{ constructionParts == 0 && <p style={{color: '#FF6138'}}>TODO: Endast för admin (läs robin)</p> }
 						<input
 							type="text"
 							placeholder="Produktens namn"
@@ -317,7 +317,6 @@ export default class ConstructionForm extends React.Component {
 				<input
 					type="submit"
 					value="Spara"
-					styleName="submit"
 					onMouseEnter={this.validateForm}
 					disabled={!submitEnabled}/>
 				{/*<button onClick={ this.createConstructionPartClicked }>Skapa nytt Material</button>*/}

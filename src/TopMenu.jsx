@@ -16,6 +16,7 @@ export default class TopMenu extends React.Component {
 			<div>
 				<div styleName="menu-bar">
 					<div styleName="menu">
+						<Link to="/" styleName="logga"><img src="../plant-logga.png"/></Link>
 						<Link to="/rapportera" activeClassName="active"> Rapportera använt material
 						</Link>
 						<Link to="/skapa-material" activeClassName="active"> Skapa byggdel

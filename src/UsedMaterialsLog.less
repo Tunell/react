@@ -1,3 +1,4 @@
+@import "variables.less";
 .table{
   border-spacing:0;
   th{
@@ -5,7 +6,10 @@
     font-size: 0.85em;
     border-bottom: 1px #ccc solid;
     &:nth-child(2n){
-      background: #f3f3f3;
+      background: @color-background;
     }
+  }
+  tr:nth-last-child(1) th{
+    border: none;
   }
 }

@@ -1,5 +1,6 @@
+@import "variables.less";
 .menu-bar{
-	background: linear-gradient(to bottom, #ffffff 0%, #e4e4e4 100%);
+	background: @color-background;
 }
 
 .menu{
@@ -8,10 +9,11 @@
 	margin: 0 auto;
 	display: flex;
 	flex-wrap: wrap;
+	justify-content: center;
 	
 
-	:global a.active{
-		background: linear-gradient(to bottom, #a9a9a9 0%, #929292 100%);
+	:global a.active, :global a:hover{
+		background: @color-selected-background;
 		color: white;
 		&:visited{
 			color: white;
@@ -20,7 +22,7 @@
 
 	a{
 		padding: 10px 20px;
-		border-right: 2px solid white;
+		border-right: 2px solid #dcecde;
 		text-decoration: none;
 		@menu-color: #555;
 		color: @menu-color;
@@ -42,4 +44,12 @@
 	background: transparent;
 	font-weight: bold;
 	font-size: 13px;
+}
+
+a.logga{
+	padding: 0px 30px;
+	img{
+		height: 40px;
+		margin-top: 6px;
+	}
 }
