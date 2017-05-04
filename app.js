@@ -41,6 +41,39 @@ var config = {
     }
 };
 
+app.use(function(req, res, next) {
+    var authHeader = req.headers.authorization;
+
+    // Check to see if the header exists
+    // If not, return the challenge header and code
+    if (authHeader === undefined) {
+        res.header('WWW-Authenticate', 'Basic realm="Please sign in."');
+        res.status(401).end();
+        return;
+    }
+
+    // Split the header and grab the base64 encoded username:password
+    var encodedHeader = authHeader.split(' ')[1];
+
+    // Base64 decode the username:password string
+    var decodedHeader = new Buffer(encodedHeader, 'base64').toString();
+
+    var username = decodedHeader.split(':')[0];
+    var password = decodedHeader.split(':')[1];
+
+    // These could be environment variables
+    // Check the credentials...
+    if (username == 'hubben' && password == 'gipshöna') {
+        // and pass control on to our routes
+        next();
+    } else {
+        res.header('WWW-Authenticate', 'Basic realm="Please sign in."');
+        res.status(401).end('Incorrect login');
+        //res.status(403).end('Incorrect login');
+    }
+});
+
+
 SwaggerExpress.create(config, function(err, swaggerExpress) {
     if (err) { throw err; }
 
@@ -50,6 +83,7 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
         app.use(middleware.swaggerUi());
 
 	    app.use(express.static('public'))
+
 	    app.use(function (req, res, next) {
 		    res.status(404);
 
