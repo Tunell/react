@@ -2,6 +2,8 @@ import React from "react";
 import {connect} from "react-redux";
 import CSSModules from "react-css-modules";
 import update from 'immutability-helper';
+import Select from 'react-select';
+import "!style-loader!css-loader!../node_modules/react-select/dist/react-select.css";
 import * as styles from "./MaterialSelection.less";
 
 function mapStateToProps(state, ownProps) {
@@ -10,7 +12,7 @@ function mapStateToProps(state, ownProps) {
 
 
 	//Used in materialCreation
-	const materials = state.resources.materials.json || [];
+	const materials = state.resources.materials.json ? state.resources.materials.json : [];
 
 	//usd in MaterialReportPage
 	const compositeMaterials = state.resources.compositeMaterials.json ?
@@ -57,8 +59,9 @@ function mapStateToProps(state, ownProps) {
 @CSSModules(styles)
 export default class MaterialSelection extends React.Component {
 	state = {
-		materialListIndex: 0,//Position in materialList array
-		material_id: 0,// material_id of selected material
+		materialListIndex: null,//Position in materialList array
+		material_id: null,// material_id of selected material
+		isRawMaterial: null,
 		unit_id: null,//FIXME: unit_id shouldn't be in here but is curently needed.
 		unit_name: "",
 		amount: null,
@@ -67,7 +70,8 @@ export default class MaterialSelection extends React.Component {
 		createNewText: 'Hittar du inte det du söker? Skapa en ny byggdel här! (funkar inte ännu, använd menyn..)'
 	};
 
-	handleMaterialChange(materialListIndex) {
+	handleMaterialChange(option) {
+		const materialListIndex = option ? option.value : 'placeholder';
 		const {materialCreation, materialList} = this.props;
 		const subMaterials = materialList
 			.filter(loopMaterial => (loopMaterial.composite_has_materials && loopMaterial.id == materialListIndex))
@@ -81,16 +85,18 @@ export default class MaterialSelection extends React.Component {
 				subMaterials
 			});
 		} else if (materialCreation) {
-			//MaterialCreationPage
+			//MaterialCreationPage  (Create composite material)
 			this.setState({
 				materialListIndex,
 				material_id: materialList[materialListIndex].id,
 				subMaterials
 			});
 		} else {
-			//MaterialReportPage
+			//MaterialReportPage (Used material)
+			const isRawMaterial = !materialList[materialListIndex].composite_has_materials;
 			this.setState({
 				materialListIndex,
+				isRawMaterial,
 				material_id: materialList[materialListIndex].id,
 				unit_id: materialList[materialListIndex].unit_id,
 				unit_name: materialList[materialListIndex].unit_name,
@@ -143,7 +149,7 @@ export default class MaterialSelection extends React.Component {
 
 	materialChange(nextState) {
 		const {materialListIndex, material_id, unit_id, amount, recycle_type_id, comment, material_type_id} = nextState;
-		const {materialIndex, materialCreation, materialList, compositeMaterials} = this.props;
+		const {materialIndex, materialList} = this.props;
 
 		//MaterialReport have to select correct recycleTyppe of admin Materials
 		let material_id_corrected_recycle = material_id;
@@ -167,32 +173,63 @@ export default class MaterialSelection extends React.Component {
 	}
 
 	render() {
-		const {unit_name, amount, comment, amountError, material_id, materialListIndex, material_type_id} = this.state;
+		const {unit_name, amount, comment, amountError, material_type_id, materialListIndex, isRawMaterial} = this.state;
 		const {materialCreation, recycleTypes, materialList, units} = this.props;
 
 		let materialUnit;
 
 		const isCompositeMaterial = material_type_id === 2;
 
+		let materials = [];
+
+		materials.push({
+			value: null,
+			disabled: true,
+			label: <b>--Råmaterial--</b>
+		});
+
+		materialList.filter((val,i) =>
+			!materialList[i].composite_has_materials
+		).map((val, i) => {
+			materials.push({
+				value: i,
+				label: val.name
+			})
+		});
+
+
+		const compositeMatList = materialList.filter((val,i) =>
+			!!materialList[i].composite_has_materials
+		);
+
+		if(compositeMatList.length > 0)
+		materials.push({
+			value: null,
+			disabled: true,
+			label: <b>--Byggdelar--</b>
+		});
+
+		compositeMatList.map((val, i) => {
+			materials.push({
+				value: i,
+				label: val.name
+			})
+		});
+
 		return (
 			<div>
 				<p style={{color: 'red'}}>{amountError}</p>
 				<div styleName="amount-unit">
-					<select
-						type="text"
-						placeholder="Sök efter materialets namn"
-						name="material"
-						styleName="material"
-						onChange={ event => this.handleMaterialChange(event.target.value) }>
-						<option defaultValue value="placeholder">Välj material</option>
-						{materialList && materialList.map((val, i) => (
-							<option
-								key={i}
-								value={i}>
-								{val.name}
-							</option>
-						))}
-					</select>
+					<div styleName="material">
+						<Select
+							type="text"
+							name="material"
+							placeholder="Välj material"
+							value={materialListIndex}
+							options={materials}
+							matchProp="any"
+							onChange={ value => this.handleMaterialChange(value) }/>
+					</div>
 
 					<input
 						type="text"
@@ -206,7 +243,8 @@ export default class MaterialSelection extends React.Component {
 						<span>
 							<select styleName="unit" onChange={ (event) => this.handleUnitChange(event)}>
 								<option defaultValue>Enhet</option>
-								{units.map(unit =>
+								{units.filter(unit => !isRawMaterial || (unit.id === 1 || unit.id === 2 || unit.id === 4))
+									.map(unit =>
 									<option key={unit.id} value={unit.id}>{unit.name}</option>
 								)}
 							</select>

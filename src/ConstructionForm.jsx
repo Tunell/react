@@ -222,7 +222,8 @@ export default class ConstructionForm extends React.Component {
 		const {units, user} = this.props;
 		const {
 			unit_id, composite_has_materials, constructionParts, constructionCreation, name,
-			recycle_type_idError, amountError, userError, commentError, composite_has_materialsError, nameError, unit_idError, error
+			recycle_type_idError, amountError, userError, commentError, composite_has_materialsError,
+			nameError, unit_idError, error
 		} = this.state;
 		let subMaterials = [];
 		for (var i = 0; i < this.state.constructionParts; i++) {
@@ -260,7 +261,10 @@ export default class ConstructionForm extends React.Component {
 				(!composite_has_materials[0].recycle_type_idNeeded || composite_has_materials[0].recycle_type_id > 0)
 			);
 		}
-		const errorArr = [userError, nameError, unit_idError, composite_has_materialsError, amountError, recycle_type_idError, commentError];
+		const errorArr = [
+			userError, nameError, unit_idError, composite_has_materialsError,
+			amountError, recycle_type_idError, commentError
+		];
 		return (
 			<form className="material-form" onSubmit={ event => this.handleSubmit(event)}>
 
