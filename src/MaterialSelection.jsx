@@ -18,8 +18,7 @@ function mapStateToProps(state, ownProps) {
 	const compositeMaterials = state.resources.compositeMaterials.json ?
 		state.resources.compositeMaterials.json : [];
 
-	const mergedCompositeAndRawMaterials = update(compositeMaterials, {$push: materials});
-	const filteredCompositeMaterials = JSON.parse(JSON.stringify(mergedCompositeAndRawMaterials)).filter(
+	const filteredCompositeMaterials = update(compositeMaterials, {$push: materials}).filter(
 		//Filter admin material duplicates (recycle_types)to only show one of each material*/
 		(elt, i, a) => {
 			/*if not admin-material return all*/
@@ -40,16 +39,23 @@ function mapStateToProps(state, ownProps) {
 	);
 	let unSortedMaterialList = ownProps.materialCreation ? materials : filteredCompositeMaterials;
 
-	unSortedMaterialList.push({
-		value: null,
-		disabled: true,
-		groupSeparator: true,
-		name: 'AAA',
-		label: <b>--Råmaterial--</b>
+	if(unSortedMaterialList.map(material => material.name).indexOf('AAA') === -1){
+		//There is no Råmaterial delimiter
+		unSortedMaterialList.push({
+			value: null,
+			disabled: true,
+			groupSeparator: true,
+			name: 'AAA',
+			label: <b>--Råmaterial--</b>
 
-	});
+		});
+	}
 
-	if(unSortedMaterialList.filter((val,i) => !!unSortedMaterialList[i].composite_has_materials).length > 0){
+	if(unSortedMaterialList.filter((val,i) => !!unSortedMaterialList[i].composite_has_materials).length > 0 &&
+		unSortedMaterialList.map(material => material.name).indexOf('AAAA') === -1
+	){
+		//there is composite-materials in the list &&
+		//There is no previous Byggdelar delimiter
 		unSortedMaterialList.push({
 			value: null,
 			disabled: true,
@@ -107,6 +113,7 @@ export default class MaterialSelection extends React.Component {
 	handleMaterialChange(option) {
 		const materialListIndex = option ? option.value : 'placeholder';
 		const {materialCreation, materialList} = this.props;
+		const isRawMaterial = !materialList[materialListIndex].composite_has_materials;
 		const subMaterials = materialList
 			.filter(loopMaterial => (loopMaterial.composite_has_materials && loopMaterial.id == materialListIndex))
 			.map(loopMaterial => loopMaterial.composite_has_materials);
@@ -122,12 +129,12 @@ export default class MaterialSelection extends React.Component {
 			//MaterialCreationPage  (Create composite material)
 			this.setState({
 				materialListIndex,
+				isRawMaterial,
 				material_id: materialList[materialListIndex].id,
 				subMaterials
 			});
 		} else {
 			//MaterialReportPage (Used material)
-			const isRawMaterial = !materialList[materialListIndex].composite_has_materials;
 			this.setState({
 				materialListIndex,
 				isRawMaterial,
@@ -232,11 +239,10 @@ export default class MaterialSelection extends React.Component {
 						onChange={ event => this.handleAmountChange(event)}
 						styleName="amount"
 					/>
-					{ //Check if selected material is by admin (is raw-material)
-						!isCompositeMaterial ?
+					{!isCompositeMaterial ?
 						<span>
 							<select styleName="unit" onChange={ (event) => this.handleUnitChange(event)}>
-								<option defaultValue>Enhet</option>
+								<option defaultValue>Enhet testar</option>
 								{units.filter(unit => !isRawMaterial || (unit.id === 1 || unit.id === 2 || unit.id === 4))
 									.map(unit =>
 									<option key={unit.id} value={unit.id}>{unit.name}</option>
