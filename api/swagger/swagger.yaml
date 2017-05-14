@@ -671,6 +671,12 @@ definitions:
         type: integer
       material_type_name:
         type: string
+      recycle_type_id:
+        type: integer
+      unit_id:
+        type: integer
+      material_id:
+        type: integer
       created:
         type: string
       changed:

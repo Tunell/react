@@ -1,3 +1,5 @@
+-- noinspection SqlNoDataSourceInspectionForFile
+
 DROP DATABASE byggstyrning;
 CREATE DATABASE byggstyrning;
 -- MySQL Workbench Forward Engineering
@@ -394,7 +396,7 @@ VALUES ("raw_material"),
 
 INSERT INTO used_material(user_id, material_type_id, amount, comment)
 VALUES (1, 1, 8, "En kommentar"),
-  (1, 2, 1, "En annan kommentar");
+  (1, 2, 12, "En annan kommentar");
 
 INSERT INTO raw_material(unit_id, recycle_type_id, material_id)
 VALUES (1, 1, 1);
@@ -408,15 +410,11 @@ VALUES
 
 INSERT INTO composite_has_material (composite_material_id, material_id, recycle_type_id, unit_id, amount)
 VALUES
-  (1, 1, 1, 1, 1);
+  (1, 1, 1, 1, 1),
+  (1, 2, 2, 2, 3);
 
 INSERT INTO used_has_composite_material(used_material_id, composite_material_id)
 VALUES (2, 1);
 
 SELECT *
 FROM user;
-
-
-
-
-

@@ -138,7 +138,7 @@ composite_material.name                AS composite_material_name,
                 unit_1.name                            AS material_unit_name,
                 composite_has_material.recycle_type_id AS material_recycle_type_id,
                 recycle_type.name                      AS material_recycle_type_name,
-                composite_has_material.amount          AS amount
+                composite_has_material.amount          AS material_amount
     
     
 FROM byggstyrning.used_material,  used_has_composite_material, composite_material, user, record_state, material_type, composite_has_material, recycle_type, unit AS unit_1, material, unit AS unit_2
@@ -216,7 +216,7 @@ function createCompHasMaterial(row) {
         recycle_type_name: row.material_recycle_type_name,
         unit_id: row.material_unit_id,
         unit_name: row.material_unit_name,
-        amount: row.amount
+        amount: row.material_amount
     }
     return compositeHasMaterial;
 }
