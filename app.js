@@ -63,7 +63,7 @@ app.use(function(req, res, next) {
 
     // These could be environment variables
     // Check the credentials...
-    if (username == 'hubben' && password == 'gipshöna') {
+    if (username == 'hubben' && password == 'kunskapsnavet') {
         // and pass control on to our routes
         next();
     } else {
