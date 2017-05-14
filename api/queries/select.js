@@ -78,7 +78,9 @@ const selectUsedMaterial = {
     recycle_type.id AS recycle_type_id,
     recycle_type.name AS recycle_type_name,
     unit.id AS unit_id,
-    unit.name AS unit_name
+    unit.name AS unit_name,
+    used_material.created AS created,
+    used_material.changed AS changed
     
     
 FROM byggstyrning.used_material,  used_has_raw_material, raw_material, material, user, record_state, material_type, recycle_type, unit
@@ -126,12 +128,12 @@ SELECT
     used_material.amount AS amount,
     used_material.material_type_id AS material_type_id,
     material_type.name AS material_type_name,
+    used_material.created AS created,
+    used_material.changed AS changed,
     
 composite_material.name                AS composite_material_name,
                 composite_material.unit_id             AS composite_material_unit_id,
                 unit_2.name                            AS composite_material_unit_name,
-                composite_material.created             AS created,
-                composite_material.changed             AS changed,
                 composite_has_material.material_id     AS material_id,
                 material.name                          AS material_name,
                 composite_has_material.unit_id         AS material_unit_id,
