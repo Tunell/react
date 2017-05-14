@@ -395,8 +395,8 @@ VALUES ("raw_material"),
 
 
 INSERT INTO used_material(user_id, material_type_id, amount, comment)
-VALUES (1, 1, 8, "En kommentar"),
-  (1, 2, 12, "En annan kommentar");
+VALUES (3, 1, 8, "En kommentar"),
+  (3, 2, 12, "En annan kommentar");
 
 INSERT INTO raw_material(unit_id, recycle_type_id, material_id)
 VALUES (1, 1, 1);
@@ -406,7 +406,7 @@ VALUES (1, 1);
 
 INSERT INTO composite_material (user_id, name, unit_id)
 VALUES
-  (1, "Test_material", 1);
+  (3, "Test_material", 1);
 
 INSERT INTO composite_has_material (composite_material_id, material_id, recycle_type_id, unit_id, amount)
 VALUES

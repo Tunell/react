@@ -190,7 +190,7 @@ function createCompMaterials(rows, isUsedMaterial){
     let compositeMaterials = []
     rows.forEach( row => {
         let compositeMaterial = {};
-        let compositeHasMaterial = createCompHasMaterial(row);
+        let compositeHasMaterial = createCompHasMaterial(row, isUsedMaterial);
         if(compositeMaterials.length === 0) {
             compositeMaterials.push(createCompMaterial(row, compositeHasMaterial, isUsedMaterial));
         } else {
@@ -207,16 +207,16 @@ function createCompMaterials(rows, isUsedMaterial){
 }
 
 // Given a row, extracts data to construct a single compositeHasMaterial object
-function createCompHasMaterial(row) {
+function createCompHasMaterial(row, isUsedMaterial) {
     let compositeHasMaterial = {
-        composite_material_id: row.used_has_material_id,
+        composite_material_id: isUsedMaterial ? row.used_has_material_id : row.composite_material_id,
         material_id: row.material_id,
         material_name: row.material_name,
         recycle_type_id: row.material_recycle_type_id,
         recycle_type_name: row.material_recycle_type_name,
         unit_id: row.material_unit_id,
         unit_name: row.material_unit_name,
-        amount: row.material_amount
+        amount: isUsedMaterial ? row.material_amount : row.amount
     }
     return compositeHasMaterial;
 }
