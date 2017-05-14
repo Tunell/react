@@ -40,10 +40,44 @@ function mapStateToProps(state, ownProps) {
 	);
 	let unSortedMaterialList = ownProps.materialCreation ? materials : filteredCompositeMaterials;
 
-	const materialList = unSortedMaterialList.sort((a, b) => {
-		if (a.name < b.name) return -1;
-		if (a.name > b.name) return 1;
+	unSortedMaterialList.push({
+		value: null,
+		disabled: true,
+		groupSeparator: true,
+		name: 'AAA',
+		label: <b>--Råmaterial--</b>
+
+	});
+
+	if(unSortedMaterialList.filter((val,i) => !!unSortedMaterialList[i].composite_has_materials).length > 0){
+		unSortedMaterialList.push({
+			value: null,
+			disabled: true,
+			groupSeparator: true,
+			name: 'AAAA',
+			composite_has_materials: true,
+			label: <b>--Byggdelar--</b>
+		});
+
+	}
+
+	let materialList = unSortedMaterialList.sort((a, b) => {
+		if(!a.composite_has_materials && !!b.composite_has_materials)
+			return -1
+		if(!!a.composite_has_materials && !b.composite_has_materials)
+			return 1
+		if (a.name < b.name)
+			return -1;
+		if (a.name > b.name)
+			return 1;
 		return 0;
+	});
+	materialList.map( (material, i) => {
+		if(!material.groupSeparator){
+			material.label = material.name;
+			material.value = i;
+		}
+		return material;
 	});
 
 	return {
@@ -175,47 +209,7 @@ export default class MaterialSelection extends React.Component {
 	render() {
 		const {unit_name, amount, comment, amountError, material_type_id, materialListIndex, isRawMaterial} = this.state;
 		const {materialCreation, recycleTypes, materialList, units} = this.props;
-
-		let materialUnit;
-
 		const isCompositeMaterial = material_type_id === 2;
-
-		let materials = [];
-
-		materials.push({
-			value: null,
-			disabled: true,
-			label: <b>--Råmaterial--</b>
-		});
-
-		materialList.filter((val,i) =>
-			!materialList[i].composite_has_materials
-		).map((val, i) => {
-			materials.push({
-				value: i,
-				label: val.name
-			})
-		});
-
-
-		const compositeMatList = materialList.filter((val,i) =>
-			!!materialList[i].composite_has_materials
-		);
-
-		if(compositeMatList.length > 0)
-		materials.push({
-			value: null,
-			disabled: true,
-			label: <b>--Byggdelar--</b>
-		});
-
-		compositeMatList.map((val, i) => {
-			materials.push({
-				value: i,
-				label: val.name
-			})
-		});
-
 		return (
 			<div>
 				<p style={{color: 'red'}}>{amountError}</p>
@@ -226,7 +220,7 @@ export default class MaterialSelection extends React.Component {
 							name="material"
 							placeholder="Välj material"
 							value={materialListIndex}
-							options={materials}
+							options={materialList}
 							matchProp="any"
 							onChange={ value => this.handleMaterialChange(value) }/>
 					</div>
