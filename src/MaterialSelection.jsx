@@ -242,8 +242,8 @@ export default class MaterialSelection extends React.Component {
 					{!isCompositeMaterial ?
 						<span>
 							<select styleName="unit" onChange={ (event) => this.handleUnitChange(event)}>
-								<option defaultValue>Enhet testar</option>
-								{units.filter(unit => !isRawMaterial || (unit.id === 1 || unit.id === 2 || unit.id === 4))
+								<option defaultValue>Enhet</option>
+								{units.filter(unit => !isRawMaterial || (unit.id === 1 || unit.id === 2 || unit.id === 5))
 									.map(unit =>
 									<option key={unit.id} value={unit.id}>{unit.name}</option>
 								)}
