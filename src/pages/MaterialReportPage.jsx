@@ -1,6 +1,7 @@
 import React from "react";
 import ConstructionForm from "../ConstructionForm";
 import UsedMaterialsLog from "../UsedMaterialsLog";
+import FileUpload from "../FileUpload"
 import {Link} from "react-router";
 
 type Props = {
@@ -29,6 +30,8 @@ export default class MaterialReportPage extends React.Component {
 					                                                                       activeClassName="active">Skapa byggdel</Link>.
 
 				</p>
+				<h3>Ladda upp dokument</h3>
+				<FileUpload/>
 				<ConstructionForm
 					url={url}
 					constructionCreation={false}

@@ -9,6 +9,7 @@ const query = require('../queries/built_queries/generatedQueries');
 const helpers = require('../helpers/routeHandlerHelpers');
 const _ = require('lodash')
 const errorParser = require('./../helpers/dbErrorParser')
+const aws = require('aws-sdk');
 
 // Get all the entries associated with endpoint
 
@@ -71,6 +72,33 @@ function getId(req, res) {
     }
 }
 
+function getS3(req, res) {
+    const s3 = new aws.S3({signatureVersion: 'v4', region:"eu-west-2"});
+    const entreprenad = req.query['entreprenad']
+    const fileName = req.query['file-name'];
+    const objectPath = `${entreprenad}/${fileName}`
+    const fileType = req.query['file-type'];
+    const s3Params = {
+        Bucket: "plant-document-storage",
+        Key: objectPath,
+        Expires: 60,
+        ContentType: fileType,
+        ACL: 'public-read'
+    };
+
+    s3.getSignedUrl('putObject', s3Params, (err, data) => {
+        if(err){
+            return res.end();
+        }
+        const returnData = {
+            signedRequest: data,
+            url: `https://plant-document-storage.s3.amazonaws.com/${objectPath}`
+        };
+        res.status(200).json(returnData);
+    });
+}
+
+
 // Create a new entry
 function post (req, res) {
     // Extract the data that is to be inserted
@@ -104,9 +132,12 @@ function deleteRow (req, res) {
         })
 }
 
+
+
 module.exports = {
     get,
     post,
     put,
-    "delete": deleteRow
+    "delete": deleteRow,
+    getS3
 };

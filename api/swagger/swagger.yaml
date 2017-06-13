@@ -11,6 +11,7 @@ consumes:
   - application/json
 produces:
   - application/json
+  - text/plain
   
 securityDefinitions:
   api_key:
@@ -636,6 +637,22 @@ paths:
           500:
             $ref: "#/responses/Standard500ErrorResponse"
             
+  /sign-s3:
+      x-swagger-router-controller: routeHandler
+      get:
+        operationId: getS3
+        tags:
+          - "sing-s3"
+        summary: Return all record_states
+        responses:
+          200:
+            description: A signed request for S3 bucket
+            schema:
+              $ref: "#/definitions/signed-request"
+              
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+            
           
   /swagger:
     x-swagger-pipe: swagger_raw
@@ -862,6 +879,13 @@ definitions:
       type: array
       items:
         $ref: "#/definitions/material-has-meta"
+  
+  signed-request:
+    properties:
+      signedRequest:
+        type: string
+      url:
+        type: string
             
        
   Error:

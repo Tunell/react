@@ -302,10 +302,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 USE byggstyrning;
 
 INSERT INTO user (name)
-VALUES ("Admin"),
-  ("El-entreprenad"),
-  ("Grundläggnings-entreprenad"),
-  ("VVS-entreprenad");
+VALUES ("Admin");
 
 INSERT INTO unit (user_id, name)
 VALUES (1, "kg"),
@@ -392,29 +389,6 @@ VALUES ("ACTIVE"),
 INSERT INTO material_type (name)
 VALUES ("raw_material"),
   ("composite_material");
-
-
-INSERT INTO used_material(user_id, material_type_id, amount, comment)
-VALUES (3, 1, 8, "En kommentar"),
-  (3, 2, 12, "En annan kommentar");
-
-INSERT INTO raw_material(unit_id, recycle_type_id, material_id)
-VALUES (1, 1, 1);
-
-INSERT INTO used_has_raw_material(used_material_id, raw_material_id)
-VALUES (1, 1);
-
-INSERT INTO composite_material (user_id, name, unit_id)
-VALUES
-  (3, "Test_material", 1);
-
-INSERT INTO composite_has_material (composite_material_id, material_id, recycle_type_id, unit_id, amount)
-VALUES
-  (1, 1, 1, 1, 1),
-  (1, 2, 2, 2, 3);
-
-INSERT INTO used_has_composite_material(used_material_id, composite_material_id)
-VALUES (2, 1);
 
 SELECT *
 FROM user;
