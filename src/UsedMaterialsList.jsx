@@ -65,9 +65,8 @@ export default class UsedMaterialsList extends React.Component {
 					allUsedMaterials[materialName] = {[recycleName]: usedMaterial.amount};
 				}
 			}else{
+				console.error("Material dosen't exist: ");
 				throw(e);
-				console.log("Material dosen't exist: ", e);
-
 			}
 			return allUsedMaterials;
 		}, {});

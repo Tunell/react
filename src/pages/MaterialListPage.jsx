@@ -19,7 +19,7 @@ export default class MaterialListPage extends React.Component {
 		compositeList: this.props.allowComposite || ( this.props.location.query && this.props.location.query.compositeList),
 		materialUsageList: this.props.materialUsageList || ( this.props.route && this.props.route.materialUsageList),
 		showLog: false,
-		list: 'material_id'
+		list: 'prefab'
 	};
 
 	handleListChange = (listType) => {
@@ -47,23 +47,15 @@ export default class MaterialListPage extends React.Component {
 					list: 'prefab'
 				});
 				break;
-			case 'material_id':
-				this.setState({
-					materialUsageList: false,
-					compositeList: false,
-					list: 'material_id'
-				});
-				break;
 		}
 	};
 
 	render() {
-		const {materialUsageList, compositeList, showLog, list} = this.state;
-		const {compositeMaterials, materials} = this.props;
+		const {materialUsageList, showLog, list} = this.state;
+		const {compositeMaterials} = this.props;
 		return (
 			<div className="materialList">
 				<div styleName="tabs">
-					<button styleName={list === 'material_id' ? 'tab-selcted' : 'tab'} onClick={ e => this.handleListChange('material_id')}>Material och Produkter</button>
 					<button styleName={list === 'prefab' ? 'tab-selcted' : 'tab'}  onClick={ e => this.handleListChange('prefab')}>Byggdelar</button>
 					<button styleName={list === 'usedMaterials' ? 'tab-selcted' : 'tab'}  onClick={ e => this.handleListChange('usedMaterials')}>Rapporterade material</button>
 					<button styleName={list === 'building' ? 'tab-selcted' : 'tab'}  onClick={ e => this.handleListChange('building')}>Använt material</button>
@@ -80,19 +72,11 @@ export default class MaterialListPage extends React.Component {
 								<h1>Rapporterade material</h1>
 								<UsedMaterialsLog/>
 							</div>
-						} else if (compositeList) {
+						} else {
 							return <div>
 								<h1>Byggdelar</h1>
 								{compositeMaterials.filter(material=> material.user_id !== 1)
 									.map(material => (
-									<Material key={material.id} material={material} composite={ true }/>
-								))}
-							</div>
-
-						} else {
-							return <div>
-								<h1>Material och Produkter</h1>
-								{materials.map(material => (
 									<Material key={material.id} material={material} composite={ true }/>
 								))}
 							</div>
