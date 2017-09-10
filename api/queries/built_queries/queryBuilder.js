@@ -91,6 +91,10 @@ function getTableAttr(props) {
         related: []
     };
     Object.keys(props).forEach( prop => {
+      if(prop === 'kg_per_m3') {
+        tableAttributes.main.push('kg_per_m3')
+        return
+      }
         if(prop.split('_').length < 2) {
             tableAttributes.main.push(prop)
         } else {
