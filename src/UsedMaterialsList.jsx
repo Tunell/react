@@ -39,14 +39,14 @@ export default class UsedMaterialsList extends React.Component {
 					const recycleName = rawMaterial.recycle_type_name;
 					if (materialName in allUsedMaterials) {
 						if (recycleName in allUsedMaterials[materialName]) {
-							allUsedMaterials[materialName][recycleName] += usedMaterial.amount * rawMaterial.amount;
+							allUsedMaterials[materialName][recycleName] += Math.round(usedMaterial.amount * rawMaterial.amount);
 						}
 						else {
-							allUsedMaterials[materialName][recycleName] = usedMaterial.amount * rawMaterial.amount;
+							allUsedMaterials[materialName][recycleName] = Math.round(usedMaterial.amount * rawMaterial.amount);
 						}
 					}
 					else {
-						allUsedMaterials[materialName] = {[recycleName]: usedMaterial.amount * rawMaterial.amount};
+						allUsedMaterials[materialName] = {[recycleName]: Math.round(usedMaterial.amount * rawMaterial.amount)};
 					}
 				});
 			}else if(materials.filter(filterMaterial=> filterMaterial.id === usedMaterial.used_has_material_id)[0]){
