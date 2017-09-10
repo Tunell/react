@@ -661,7 +661,7 @@ definitions:
       record_state_id:
         type: integer
       record_state_name:
-        type: string
+          type: string
       comment:
         type: string
       amount:
@@ -697,6 +697,8 @@ definitions:
         type: string
       changed:
         type: string
+      kg_per_m3:
+        type: integer
   materials:
     type: array
     items:
