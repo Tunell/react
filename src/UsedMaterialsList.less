@@ -1,0 +1,17 @@
+@import "variables.less";
+.cell {
+  padding: 3px 15px;
+  font-size: 0.85em;
+  border-bottom: 1px #ccc solid;
+  text-align: center;
+}
+
+.row {
+  &:nth-child(2n) {
+    background: @color-background;
+  }
+}
+
+.table {
+  border-spacing: 0;
+}

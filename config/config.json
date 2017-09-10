@@ -1,0 +1,14 @@
+{
+  "dbConfig" :
+  {
+    "connectionLimit": 100,
+    "host": "localhost",
+    "user": "root",
+    "password": "Wrufrafr",
+    "database": "byggstyrning"
+  },
+  "security" :
+  {
+    "api_key": "pellejohn"
+  }
+}

@@ -1,0 +1,55 @@
+@import "variables.less";
+.menu-bar{
+	background: @color-background;
+}
+
+.menu{
+	width: 90%;
+	max-width: 991px;
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	
+
+	:global a.active, :global a:hover{
+		background: @color-selected-background;
+		color: white;
+		&:visited{
+			color: white;
+		}
+	}
+
+	a{
+		padding: 10px 20px;
+		border-right: 2px solid #dcecde;
+		text-decoration: none;
+		@menu-color: #555;
+		color: @menu-color;
+		font-size: 14px;
+		line-height: 2em;
+		font-weight: bold;
+
+		&:nth-last-child(1){
+			border-right: none;
+		}
+		&:visited{
+			color: @menu-color;
+		}
+	}
+}
+
+.user{
+	margin: 0 0 0 5px;
+	background: transparent;
+	font-weight: bold;
+	font-size: 13px;
+}
+
+a.logga{
+	padding: 0px 30px;
+	img{
+		height: 40px;
+		margin-top: 6px;
+	}
+}

@@ -1,0 +1,965 @@
+swagger: "2.0"
+info:
+  version: "1.0."
+  title: API Byggstyrning
+host: localhost:3000
+basePath: /api
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+  
+securityDefinitions:
+  api_key:
+    type: apiKey
+    in: header
+    name: api_key
+
+security:
+ - api_key: []
+    
+
+paths:
+  /used-materials:
+    x-swagger-router-controller: routeHandler
+    get:
+      tags:
+      - "used-material"
+      summary: Return all used-materials
+      parameters:
+       - $ref: "#/parameters/user_id"
+      responses:
+        200:
+          description: A list of used-materials
+          schema:
+            $ref: "#/definitions/used-materials"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+    post:
+      tags:
+      - "used-material"
+      summary: Create a used-material
+      parameters:
+        - name: used_material
+          in: body
+          description: The used_material object that will be inserted
+          schema:
+            $ref: "#/definitions/used-material"
+      responses:
+        201:
+          $ref: "#/responses/Standard201CreatedResponse"
+        403:
+          $ref: "#/responses/Standard403ForbiddenResponse"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"  
+          
+  /used-materials/{id}:
+    parameters:
+      - $ref: "#/parameters/id"
+    x-swagger-router-controller: routeHandler
+    get:
+      tags:
+      - "used-material"
+      summary: Return a used-material
+      responses:
+        200:
+          description: A used-material object
+          schema:
+            $ref: "#/definitions/used-material"
+        404:
+           $ref: "#/responses/Standard404NotFoundResponse"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+          
+    put:
+      tags:
+      - "used-material"
+      summary: Change a used-material
+      parameters:
+          - name: used_material
+            in: body
+            description: The used_material object that will be changed
+            schema:
+              $ref: "#/definitions/used-material"
+      responses:
+        204:
+          description: Used-material sucessfully updated.
+        403:
+          $ref: "#/responses/Standard403ForbiddenResponse"
+        404:
+          $ref: "#/responses/Standard404NotFoundResponse"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+    delete:
+      tags:
+      - "used-material"
+      summary: Delete a used-material
+      responses:
+        204:
+          description: Used-material successfully deleted.
+        403:
+          $ref: "#/responses/Standard403ForbiddenResponse"
+        404:
+          $ref: "#/responses/Standard404NotFoundResponse"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+          
+          
+          
+  /materials:
+    x-swagger-router-controller: routeHandler
+    get:
+      tags:
+      - "material"
+      summary: Return all materials
+      parameters:
+       - $ref: "#/parameters/user_id"
+      responses:
+        200:
+          description: A list of materials
+          schema:
+            $ref: "#/definitions/materials"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse"
+    post:
+      tags:
+      - "material"
+      summary: Create a material
+      parameters:
+        - name: material
+          in: body
+          description: The material object that will be inserted
+          schema:
+            $ref: "#/definitions/material"
+      responses:
+        201:
+          $ref: "#/responses/Standard201CreatedResponse"
+        403:
+          $ref: "#/responses/Standard403ForbiddenResponse"
+        500:
+          $ref: "#/responses/Standard500ErrorResponse" 
+          
+  /materials/{id}:
+      parameters:
+        - $ref: "#/parameters/id"
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+        - "material"
+        summary: Return a material
+        responses:
+          200:
+            description: A material object
+            schema:
+              $ref: "#/definitions/material"
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+            
+      put:
+        tags:
+        - "material"
+        summary: Change a material
+        parameters:
+            - name: material
+              in: body
+              description: The used_material object that will be changed
+              schema:
+                $ref: "#/definitions/material"
+        responses:
+          204:
+            description: Used-material sucessfully updated.
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse" 
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      delete:
+        tags:
+        - "material"
+        summary: Delete a material
+        responses:
+          204:
+            description: Used-material successfully deleted.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"  
+        
+  /composite-materials:
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "composite-material"
+        summary: Return all composite-materials
+        parameters:
+         - $ref: "#/parameters/user_id"
+        responses:
+          200:
+            description: A list of materials
+            schema:
+              $ref: "#/definitions/composite-materials"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      post:
+        tags:
+          - "composite-material"
+        summary: Create a composite-material
+        parameters:
+          - name: composite_material
+            in: body
+            description: The material object that will be inserted
+            schema:
+              $ref: "#/definitions/composite-material"
+        responses:
+          201:
+            $ref: "#/responses/Standard201CreatedResponse"
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse" 
+            
+  /composite-materials/{id}:
+      parameters:
+        - $ref: "#/parameters/id"
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "composite-material"
+        summary: Return a composite-material
+        responses:
+          200:
+            description: A material object
+            schema:
+              $ref: "#/definitions/composite-material"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+            
+      put:
+        tags:
+          - "composite-material"
+        summary: Change a composite-material
+        parameters:
+            - name: composite-material
+              in: body
+              description: The composite_material object that will be changed
+              schema:
+                $ref: "#/definitions/composite-material"
+        responses:
+          204:
+            description: Used-material sucessfully updated.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      delete:
+        tags:
+          - "composite-material"
+        summary: Delete a composite-material
+        responses:
+          204:
+            description: Composite-material successfully deleted.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+  
+  /units:
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "unit"
+        summary: Return all units
+        parameters:
+         - $ref: "#/parameters/user_id"
+        responses:
+          200:
+            description: A list of materials
+            schema:
+              $ref: "#/definitions/units"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      post:
+        tags:
+          - "unit"
+        summary: Create a unit
+        parameters:
+          - name: composite_material
+            in: body
+            description: The material object that will be inserted
+            schema:
+              $ref: "#/definitions/unit"
+        responses:
+          201:
+            $ref: "#/responses/Standard201CreatedResponse" 
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse" 
+       
+       
+            
+  /units/{id}:
+      parameters:
+        - $ref: "#/parameters/id"
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "unit"
+        summary: Return a unit
+        responses:
+          200:
+            description: A material object
+            schema:
+              $ref: "#/definitions/unit"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+            
+      put:
+        tags:
+          - "unit"
+        summary: Change a unit
+        parameters:
+            - name: composite-material
+              in: body
+              description: The used_material object that will be changed
+              schema:
+                $ref: "#/definitions/unit"
+        responses:
+          204:
+            description: Used-material sucessfully updated.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      delete:
+        tags:
+          - "unit"
+        summary: Delete a unit
+        responses:
+          204:
+            description: Used-material successfully deleted.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"  
+          
+            
+  /recycle-types:
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "recycle-type"
+        summary: Return all recycle-types
+        parameters:
+         - $ref: "#/parameters/user_id"
+        responses:
+          200:
+            description: A list of materials
+            schema:
+              $ref: "#/definitions/recycle-types"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      post:
+        tags:
+          - "recycle-type"
+        summary: Create a recycle-type
+        parameters:
+          - name: composite_material
+            in: body
+            description: The material object that will be inserted
+            schema:
+              $ref: "#/definitions/recycle-type"
+        responses:
+          201:
+            $ref: "#/responses/Standard201CreatedResponse" 
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse" 
+       
+       
+            
+  /recycle-types/{id}:
+      parameters:
+        - $ref: "#/parameters/id"
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "recycle-type"
+        summary: Return a recycle-type
+        responses:
+          200:
+            description: A material object
+            schema:
+              $ref: "#/definitions/recycle-type"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse" 
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+            
+      put:
+        tags:
+          - "recycle-type"
+        summary: Change a recycle-type
+        parameters:
+            - name: composite-material
+              in: body
+              description: The used_material object that will be changed
+              schema:
+                $ref: "#/definitions/recycle-type"
+        responses:
+          204:
+            description: Used-material sucessfully updated.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      delete:
+        tags:
+          - "recycle-type"
+        summary: Delete a recycle-type
+        responses:
+          204:
+            description: Used-material successfully deleted.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"  
+            
+
+  /users:
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "user"
+        summary: Return all users
+        responses:
+          200:
+            description: A list of users
+            schema:
+              $ref: "#/definitions/users"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      post:
+        tags:
+          - "user"
+        summary: Create a user
+        parameters:
+          - name: user
+            in: body
+            description: The material object that will be inserted
+            schema:
+              $ref: "#/definitions/user"
+        responses:
+          201:
+            $ref: "#/responses/Standard201CreatedResponse" 
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse" 
+       
+       
+            
+  /users/{id}:
+      parameters:
+        - $ref: "#/parameters/id"
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "user"
+        summary: Return a user
+        responses:
+          200:
+            description: A user object
+            schema:
+              $ref: "#/definitions/user"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+            
+      put:
+        tags:
+          - "user"
+        summary: Change a user
+        parameters:
+            - name: user
+              in: body
+              description: The user object that will be changed
+              schema:
+                $ref: "#/definitions/user"
+        responses:
+          204:
+            description: User sucessfully updated.
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      delete:
+        tags:
+          - "user"
+        summary: Delete a user
+        responses:
+          204:
+            description: User successfully deleted.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"  
+            
+  /record-states:
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "record-state"
+        summary: Return all record_states
+        responses:
+          200:
+            description: A list of record states
+            schema:
+              $ref: "#/definitions/record-states"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      post:
+        tags:
+          - "record-state"
+        summary: Create a record state
+        parameters:
+          - name: record-state
+            in: body
+            description: The record-state that will be inserted
+            schema:
+              $ref: "#/definitions/record-state"
+        responses:
+          201:
+            $ref: "#/responses/Standard201CreatedResponse" 
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse" 
+       
+       
+            
+  /record-states/{id}:
+      parameters:
+        - $ref: "#/parameters/id"
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "record-state"
+        summary: Return a record-state
+        responses:
+          200:
+            description: A record-state
+            schema:
+              $ref: "#/definitions/record-state"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+            
+      put:
+        tags:
+          - "record-state"
+        summary: Change a record-state
+        parameters:
+            - name: record-state
+              in: body
+              description: The record-state that will be changed
+              schema:
+                $ref: "#/definitions/record-state"
+        responses:
+          204:
+            description: Record-state sucessfully updated.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+      delete:
+        tags:
+          - "record-state"
+        summary: Delete a record-state
+        responses:
+          204:
+            description: Record-state successfully deleted.
+          403:
+            $ref: "#/responses/Standard403ForbiddenResponse"
+          404:
+            $ref: "#/responses/Standard404NotFoundResponse"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse" 
+            
+            
+  /material-has-metas:
+      x-swagger-router-controller: routeHandler
+      get:
+        tags:
+          - "material-has-meta"
+        summary: Return all record_states
+        responses:
+          200:
+            description: A list of record states
+            schema:
+              $ref: "#/definitions/material-has-metas"
+          500:
+            $ref: "#/responses/Standard500ErrorResponse"
+            
+          
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  used-material:
+    required:
+      - user_id
+      - amount
+      - comment
+      - material_type_id
+    properties:
+      id:
+        type: integer
+      user_id:
+        type: integer
+      user_name:
+        type: string
+      used_has_material_id:
+        type: integer
+      used_has_material_name:
+        type: string
+      record_state_id:
+        type: integer
+      record_state_name:
+          type: string
+      comment:
+        type: string
+      amount:
+        type: number
+        format: double
+      material_type_id:
+        type: integer
+      material_type_name:
+        type: string
+      created:
+        type: string
+      changed:
+        type: string
+  used-materials:
+    type: array
+    items:
+      $ref: "#/definitions/used-material"
+      
+  material:
+    required:
+      - user_id
+      - name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      user_id:
+        type: integer
+      user_name:
+        type: string
+      created:
+        type: string
+      changed:
+        type: string
+      kg_per_m3:
+        type: integer
+  materials:
+    type: array
+    items:
+      $ref: "#/definitions/material"
+      
+
+      
+  composite-material:
+    required:
+      - user_id
+      - name
+      - unit_id
+      - composite_has_materials
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      user_id: 
+        type: integer
+      user_name:
+        type: string
+      unit_id:
+        type: integer
+      unit_name:
+        type: string
+      created:
+        type: string
+      changed:
+        type: string
+      composite_has_materials:
+        type: array
+        items:
+          $ref: "#/definitions/composite-has-material"
+
+          
+  composite-has-material:
+    required:
+      - material_id
+      - recycle_type_id
+      - unit_id
+      - amount
+    properties:
+      composite_material_id:
+        type: integer
+      material_id:
+        type: integer
+      material_name:
+        type: string
+      recycle_type_id:
+        type: integer
+      recycle_type_name:
+        type: string
+      unit_id:
+        type: integer
+      unit_name:
+        type: string
+      amount:
+        type: number
+        format: double
+      
+      
+  
+  composite-materials:
+    type: array
+    items:
+      $ref: "#/definitions/composite-material"
+       
+       
+  unit:
+    required:
+      - user_id
+      - name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      user_id:
+        type: integer
+      user_name:
+        type: string
+      created:
+        type: string
+      changed:
+        type: string
+        
+  units:
+    type: array
+    items:
+       $ref: "#/definitions/unit"
+       
+  recycle-type:
+    required:
+      - name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+        
+  recycle-types:
+    type: array
+    items:
+       $ref: "#/definitions/recycle-type"
+       
+  user:
+    required:
+      - name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  
+  users:
+    type: array
+    items:
+      $ref: "#/definitions/user"
+  
+  record-state:
+    required:
+      - name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+  
+  record-states:
+    type: array
+    items:
+      $ref: "#/definitions/record-state"
+      
+      
+  material-has-meta:
+    required:
+      - meta_material_id
+      - material_id
+      - recycle_type_id
+      - unit_id
+      - amount
+    properties:
+      meta_material_id:
+        type: integer
+      material_id: 
+        type: integer
+      material_name:
+        type: string
+      recycle_type_id:
+        type: integer
+      recycle_type_name:
+        type: string
+      unit_id:
+        type: integer
+      unit_name:
+        type: string
+      amount:
+        type: number
+        format: double
+  
+  material-has-metas:
+      type: array
+      items:
+        $ref: "#/definitions/material-has-meta"
+            
+       
+  Error:
+    properties:
+      message:
+        type: string
+
+responses:
+  Standard201CreatedResponse:
+    description: Created entity
+    schema:
+      required:
+        - fieldCount
+        - affectedRows
+        - insertId
+        - serverStatus
+        - warningCount
+        - message
+        - protocol41
+        - changedRows
+        - links
+      properties:
+        fieldCount:
+          type: integer
+        affectedRows:
+          type: integer
+        insertId:
+          type: integer
+        serverStatus:
+          type: integer
+        warningCount:
+          type: integer
+        message:
+          type: string
+        protocol41:
+          type: boolean
+        changedRows:
+          type: integer
+        links:
+          type: object
+          properties:
+            rel:
+              type: string
+            href:
+              type: string
+  
+  Standard403ForbiddenResponse:
+    description: The request is forbidden
+    schema:
+      properties:
+        error:
+          type: object
+          properties:
+            msg:
+              type: string
+            field:
+              type: string
+            code:
+              type: integer
+            exceptionMsg:
+              type: string
+            statusCode:
+              type: integer
+
+  Standard404NotFoundResponse:
+    description: The resource was not found
+    schema:
+      properties:
+        message:
+          type: string
+          
+  Standard500ErrorResponse:
+    description: An unexpected error occured.
+    schema:
+      $ref: "#/definitions/Error"
+
+
+parameters:
+
+  id:
+    name: id        
+    in: path
+    required: true
+    description: The identifier of the object
+    type: integer
+    x-example: 1
+
+  user_id:
+    name: user_id
+    in: query
+    required: false
+    description: The users id
+    type: array
+    items:
+      type: integer
+    collectionFormat: multi
+    x-example: 1
+
+

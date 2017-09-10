@@ -1,10 +1,6 @@
 # react
-Testing the bare minimum react app with watchify (browserify with watch-functionality)
 
-Helloworld.js is written in JSX (which is available as a sublime plugin)
-
-This is esentially the "Get Started" guide from the react page:
-https://facebook.github.io/react/docs/getting-started.html
+u
 
 cd to the correct folder.
 
@@ -15,9 +11,26 @@ npm install
 mkdir target
 
 ##To run:
-watchify -t [ babelify --presets [ react ] ]  src/helloworld.js -o target/bundle.js
 
-http-server
+npm start
 
+##To Build:
 
-Http-server is just hosting the static files, any webserver works fine.
+webpack
+
+##Live server:
+http://node-express-env.z7h53zphpv.us-west-2.elasticbeanstalk.com/
+
+Live release:
+Cd:a till projektet och kör:
+npm build
+Committa in allt.
+eb deploy
+
+Funkar inte det, kör:
+eb init
+eb deploy
+
+Följ denna: http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html
+Sen denna: http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-configuration.html
+För att sätta upp AWS ElasticBeanstalk client, så du kan köra "eb deploy" från din terminal för att deploya

@@ -1,0 +1,23 @@
+@import "variables.less";
+.table{
+  border-spacing:0;
+  th{
+    padding: 3px 15px;
+    font-size: 0.85em;
+    border-bottom: 1px #ccc solid;
+    &:nth-child(2n){
+      background: @color-background;
+    }
+  }
+  tr:nth-last-child(1) th{
+    border: none;
+  }
+}
+
+.delete:hover *{
+	cursor: pointer;
+}
+
+.svanen{
+	max-height: 3em;
+}

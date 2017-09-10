@@ -1,2 +1,14 @@
 node_modules
-target
+.idea/
+.elasticbeanstalk/
+.env/
+.env/*
+
+# Elastic Beanstalk Files
+
+.elasticbeanstalk/*
+
+!.elasticbeanstalk/*.cfg.yml
+
+!.elasticbeanstalk/*.global.yml
+
