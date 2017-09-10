@@ -4,6 +4,7 @@ import LoadJson from "./functions/LoadJson";
 import {connect} from "react-redux";
 import {fetchJsonWithSpecifiedStore} from "./materialGetters/materialGettersAction";
 import styles from "./UsedMaterialsLog.less";
+import FaTrashO from 'react-icons/lib/fa/trash-o'
 
 
 type Props = {
@@ -12,10 +13,6 @@ type Props = {
 
 class UsedMaterialsLog extends React.Component {
 	props: Props;
-
-	constructor(props) {
-		super(props);
-	}
 
 	async deleteMaterial(material: number) {
 		const {user, fetchJsonWithSpecifiedStore} = this.props;
@@ -30,7 +27,7 @@ class UsedMaterialsLog extends React.Component {
 				fetchJsonWithSpecifiedStore(resource.key, resource.url)
 			});
 
-			console.log(response);
+			//console.log(response);
 		} catch (e) {
 			console.error("Error deleting material: ", e);
 		}
@@ -38,7 +35,7 @@ class UsedMaterialsLog extends React.Component {
 
 	render() {
 		const {usedMaterials} = this.props;
-		const recycle_short = ["invalid", "Nej", "Ja", "Vet Ej"]
+		const recycle_short = ["invalid", "Nej", "Ja", "Vet Ej", <img styleName="svanen" src="../public/svanen.svg"/>]
 		return (
 			<table styleName="table">
 				<thead>
@@ -68,7 +65,7 @@ class UsedMaterialsLog extends React.Component {
 							<th>{!!material.created && new Date(material.created).toLocaleDateString()}{!!material.created && ", " + new Date(material.created).toLocaleTimeString()}</th>
 							<th>{material.user_name}</th>
 							{/*<th><Link to={'/api/materials/' + material.id}>Edit</Link></th>*/}
-							<th onClick={() => this.deleteMaterial(material.id)}>Delete</th>
+							<th onClick={() => this.deleteMaterial(material.id)} styleName="delete"><FaTrashO size={20}/></th>
 						</tr>
 					))}
 				</tbody>
