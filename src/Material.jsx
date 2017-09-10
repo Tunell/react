@@ -1,31 +1,35 @@
 import React from "react";
+import CSSModules from "react-css-modules";
+import RecycleType from "./RecycleType.jsx";
+import * as styles from "./Material.less";
 
 class Material extends React.Component {
 	render() {
 		const {material, composite} = this.props;
 		return (
-			<div key={material.material_id} className={ composite && "composite " + "material_id" }>
-            <span className="name">
-            { material.name }
-            </span>
+			<div key={material.material_id} className={ composite && "composite " + "material_id" } styleName="box">
+            <div styleName="header-row">
+							<h2 styleName="name">{ material.name }</h2>
+							<span styleName="unit"><strong>Enhet:</strong> { material.unit_name }</span>
+						</div>
 				{ composite && !!material.composite_has_materials &&
-					<span className="unit"> - { material.unit_name }
-						<ul>
+					<div>
+						<ul styleName="raw-material-list">
 						{material.composite_has_materials && material.composite_has_materials.map(rawMaterial =>
-							<li key={ rawMaterial.material_id }>
-	                          <span>
-	                            <span>{ rawMaterial.material_name }</span> :
-	                            <span>&nbsp;{ rawMaterial.amount }</span>
-	                            <span>&nbsp;{ rawMaterial.unit_name } { rawMaterial.recycle_type_name }</span>
-	                          </span>
+							<li key={ rawMaterial.material_id } styleName="list-item">
+									<span>
+										{ rawMaterial.amount } { rawMaterial.unit_name }
+										<span styleName="raw-material">{ rawMaterial.material_name }</span> :
+										<span styleName="recycle-type"><RecycleType id={rawMaterial.recycle_type_id}/></span>
+									</span>
 							</li>
 						)}
 						</ul>
-					</span>
+					</div>
 				}
 			</div>
 		);
 	}
 }
 
-export default Material;
+export default CSSModules(Material, styles);
