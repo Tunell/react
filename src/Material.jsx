@@ -16,7 +16,7 @@ class Material extends React.Component {
 					<div>
 						<ul styleName="raw-material-list">
 						{material.composite_has_materials && material.composite_has_materials.map(rawMaterial =>
-							<li key={ rawMaterial.material_id } styleName="list-item">
+							<li key={ material.name + rawMaterial.material_id } styleName="list-item">
 									<span>
 										{ rawMaterial.amount } { rawMaterial.unit_name }
 										<span styleName="raw-material">{ rawMaterial.material_name }</span> :
