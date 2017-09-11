@@ -3,6 +3,7 @@ import {Link} from "react-router";
 import CSSModules from "react-css-modules";
 import LoginBox from "./Login/LoginBox";
 import styles from "./TopMenu.less";
+import plantLogo from "../public/plant-logga.png"
 
 @CSSModules(styles)
 export default class TopMenu extends React.Component {
@@ -16,7 +17,7 @@ export default class TopMenu extends React.Component {
 			<div>
 				<div styleName="menu-bar">
 					<div styleName="menu">
-						<Link to="/" styleName="logga"><img src="../public/plant-logga.png"/></Link>
+						<Link to="/" styleName="logga"><img src={plantLogo}/></Link>
 						<Link to="/rapportera" activeClassName="active"> Rapportera använt material
 						</Link>
 						<Link to="/skapa-material" activeClassName="active"> Skapa byggdel
