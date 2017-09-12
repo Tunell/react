@@ -245,7 +245,7 @@ function createCompMaterial(row, compositeHasMaterial, isUsedMaterial) {
         compositeMaterial.record_state_id = row.record_state_id
         compositeMaterial.record_state_name = row.record_state_name
         compositeMaterial.material_type_id = row.material_type_id
-        compositeMaterial.materyal_type_name = row.material_type_name
+        compositeMaterial.material_type_name = row.material_type_name
     }
 
     return compositeMaterial;
