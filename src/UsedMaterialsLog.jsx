@@ -4,8 +4,10 @@ import LoadJson from "./functions/LoadJson";
 import {connect} from "react-redux";
 import {fetchJsonWithSpecifiedStore} from "./materialGetters/materialGettersAction";
 import styles from "./UsedMaterialsLog.less";
-import FaTrashO from 'react-icons/lib/fa/trash-o'
+import FaTrashO from 'react-icons/lib/fa/trash-o';
 import RecycleType from "./RecycleType.jsx";
+import moment from 'moment';
+moment.locale('sv')
 
 
 type Props = {
@@ -62,10 +64,8 @@ class UsedMaterialsLog extends React.Component {
 							<th>{material.unit_name}</th>
 							<th><RecycleType id={material.recycle_type_id}/></th>
 							<th>{material.comment}</th>
-							{/*<th>{new Date(parseInt(material.created)).toString()}</th>*/}
-							<th>{!!material.created && new Date(material.created).toLocaleDateString()}{!!material.created && ", " + new Date(material.created).toLocaleTimeString()}</th>
+							<th>{moment(material.created).calendar()}</th>
 							<th>{material.user_name}</th>
-							{/*<th><Link to={'/api/materials/' + material.id}>Edit</Link></th>*/}
 							<th onClick={() => this.deleteMaterial(material.id)} styleName="delete"><FaTrashO size={20}/></th>
 						</tr>
 					))}
