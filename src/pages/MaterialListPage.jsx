@@ -5,11 +5,15 @@ import Material from "../Material.jsx";
 import UsedMaterialsList from "../UsedMaterialsList.jsx";
 import UsedMaterialsLog from "../UsedMaterialsLog.jsx";
 import * as styles from "./MaterialListPage.less"
+import { arrayToObject } from '../functions/arrayToObject'
 
 @connect(
 	(state) => ( {
 		compositeMaterials: state.resources.compositeMaterials.json ? state.resources.compositeMaterials.json : [],
 		materials: state.resources.materials.json ? state.resources.materials.json : [],
+		user: state.user,
+		users: state.resources.users.json,
+		recycleTypes: state.resources.recycleTypes.json
 	})
 )
 @CSSModules(styles)
@@ -32,14 +36,6 @@ export default class MaterialListPage extends React.Component {
 					list: 'building'
 				});
 				break;
-			case 'usedMaterials':
-				this.setState({
-					materialUsageList: true,
-					compositeList: true,
-					showLog: true,
-					list: 'usedMaterials'
-				});
-				break;
 			case 'prefab':
 				this.setState({
 					materialUsageList: false,
@@ -52,12 +48,14 @@ export default class MaterialListPage extends React.Component {
 
 	render() {
 		const {materialUsageList, showLog, list} = this.state;
-		const {compositeMaterials} = this.props;
+		const {compositeMaterials, users, user, recycleTypes} = this.props;
+		console.log(recycleTypes)
+    const usersMap = users ? arrayToObject(users, 'id') : {}
+
 		return (
 			<div className="materialList">
 				<div styleName="tabs">
 					<button styleName={list === 'prefab' ? 'tab-selcted' : 'tab'}  onClick={ e => this.handleListChange('prefab')}>Byggdelar</button>
-					<button styleName={list === 'usedMaterials' ? 'tab-selcted' : 'tab'}  onClick={ e => this.handleListChange('usedMaterials')}>Rapporterade material</button>
 					<button styleName={list === 'building' ? 'tab-selcted' : 'tab'}  onClick={ e => this.handleListChange('building')}>Använt material</button>
 				</div>
 				{
@@ -65,19 +63,16 @@ export default class MaterialListPage extends React.Component {
 						if (materialUsageList && !showLog) {
 							return <div>
 								<h1>Använt material</h1>
+								<h2>{usersMap[user] ? usersMap[user].name : null}</h2>
 								<UsedMaterialsList/>
-							</div>
-						} else if (materialUsageList && showLog) {
-							return <div>
-								<h1>Rapporterade material</h1>
-								<UsedMaterialsLog/>
 							</div>
 						} else {
 							return <div>
 								<h1>Byggdelar</h1>
+								<h2>{usersMap[user] ? usersMap[user].name : null}</h2>
 								{compositeMaterials.filter(material=> material.user_id !== 1)
 									.map(material => (
-									<Material key={material.id} material={material} composite={ true }/>
+									<Material key={material.id} material={material} composite={ true } recycleTypes={recycleTypes}/>
 								))}
 							</div>
 

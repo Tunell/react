@@ -4,12 +4,14 @@ import LoadJson from "./functions/LoadJson";
 import {connect} from "react-redux";
 import {fetchJsonWithSpecifiedStore} from "./materialGetters/materialGettersAction";
 import styles from "./UsedMaterialsLog.less";
-import FaTrashO from 'react-icons/lib/fa/trash-o'
+import FaTrashO from 'react-icons/lib/fa/trash-o';
 import RecycleType from "./RecycleType.jsx";
-
+import svanen from "./img/svanen.svg";
+import moment from 'moment';
+moment.locale('sv')
 
 type Props = {
-	usedMaterials: object
+	usedMaterials: object,
 };
 
 class UsedMaterialsLog extends React.Component {
@@ -35,8 +37,8 @@ class UsedMaterialsLog extends React.Component {
 	}
 
 	render() {
-		const {usedMaterials} = this.props;
-		const recycle_short = ["invalid", "Nej", "Ja", "Vet Ej", <img styleName="svanen" src="../public/svanen.svg"/>]
+		const {usedMaterials, recycleTypes} = this.props;
+		const recycle_short = ["invalid", "Nej", "Ja", "Vet Ej", <img styleName="svanen" src={svanen}/>];
 		return (
 			<table styleName="table">
 				<thead>
@@ -60,12 +62,10 @@ class UsedMaterialsLog extends React.Component {
 							<th>{material.used_has_material_name}</th>
 							<th>{material.amount}</th>
 							<th>{material.unit_name}</th>
-							<th><RecycleType id={material.recycle_type_id}/></th>
+							<th><RecycleType id={material.recycle_type_id} recycleTypes={recycleTypes}/></th>
 							<th>{material.comment}</th>
-							{/*<th>{new Date(parseInt(material.created)).toString()}</th>*/}
-							<th>{!!material.created && new Date(material.created).toLocaleDateString()}{!!material.created && ", " + new Date(material.created).toLocaleTimeString()}</th>
+							<th>{moment(material.created).calendar()}</th>
 							<th>{material.user_name}</th>
-							{/*<th><Link to={'/api/materials/' + material.id}>Edit</Link></th>*/}
 							<th onClick={() => this.deleteMaterial(material.id)} styleName="delete"><FaTrashO size={20}/></th>
 						</tr>
 					))}
@@ -84,6 +84,7 @@ export default connect(
 	(state) => ( {
 		user: state.user,
 		usedMaterials: state.resources.usedMaterials.json,
+		recycleTypes: state.resources.recycleTypes.json
 	}),
 	mapDispatchToProps
 )(CSSModules(UsedMaterialsLog, styles))
