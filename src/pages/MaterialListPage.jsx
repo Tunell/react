@@ -12,7 +12,8 @@ import { arrayToObject } from '../functions/arrayToObject'
 		compositeMaterials: state.resources.compositeMaterials.json ? state.resources.compositeMaterials.json : [],
 		materials: state.resources.materials.json ? state.resources.materials.json : [],
 		user: state.user,
-		users: state.resources.users.json
+		users: state.resources.users.json,
+		recycleTypes: state.resources.recycleTypes.json
 	})
 )
 @CSSModules(styles)
@@ -47,7 +48,8 @@ export default class MaterialListPage extends React.Component {
 
 	render() {
 		const {materialUsageList, showLog, list} = this.state;
-		const {compositeMaterials, users, user} = this.props;
+		const {compositeMaterials, users, user, recycleTypes} = this.props;
+		console.log(recycleTypes)
     const usersMap = users ? arrayToObject(users, 'id') : {}
 
 		return (
@@ -70,7 +72,7 @@ export default class MaterialListPage extends React.Component {
 								<h2>{usersMap[user] ? usersMap[user].name : null}</h2>
 								{compositeMaterials.filter(material=> material.user_id !== 1)
 									.map(material => (
-									<Material key={material.id} material={material} composite={ true }/>
+									<Material key={material.id} material={material} composite={ true } recycleTypes={recycleTypes}/>
 								))}
 							</div>
 

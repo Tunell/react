@@ -9,9 +9,8 @@ import RecycleType from "./RecycleType.jsx";
 import moment from 'moment';
 moment.locale('sv')
 
-
 type Props = {
-	usedMaterials: object
+	usedMaterials: object,
 };
 
 class UsedMaterialsLog extends React.Component {
@@ -37,7 +36,7 @@ class UsedMaterialsLog extends React.Component {
 	}
 
 	render() {
-		const {usedMaterials} = this.props;
+		const {usedMaterials, recycleTypes} = this.props;
 		const recycle_short = ["invalid", "Nej", "Ja", "Vet Ej", <img styleName="svanen" src="../public/svanen.svg"/>]
 		return (
 			<table styleName="table">
@@ -62,7 +61,7 @@ class UsedMaterialsLog extends React.Component {
 							<th>{material.used_has_material_name}</th>
 							<th>{material.amount}</th>
 							<th>{material.unit_name}</th>
-							<th><RecycleType id={material.recycle_type_id}/></th>
+							<th><RecycleType id={material.recycle_type_id} recycleTypes={recycleTypes}/></th>
 							<th>{material.comment}</th>
 							<th>{moment(material.created).calendar()}</th>
 							<th>{material.user_name}</th>
@@ -84,6 +83,7 @@ export default connect(
 	(state) => ( {
 		user: state.user,
 		usedMaterials: state.resources.usedMaterials.json,
+		recycleTypes: state.resources.recycleTypes.json
 	}),
 	mapDispatchToProps
 )(CSSModules(UsedMaterialsLog, styles))

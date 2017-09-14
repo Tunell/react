@@ -5,7 +5,7 @@ import * as styles from "./Material.less";
 
 class Material extends React.Component {
 	render() {
-		const {material, composite} = this.props;
+		const {material, composite, recycleTypes} = this.props;
 		return (
 			<div key={material.material_id} className={ composite && "composite " + "material_id" } styleName="box">
             <div styleName="header-row">
@@ -20,7 +20,7 @@ class Material extends React.Component {
 									<span>
 										{ rawMaterial.amount } { rawMaterial.unit_name }
 										<span styleName="raw-material">{ rawMaterial.material_name }</span> :
-										<span styleName="recycle-type"><RecycleType id={rawMaterial.recycle_type_id}/></span>
+										<span styleName="recycle-type"><RecycleType id={rawMaterial.recycle_type_id} recycleTypes={recycleTypes}/></span>
 									</span>
 							</li>
 						)}

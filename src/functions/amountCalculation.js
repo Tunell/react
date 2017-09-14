@@ -32,7 +32,7 @@ const getMaterialUsage = (usedMaterials, materials, compositeMaterials, material
           allUsedMaterials[materialName] = {[recycleName]: Math.round(usedMaterial.amount * rawMaterialAmount)};
         }
       });
-    } else if (materials.filter(filterMaterial=> filterMaterial.id === usedMaterial.used_has_material_id)[0]){
+    } else if (usedMaterial.material_type_id === 1) {
       //This is a material
       const materialName = usedMaterial.used_has_material_name;
       const recycleName = usedMaterial.recycle_type_name;
@@ -50,6 +50,8 @@ const getMaterialUsage = (usedMaterials, materials, compositeMaterials, material
         allUsedMaterials[materialName] = {[recycleName]: usedMaterialAmount};
       }
     }else{
+      console.log(usedMaterials)
+      console.log(materialsMap)
       console.error("Material dosen't exist:");
     }
     return allUsedMaterials;
