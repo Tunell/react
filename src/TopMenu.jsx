@@ -3,7 +3,7 @@ import {Link} from "react-router";
 import CSSModules from "react-css-modules";
 import LoginBox from "./Login/LoginBox";
 import styles from "./TopMenu.less";
-import plantLogo from "../public/plant-logga.png"
+import plantLogo from "./img/plant-logga.png"
 
 @CSSModules(styles)
 export default class TopMenu extends React.Component {

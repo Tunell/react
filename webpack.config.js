@@ -15,7 +15,7 @@ module.exports = [{
 	    path: __dirname + "/public",
 	    filename: 'bundle.js',
         library: 'MyApp',
-        publicPath: 'http://localhost:8080/'
+        publicPath: '/'
     },
 		devtool: 'eval',
 

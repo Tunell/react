@@ -6,6 +6,7 @@ import {fetchJsonWithSpecifiedStore} from "./materialGetters/materialGettersActi
 import styles from "./UsedMaterialsLog.less";
 import FaTrashO from 'react-icons/lib/fa/trash-o';
 import RecycleType from "./RecycleType.jsx";
+import svanen from "./img/svanen.svg";
 import moment from 'moment';
 moment.locale('sv')
 
@@ -37,7 +38,7 @@ class UsedMaterialsLog extends React.Component {
 
 	render() {
 		const {usedMaterials, recycleTypes} = this.props;
-		const recycle_short = ["invalid", "Nej", "Ja", "Vet Ej", <img styleName="svanen" src="../public/svanen.svg"/>]
+		const recycle_short = ["invalid", "Nej", "Ja", "Vet Ej", <img styleName="svanen" src={svanen}/>];
 		return (
 			<table styleName="table">
 				<thead>

@@ -1,7 +1,7 @@
 import React from 'react';
 import CSSModules from "react-css-modules";
 import * as styles from "./RecycleType.less";
-import svanen from "../public/svanen.svg";
+import svanen from "./img/svanen.svg";
 import { arrayToObject } from './functions/arrayToObject'
 
 
