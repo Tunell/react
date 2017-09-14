@@ -334,7 +334,8 @@ VALUES (1, "Aluminium", 2700),
 INSERT INTO recycle_type (name)
 VALUES ("Ej återvunnet/återanvänt"),
   ("Återvunnet/återanvänt"),
-  ("Vet Ej");
+  ("Vet Ej"),
+  ("Miljöcertifierat (FSC eller Svanen)");
 
 INSERT INTO material_emits_co2 (amount, material_id, recycle_type_id)
 VALUES
