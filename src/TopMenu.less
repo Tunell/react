@@ -1,4 +1,10 @@
 @import "variables.less";
+.main{
+	width: 90%;
+	max-width: 991px;
+	margin: 0 auto 20px;
+}
+
 .menu-bar{
 	background: @color-background;
 }
@@ -10,6 +16,11 @@
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
+	@media @mobile{
+		display: block;
+		text-align: center;
+	}
+
 	
 
 	:global a.active, :global a:hover{
@@ -29,6 +40,9 @@
 		font-size: 14px;
 		line-height: 2em;
 		font-weight: bold;
+		@media @mobile{
+			display: block;
+		}
 
 		&:nth-last-child(1){
 			border-right: none;

@@ -48,9 +48,7 @@ export default class MaterialReportPage extends React.Component {
 					constructionParts={1}
 					recycleTypes={recycleTypes}
 				/>
-				<div>
-					<UsedMaterialsLog usedMaterials={usedMaterials} recycleTypes={recycleTypes}/>
-				</div>
+				<UsedMaterialsLog usedMaterials={usedMaterials} recycleTypes={recycleTypes}/>
 			</div>
 
 		);

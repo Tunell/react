@@ -66,23 +66,23 @@ export default class UsedMaterialsList extends React.Component {
     });
 
     return (
-			<div>
-				<table styleName="table">
-					<thead>
+		<div styleName="table-wrapper">
+			<table styleName="table">
+				<thead>
 					<tr>
 						<th styleName="cell">Material</th>
-            {recycleTypes.map((recycleClass) =>
-							<th styleName="cell">{recycleClass.name}</th>
-            )}
+			            {recycleTypes.map((recycleClass) =>
+				            <th styleName="cell">{recycleClass.name}</th>
+			            )}
 					</tr>
-					</thead>
-					<tbody>
-          {materialUsageArr.map(material => (
-            material
-          ))}
-					</tbody>
-				</table>
-			</div>
+				</thead>
+				<tbody>
+		          {materialUsageArr.map(material => (
+		            material
+		          ))}
+				</tbody>
+			</table>
+		</div>
     )
   }
 }

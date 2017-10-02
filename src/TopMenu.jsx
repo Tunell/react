@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router";
 import CSSModules from "react-css-modules";
 import LoginBox from "./Login/LoginBox";
-import styles from "./TopMenu.less";
+import * as styles from "./TopMenu.less";
 import plantLogo from "./img/plant-logga.png"
 
 @CSSModules(styles)
@@ -30,7 +30,7 @@ export default class TopMenu extends React.Component {
 						<LoginBox/>
 					</div>
 				</div>
-				<div id="main-content">
+				<div id="main-content" styleName="main">
 					{ React.cloneElement(children) }
 				</div>
 			</div>
