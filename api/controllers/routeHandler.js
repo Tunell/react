@@ -35,16 +35,25 @@ function getAll(req, res) {
     if (helpers.parseUrlToTable(req.url) === 'composite_material') {
         selectComp.all(queryObject.user_id)
             .then(result => res.json(result))
-            .catch(err => res.status(500).json(err.message))
+					.catch(err => {
+						console.error('Error during getAll:', err);
+						return res.status(500).json(err.message)
+					});
     } else if(helpers.parseUrlToTable(req.url) === 'used_material') {
         selectUsed.query(queryObject.user_id)
             .then(result => res.json(result))
-            .catch(err => res.status(500).json(err.message))
+					.catch(err => {
+						console.error('Error during getAll:', err);
+						return res.status(500).json(err.message)
+					});
     } else {
         let SQLquery = helpers.dbQueryBuilder(req.swagger);
         query.select(SQLquery, queryObject.user_id)
             .then(result => res.json(result))
-            .catch(err => res.status(500).json(err.message))
+					.catch(err => {
+						console.error('Error during getAll:', err);
+						return res.status(500).json(err.message)
+					});
     }
 }
 
@@ -58,16 +67,25 @@ function getId(req, res) {
     if(helpers.parseUrlToTable(req.url) === 'composite_material') {
         selectComp.id(queryObject.id)
             .then(result => isEmpty(result) ? res.status(404).json({message:'Not Found'}): res.json(result))
-            .catch(err => res.status(500).json(err.message))
+					.catch(err => {
+						console.error('Error during getId:', err);
+						return res.status(500).json(err.message)
+					})
     } else if(helpers.parseUrlToTable(req.url) === 'used_material') {
         selectUsed.query(queryObject.user_id, queryObject.id)
             .then(result => isEmpty(result) ? res.status(404).json({message:'Not Found'}): res.json(result))
-            .catch(err => res.status(500).json(err.message))
+					.catch(err => {
+						console.error('Error during getId:', err);
+						return res.status(500).json(err.message)
+					})
     } else {
         let SQLquery = helpers.dbQueryBuilder(req.swagger);
         query.select(SQLquery, queryObject.id)
             .then(result => isEmpty(result) ? res.status(404).json({message:'Not Found'}): res.json(result))
-            .catch(err => res.status(500).json(err.message))
+					.catch(err => {
+						console.error('Error during getId:', err);
+						return res.status(500).json(err.message)
+					})
     }
 }
 
@@ -80,7 +98,10 @@ function post (req, res) {
                         helpers.parseUrlToTable(req.url) === 'used_material' ? 'insertUsedMaterial' : 'updateRow'
     insert[insertFunc](helpers.parseUrlToTable(req.url), data)
         .then(result => res.status(201).json(helpers.addMeta(result, req)))
-        .catch(err => res.status(err.statusCode).json({error: err}))
+			.catch(err => {
+				console.error('Error during Post:', err);
+				return res.status(err.statusCode).json({error: err})
+			})
 }
 
 // Change a entry
@@ -91,7 +112,10 @@ function put (req, res) {
                     helpers.parseUrlToTable(req.url) === 'used_material' ? 'updateUsedMaterial' : 'updateRow'
     update[putFunc](helpers.parseUrlToTable(req.url), req.swagger.params.id.value, data)
         .then(result => res.status(204).json(result))
-        .catch(err => res.status(err.statusCode).json({error: err}))
+			.catch(err => {
+				console.error('Error during put:', err);
+				return res.status(err.statusCode).json({error: err})
+			})
 }
 
 // Delete a entry
@@ -99,7 +123,8 @@ function deleteRow (req, res) {
     remove.deleteId(helpers.parseUrlToTable(req.url), req.swagger.params.id.value)
         .then(result => parseInt(result) === 0 ? res.status(404).json({message:'Not Found'}) : res.status(204).json(result))
         .catch(err => {
-            const error = errorParser.createErrorResponse(err)
+					const error = errorParser.createErrorResponse(err);
+					console.error('Error during delete:', err, error);
             res.status(error.statusCode).json({error: error})
         })
 }
