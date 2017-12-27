@@ -1,8 +1,8 @@
 import React from "react";
 import {connect} from "react-redux";
 import CSSModules from "react-css-modules";
-import update from 'immutability-helper';
-import Select from 'react-select';
+import update from "immutability-helper";
+import Select from "react-select";
 import "!style-loader!css-loader!../node_modules/react-select/dist/react-select.css";
 import * as styles from "./MaterialSelection.less";
 
@@ -149,19 +149,22 @@ export default class MaterialSelection extends React.Component {
 
 
 	handleAmountChange(e) {
-		this.setState({
-			amount: e.target.value
-		});
-		if (isFinite(e.target.value) && e.target.value > 0) {
-			this.setState({
-				amountError: ""
-			});
-		} else if (e.target.value !== "") {
-			this.setState({
-				amountError: "Mängden måste vara en siffra"
-			});
-
+		let amount = e.target.value;
+		if (amount.indexOf(',') > -1) {
+			amount = amount.replace(/\,/, ".");
 		}
+		this.setState({amount}, () => {
+			if (isFinite(amount) && amount > 0) {
+				this.setState({
+					amountError: ""
+				});
+			} else if (amount !== "") {
+				this.setState({
+					amountError: "Mängden måste vara en siffra"
+				});
+
+			}
+		});
 	}
 
 	handleRecycleClassChange(e) {
