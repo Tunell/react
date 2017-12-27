@@ -1,7 +1,7 @@
 import React from "react";
 import CSSModules from "react-css-modules";
 import {connect} from "react-redux";
-import { browserHistory } from 'react-router';
+import {browserHistory} from "react-router";
 import {fetchJsonWithSpecifiedStore} from "./materialGetters/materialGettersAction";
 import styles from "./ConstructionForm.less";
 import MaterialSelection from "./MaterialSelection.jsx";
@@ -44,6 +44,11 @@ export default class ConstructionForm extends React.Component {
 
 	createConstructionPartClicked(e, constructionType) {
 		e.preventDefault();
+		gtag('event', 'create_construction_part', {
+			'construction_type': constructionType,
+			'event_label': constructionType,
+			'event_category': 'click'
+		});
 		this.createConstructionPart(constructionType);
 	}
 
@@ -178,6 +183,19 @@ export default class ConstructionForm extends React.Component {
 			});
 			response.results.errors.map(error => console.log(error.code + " on field: ", error.path[0], ". ", error.message));
 		} else {
+			let construction_type;
+			if (constructionCreation) {
+				//Create new composite material_id
+				construction_type = 'new_composite_material';
+			} else {
+				//add new used-material_id
+				construction_type = 'new_used_material';
+			}
+
+			gtag('event', construction_type, {
+				'event_label': response.links.href,
+				'event_category': 'click'
+			});
 			const resourcesToLoad = [
 				{key: "usedMaterials", url: 'api/used-materials', params: '?user_id=' + user},
 				{key: 'compositeMaterials', url: 'api/composite-materials', params: '?user_id=1&user_id=' + user},

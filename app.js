@@ -82,7 +82,7 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
         // Serve the Swagger documents and Swagger UI
         app.use(middleware.swaggerUi());
 
-	    app.use(express.static('public'))
+			app.use(express.static('public'));
 
 	    app.use(function (req, res, next) {
 		    res.status(404);
@@ -109,7 +109,7 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
 
     // IF PRODUCTION ENVIRONMENT
     if(process.env.RDS_HOSTNAME) {
-        app.use(express.static('public'))
+			app.use(express.static('public'));
         app.get('/', function (req, res) {
             var test = path.resolve('./index.html');
             res.sendFile(test)

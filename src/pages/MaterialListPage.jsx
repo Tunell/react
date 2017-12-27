@@ -3,9 +3,8 @@ import {connect} from "react-redux";
 import CSSModules from "react-css-modules";
 import Material from "../Material.jsx";
 import UsedMaterialsList from "../UsedMaterialsList.jsx";
-import UsedMaterialsLog from "../UsedMaterialsLog.jsx";
-import * as styles from "./MaterialListPage.less"
-import { arrayToObject } from '../functions/arrayToObject'
+import * as styles from "./MaterialListPage.less";
+import {arrayToObject} from "../functions/arrayToObject";
 
 @connect(
 	(state) => ( {
@@ -27,6 +26,11 @@ export default class MaterialListPage extends React.Component {
 	};
 
 	handleListChange = (listType) => {
+		gtag('event', 'change_list_type', {
+			'list_type': listType,
+			'event_label': listType,
+			'event_category': 'click'
+		});
 		switch (listType) {
 			case 'building':
 				this.setState({

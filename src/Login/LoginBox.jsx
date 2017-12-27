@@ -3,7 +3,7 @@ import React from "react";
 import {connect} from "react-redux";
 import CSSModules from "react-css-modules";
 import {changeUser} from "./loginAction.jsx";
-import styles from "./LoginBox.less";
+import * as styles from "./LoginBox.less";
 import {browserHistory} from "react-router";
 
 
@@ -16,6 +16,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 		if(ownProps.redirect){
 			browserHistory.push('/rapportera');
 		}
+		gtag('event', 'change_user', {
+			'event_label': user,
+			'event_category': 'click',
+			'user_id': user
+		});
 		return dispatch(changeUser(user));
 	}
 });
