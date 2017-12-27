@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import CSSModules from "react-css-modules";
 import {changeUser} from "./loginAction.jsx";
 import styles from "./LoginBox.less";
-import { browserHistory } from 'react-router';
+import {browserHistory} from "react-router";
 
 
 const mapStateToProps = (state) => ({
@@ -27,8 +27,7 @@ const LoginBox = ({changeUser, user, users}: {changeUser: any, user: number, use
 		styleName="user"
 	>
 		<option disabled defaultValue>Logga In</option>
-		{users.filter(user => user.id !== 1)
-			.map(user =>
+		{users.map(user =>
 			<option key={user.id} value={user.id}>{user.name} </option>
 		)}
 	</select>
