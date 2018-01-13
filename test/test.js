@@ -106,6 +106,12 @@ describe('Unit tests', () => {
     expect(materialUsage.Stenull['Miljöcertifierat (FCS eller Svanen)']).to.equal(90)
 
     expect(materialUsage.Cellplast['Vet Ej']).to.equal(20)
+  })
 
+  it('Formats all used-materials into an array of arrays', () => {
+    const materialUsage = getMaterialUsage(usedMaterialsComputation, materialsComputation, compositeMaterialsComputation, materialsMapComputation)
+    const { formatToExcel } = require('../src/spreadsheet-utils/formatToExcel')
+
+    const output = formatToExcel('All', materialUsage)
   })
 })
