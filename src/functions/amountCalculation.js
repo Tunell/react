@@ -58,4 +58,4 @@ const getMaterialUsage = (usedMaterials, materials, compositeMaterials, material
   }, {});
 }
 
-module.exports = { getMaterialUsage }
+module.exports = { getMaterialUsage, getAmountInKg }
