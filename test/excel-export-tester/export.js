@@ -24,6 +24,5 @@ const run = async () => {
 
 run().then(() => {
     console.log()
-}
-)
+})
 
