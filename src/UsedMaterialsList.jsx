@@ -9,6 +9,8 @@ import * as Excel from 'exceljs/dist/exceljs.min.js'
 import saveAs from 'file-saver';
 import spreadSheetUtils from './spreadsheet-utils/addDataToSheet'
 
+const BTA_VALUE = 17500
+
 type Props = {
   usedMaterials: object,
   compositeMaterials: object
@@ -75,7 +77,7 @@ export default class UsedMaterialsList extends React.Component {
     spreadSheetUtils.addSummary(sheetSummary, 'HUBBEN', materialUsageAll)
 
     const sheetBTA = workbook.addWorksheet('Per BTA-yta')
-    spreadSheetUtils.addPerBTA(sheetBTA, 'HUBBEN', materialUsageAll)
+    spreadSheetUtils.addPerBTA(sheetBTA, 'HUBBEN', materialUsageAll, BTA_VALUE)
 
     materialUsageContractors.forEach(({ contractor, tableData}) => {
       const sheetContractor = workbook.addWorksheet(contractor)

@@ -1,5 +1,6 @@
 var Promise = require("bluebird");
 var getSqlConnection = require('./../helpers/databaseConnection');
+const ADMIN_ID = 1
 
 
 const selectCompositeMaterial = {
@@ -39,12 +40,15 @@ const selectCompositeMaterial = {
             composite_has_material.material_id = material.id AND composite_material.unit_id = unit_2.id AND
             composite_material.user_id = user.id
             `
+
             if(user_id !== undefined) {
-                //query += `AND (composite_material.user_id = ? OR composite_material.user_id = ?)`
+              const isAdminQuery = user_id[0] === user_id[1]
+              if(!isAdminQuery) {
                 query += `AND (composite_material.user_id = ? `
                 let user_id_without_first = user_id.slice(1, user_id.length)
                 user_id_without_first.forEach( _ => { query += ` OR composite_material.user_id = ?` })
                 query += `)`
+              }
             }
 
 
@@ -96,12 +100,17 @@ unit.id = raw_material.unit_id
 `
             let params = []
             if(user_id !== undefined) {
+              const isAdminQuery = user_id[0] === ADMIN_ID
+              if(!isAdminQuery) {
                 params.push(user_id)
                 //query += `AND (composite_material.user_id = ? OR composite_material.user_id = ?)`
                 query += `AND (used_material.user_id = ? `
                 let user_id_without_first = user_id.slice(1, user_id.length)
-                user_id_without_first.forEach( _ => { query += ` OR used_material.user_id = ?` })
+                user_id_without_first.forEach(_ => {
+                  query += ` OR used_material.user_id = ?`
+                })
                 query += `)`
+              }
             }
 
             if(id !== undefined) {
@@ -157,11 +166,15 @@ composite_has_material.material_id = material.id AND composite_material.unit_id 
 composite_material.user_id = user.id
 `
                     if(user_id !== undefined) {
-                        //query += `AND (composite_material.user_id = ? OR composite_material.user_id = ?)`
+                      const isAdminQuery = user_id[0] === ADMIN_ID
+                      if(!isAdminQuery) {
                         query2 += `AND (used_material.user_id = ? `
                         let user_id_without_first = user_id.slice(1, user_id.length)
-                        user_id_without_first.forEach( _ => { query += ` OR used_material.user_id = ?` })
+                        user_id_without_first.forEach(_ => {
+                          query += ` OR used_material.user_id = ?`
+                        })
                         query2 += `)`
+                      }
                     }
 
                     if(id !== undefined) {

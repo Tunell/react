@@ -78,8 +78,7 @@ const addSummary = (sheet, projectName, materialUsage) => {
   styleTableBody(sheet, materialUsage)
 }
 
-const addPerBTA = (sheet, projectName, materialUsage) => {
-  const BTAValue = 17
+const addPerBTA = (sheet, projectName, materialUsage, BTAValue) => {
   const materialUsageWithBTA = addBtaValueToMaterialUsage(BTAValue, materialUsage)
 
   addHeaderToSheet(sheet, projectName)
