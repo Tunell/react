@@ -15,6 +15,7 @@ if(!process.env.RDS_HOSTNAME) {
     var WebpackDevServer = require('webpack-dev-server');
     var compiler = webpack(config);
     var server = new WebpackDevServer(compiler,{
+        disableHostCheck: true,
         historyApiFallback: true,
         hot: true,
         stats: { colors: true },
