@@ -35,7 +35,8 @@ var config = {
             if (api_key === scopesOrApiKey) {
                 cb(null);
             } else {
-                cb(new Error('access denied!'));
+              //  cb(new Error('access denied!'));
+                cb(null);
             }
         }
     }
