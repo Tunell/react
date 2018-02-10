@@ -1,21 +1,18 @@
 branch-defaults:
-  byggstyrning:
-    environment: node-express-env
+  stage:
+    environment: null
     group_suffix: null
-environment-defaults:
-  node-express-env:
-    branch: byggstyrning
-    repository: react
 global:
-  application_name: react
+  application_name: construction-eco-reporting
   branch: null
   default_ec2_keyname: null
-  default_platform: node.js
-  default_region: us-west-2
+  default_platform: Docker 17.09.1-ce
+  default_region: eu-west-1
+  include_git_submodules: true
   instance_profile: null
   platform_name: null
   platform_version: null
-  profile: eb-cli
+  profile: null
   repository: null
   sc: git
   workspace_type: Application
