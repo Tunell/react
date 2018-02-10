@@ -15,16 +15,16 @@ if(!process.env.RDS_HOSTNAME) {
     var WebpackDevServer = require('webpack-dev-server');
     var compiler = webpack(config);
     var server = new WebpackDevServer(compiler,{
-        disableHostCheck: true,
-        historyApiFallback: true,
-        hot: true,
-        stats: { colors: true },
-        noInfo: true,
-        proxy: {
-            '/api': 'http://localhost:3000'
-        }
+      disableHostCheck: true,
+      historyApiFallback: true,
+      hot: true,
+      stats: { colors: true },
+      noInfo: true,
+      proxy: {
+        '/api': 'http://localhost:3000'
+      }
     });
-    server.listen(8080);
+  server.listen(8080);
 }
 
 
@@ -36,7 +36,6 @@ var config = {
             if (api_key === scopesOrApiKey) {
                 cb(null);
             } else {
-              //  cb(new Error('access denied!'));
                 cb(null);
             }
         }
